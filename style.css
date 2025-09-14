@@ -28,26 +28,20 @@ h1 {
 }
 
 .door-front {
-  width: 100%;
-  height: 100%;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   z-index: 2;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover; /* cover eller contain */
   cursor: pointer;
   transition: transform 1s;
   transform-origin: left center;
-
   backface-visibility: visible;
   transform-style: preserve-3d;
 }
-/* Tilføj dette */
-.door-front img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* gør at SVG fylder hele døren */
-  display: block;
-}
+
 
 .door.open .door-front {
   transform: rotateY(-120deg); /* åbner døren */
@@ -94,3 +88,4 @@ h1 {
   background: #a22;
 
 }
+
