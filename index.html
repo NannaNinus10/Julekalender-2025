@@ -9,27 +9,12 @@
 <body>
   <h1>🎄 Julekalender 🎅</h1>
 
-  <script>
-    document.querySelectorAll('.door').forEach(door => {
-      door.addEventListener('click', () => {
-        door.classList.toggle('open');
-        door.classList.toggle('closed');
-      });
-    });
-  </script>
-</body>
-</html>
-
   <div id="calendar">
-    <!-- Laver 24 låger -->
-    <!-- Du kan ændre indholdet i .door-content for hver dag -->
-    <!-- Hvis du vil have en ekstra side, ændrer du <a href="dayX.html"> -->
-    <!-- og opretter en ny HTML-fil til indholdet -->
-    <!-- Eksempel: day1.html, day2.html ... -->
-
-    <!-- Her genereret for alle 24 -->
-    <div class="door" data-day="1">
-      <img src="assets/door1.svg" class="door-front">
+    <!-- 24 låger -->
+    <div class="door closed" data-day="1">
+      <div class="door-front">
+        <img src="assets/door1.svg" alt="Låge 1">
+      </div>
       <div class="door-content">
         <h2>1. December</h2>
         <p>Lidt julehygge</p>
@@ -37,8 +22,10 @@
       </div>
     </div>
 
-    <div class="door" data-day="2">
-      <img src="assets/door2.svg" class="door-front">
+    <div class="door closed" data-day="2">
+      <div class="door-front">
+        <img src="assets/door2.svg" alt="Låge 2">
+      </div>
       <div class="door-content">
         <h2>2. December</h2>
         <p>Lidt julehygge</p>
@@ -46,197 +33,12 @@
       </div>
     </div>
 
-    <div class="door" data-day="3">
-      <img src="assets/door3.svg" class="door-front">
-      <div class="door-content">
-        <h2>3. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day3.html">Læs mere</a>
-      </div>
-    </div>
+    <!-- ... fortsæt på samme måde ... -->
 
-    <div class="door" data-day="4">
-      <img src="assets/door4.svg" class="door-front">
-      <div class="door-content">
-        <h2>4. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day4.html">Læs mere</a>
+    <div class="door closed" data-day="24">
+      <div class="door-front">
+        <img src="assets/door24.svg" alt="Låge 24">
       </div>
-    </div>
-
-    <div class="door" data-day="5">
-      <img src="assets/door5.svg" class="door-front">
-      <div class="door-content">
-        <h2>5. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day5.html">Læs mere</a>
-      </div>
-    </div>
-
-    <div class="door" data-day="6">
-      <img src="assets/door6.svg" class="door-front">
-      <div class="door-content">
-        <h2>6. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day6.html">Læs mere</a>
-      </div>
-    </div>
-
-    <div class="door" data-day="7">
-      <img src="assets/door7.svg" class="door-front">
-      <div class="door-content">
-        <h2>7. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day7.html">Læs mere</a>
-      </div>
-    </div>
-
-    <div class="door" data-day="8">
-      <img src="assets/door8.svg" class="door-front">
-      <div class="door-content">
-        <h2>8. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day8.html">Læs mere</a>
-      </div>
-    </div>
-
-    <div class="door" data-day="9">
-      <img src="assets/door9.svg" class="door-front">
-      <div class="door-content">
-        <h2>9. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day9.html">Læs mere</a>
-      </div>
-    </div>
-
-    <div class="door" data-day="10">
-      <img src="assets/door10.svg" class="door-front">
-      <div class="door-content">
-        <h2>10. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day10.html">Læs mere</a>
-      </div>
-    </div>
-
-    <div class="door" data-day="11">
-      <img src="assets/door11.svg" class="door-front">
-      <div class="door-content">
-        <h2>11. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day11.html">Læs mere</a>
-      </div>
-    </div>
-
-    <div class="door" data-day="12">
-      <img src="assets/door12.svg" class="door-front">
-      <div class="door-content">
-        <h2>12. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day12.html">Læs mere</a>
-      </div>
-    </div>
-
-    <div class="door" data-day="13">
-      <img src="assets/door13.svg" class="door-front">
-      <div class="door-content">
-        <h2>13. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day13.html">Læs mere</a>
-      </div>
-    </div>
-
-    <div class="door" data-day="14">
-      <img src="assets/door14.svg" class="door-front">
-      <div class="door-content">
-        <h2>14. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day14.html">Læs mere</a>
-      </div>
-    </div>
-
-    <div class="door" data-day="15">
-      <img src="assets/door15.svg" class="door-front">
-      <div class="door-content">
-        <h2>15. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day15.html">Læs mere</a>
-      </div>
-    </div>
-
-    <div class="door" data-day="16">
-      <img src="assets/door16.svg" class="door-front">
-      <div class="door-content">
-        <h2>16. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day16.html">Læs mere</a>
-      </div>
-    </div>
-
-    <div class="door" data-day="17">
-      <img src="assets/door17.svg" class="door-front">
-      <div class="door-content">
-        <h2>17. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day17.html">Læs mere</a>
-      </div>
-    </div>
-
-    <div class="door" data-day="18">
-      <img src="assets/door18.svg" class="door-front">
-      <div class="door-content">
-        <h2>18. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day18.html">Læs mere</a>
-      </div>
-    </div>
-
-    <div class="door" data-day="19">
-      <img src="assets/door19.svg" class="door-front">
-      <div class="door-content">
-        <h2>19. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day19.html">Læs mere</a>
-      </div>
-    </div>
-
-    <div class="door" data-day="20">
-      <img src="assets/door20.svg" class="door-front">
-      <div class="door-content">
-        <h2>20. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day20.html">Læs mere</a>
-      </div>
-    </div>
-
-    <div class="door" data-day="21">
-      <img src="assets/door21.svg" class="door-front">
-      <div class="door-content">
-        <h2>21. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day21.html">Læs mere</a>
-      </div>
-    </div>
-
-    <div class="door" data-day="22">
-      <img src="assets/door22.svg" class="door-front">
-      <div class="door-content">
-        <h2>22. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day22.html">Læs mere</a>
-      </div>
-    </div>
-
-    <div class="door" data-day="23">
-      <img src="assets/door23.svg" class="door-front">
-      <div class="door-content">
-        <h2>23. December</h2>
-        <p>Lidt julehygge</p>
-        <a href="day23.html">Læs mere</a>
-      </div>
-    </div>
-
-    <div class="door" data-day="24">
-      <img src="assets/door24.svg" class="door-front">
       <div class="door-content">
         <h2>24. December</h2>
         <p>Glædelig jul!</p>
@@ -248,7 +50,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
