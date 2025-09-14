@@ -5,6 +5,9 @@ body {
 }
 
 h1 {
+  font-family: 'Mountains of Christmas', cursive;
+  font-size: 40px;
+  color: darkred;
   margin-top: 20px;
 }
 
@@ -83,6 +86,7 @@ h1 {
 .door-content a:hover {
   background: #a22;
 }
+
 
 
 
