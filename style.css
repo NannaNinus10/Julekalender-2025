@@ -63,7 +63,7 @@ h1 {
 
 .door-content a {
   display: inline-block;
-  margin-top: 10px;
+  margin-bottom: 10px;
   padding: 6px 8px;
   background: #d33;
   color: white;
@@ -74,6 +74,7 @@ h1 {
 .door-content a:hover {
   background: #a22;
 }
+
 
 
 
