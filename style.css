@@ -18,12 +18,13 @@ h1 {
 
 .door {
   position: relative;
-  width: 48px;   /* samme bredde for låge og baggrund */
-  height: 48px;  /* samme højde for låge og baggrund */
+  width: 120px;
+  height: 160px;
   perspective: 1000px;
   margin: auto;
-  overflow: hidden; /* skjuler alt der stikker udenfor */
+  /* fjern overflow: hidden; */
 }
+
 
 .door-front {
   width: 100%;
@@ -36,8 +37,8 @@ h1 {
   left: 0;
   z-index: 2;
 
-  backface-visibility: visible;  /* ← gør at lågen stadig ses når den roteres */
-  transform-style: preserve-3d;  /* ← holder 3D-effekten intakt */
+  backface-visibility: visible;   /* behold lågen når den vender */
+  transform-style: preserve-3d;   /* bedre 3D-effekt */
 }
 
 
@@ -76,6 +77,7 @@ h1 {
 .door-content a:hover {
   background: #a22;
 }
+
 
 
 
