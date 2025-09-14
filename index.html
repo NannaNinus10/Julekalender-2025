@@ -9,37 +9,6 @@
 <body>
   <h1>🎄 Julekalender 🎅</h1>
 
-  <div id="calendar">
-    <!-- Eksempel på låge -->
-    <div class="door closed" data-day="1">
-      <div class="door-content">
-        <h2>1. December</h2>
-        <p>Her kunne stå en lille tekst om dagens overraskelse.</p>
-        <a href="day1.html">Læs mere</a>
-      </div>
-      <div class="door-front"></div>
-    </div>
-
-    <div class="door closed" data-day="2">
-      <div class="door-content">
-        <h2>2. December</h2>
-        <p>Endnu en julehemmelighed 🎁</p>
-        <a href="day2.html">Læs mere</a>
-      </div>
-      <div class="door-front"></div>
-    </div>
-
-    <!-- Gentag op til 24 -->
-    <div class="door closed" data-day="24">
-      <div class="door-content">
-        <h2>24. December</h2>
-        <p>🎅 Glædelig jul!</p>
-        <a href="day24.html">Læs mere</a>
-      </div>
-      <div class="door-front"></div>
-    </div>
-  </div>
-
   <script>
     document.querySelectorAll('.door').forEach(door => {
       door.addEventListener('click', () => {
@@ -279,6 +248,7 @@
   <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
