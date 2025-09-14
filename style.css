@@ -18,8 +18,8 @@ h1 {
 
 .door {
   position: relative;
-  width: 120px;   /* samme bredde for låge og baggrund */
-  height: 160px;  /* samme højde for låge og baggrund */
+  width: 48px;   /* samme bredde for låge og baggrund */
+  height: 48px;  /* samme højde for låge og baggrund */
   perspective: 1000px;
   margin: auto;
   overflow: hidden; /* skjuler alt der stikker udenfor */
@@ -74,6 +74,7 @@ h1 {
 .door-content a:hover {
   background: #a22;
 }
+
 
 
 
