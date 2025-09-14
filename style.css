@@ -44,7 +44,7 @@ h1 {
   transform-origin: left;
   transition: transform 1s;
   transform-style: preserve-3d;   /* behold 3D */
-  backface-visibility: hidden;    /* skjul bagsiden */
+  backface-visibility: visible;    /* skjul bagsiden */
   z-index: 3;
 }
 
@@ -60,7 +60,7 @@ h1 {
   padding: 10px;
   box-sizing: border-box;
   background: #fff;
-  text-align: center;
+  text-align: border;
   z-index: 1;
 }
 
@@ -83,7 +83,7 @@ h1 {
 /* Knappen (a) */
 .door-content a {
   display: inline-block;
-  margin-top: 10px;
+  margin-bottom: 20px;
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
   font-weight: bold;
@@ -101,4 +101,5 @@ h1 {
   background: #a40000;   /* lidt lysere mørkerød ved hover */
   transform: scale(1.05); /* lille løft ved hover */
 }
+
 
