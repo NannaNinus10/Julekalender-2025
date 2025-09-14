@@ -27,11 +27,12 @@ h1 {
 /* Låger */
 .door {
   position: relative;
-  width: 150px;
-  height: 150px;
+  width: 152px;
+  height: 152px;
   background: #fff;
   perspective: 1000px; /* giver 3D dybde */
   cursor: pointer;
+  margin:auto;
 }
 
 .door-front {
@@ -100,3 +101,4 @@ h1 {
   background: #a40000;   /* lidt lysere mørkerød ved hover */
   transform: scale(1.05); /* lille løft ved hover */
 }
+
