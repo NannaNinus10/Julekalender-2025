@@ -43,8 +43,8 @@ h1 {
   border: 3px solid darkgreen;
   transform-origin: left;
   transition: transform 1s;
-  transform-style: preserve-3d;   /* behold 3D */
-  backface-visibility: visible;    /* skjul bagsiden */
+  backface-visibility: visible;   /* behold lågen når den vender */
+  transform-style: preserve-3d;   /* bedre 3D-effekt */
   z-index: 3;
 }
 
@@ -101,6 +101,7 @@ h1 {
   background: #a40000;   /* lidt lysere mørkerød ved hover */
   transform: scale(1.05); /* lille løft ved hover */
 }
+
 
 
 
