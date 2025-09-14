@@ -19,7 +19,7 @@ h1 {
   display: grid;
   grid-template-columns: repeat(6, 1fr);  /* 6 kolonner */
   grid-template-rows: repeat(4, auto);    /* 4 rækker */
-  gap: 20px;
+  gap: 15px;
   max-width: 1000px; /* større bredde så 6 kolonner kan stå ved siden af hinanden */
   margin: 0 auto;
   padding: 20px;
@@ -102,6 +102,7 @@ h1 {
   background: #a40000;   /* lidt lysere mørkerød ved hover */
   transform: scale(1.05); /* lille løft ved hover */
 }
+
 
 
 
