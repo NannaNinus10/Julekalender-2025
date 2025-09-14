@@ -41,6 +41,13 @@ h1 {
   backface-visibility: visible;
   transform-style: preserve-3d;
 }
+/* Tilføj dette */
+.door-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* gør at SVG fylder hele døren */
+  display: block;
+}
 
 .door.open .door-front {
   transform: rotateY(-120deg); /* åbner døren */
@@ -85,4 +92,5 @@ h1 {
 
 .door-content a:hover {
   background: #a22;
+
 }
