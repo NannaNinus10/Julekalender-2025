@@ -1,0 +1,70 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: #f0f0f0;
+}
+
+h1 {
+  margin-top: 20px;
+}
+
+#calendar {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 15px;
+  max-width: 900px;
+  margin: 30px auto;
+}
+
+.door {
+  position: relative;
+  width: 120px;
+  height: 160px;
+  perspective: 1000px;
+  margin: auto;
+}
+
+.door-front {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  transition: transform 1s;
+  transform-origin: left center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.door.open .door-front {
+  transform: rotateY(-120deg); /* åbner døren */
+}
+
+.door.closed .door-front {
+  transform: rotateY(0deg); /* lukker døren */
+}
+
+.door-content {
+  background: white;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  height: 100%;
+  box-sizing: border-box;
+  z-index: 1;
+  position: relative;
+}
+
+.door-content a {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 12px;
+  background: #d33;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.door-content a:hover {
+  background: #a22;
+}
