@@ -34,7 +34,9 @@ h1 {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 2; /* ligger foran .door-content */
+  z-index: 2;
+
+  backface-visibility: visible;  /* ← gør at bagsiden vises */
 }
 
 .door.open .door-front {
@@ -72,5 +74,6 @@ h1 {
 .door-content a:hover {
   background: #a22;
 }
+
 
 
