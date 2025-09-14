@@ -1,4 +1,3 @@
-
 body {
   font-family: 'Mountains of Christmas', cursive;
   text-align: center;
@@ -22,12 +21,11 @@ h1 {
 
 .door {
   position: relative;
-  width: 152px;      /* ← styrer hele lågens bredde */
-  height: 152px;     /* ← styrer hele lågens højde */
+  width: 152px;      /* styrer hele lågens bredde */
+  height: 152px;     /* styrer hele lågens højde */
   perspective: 1000px;
   margin: auto;
 }
-
 
 .door-front {
   width: 100%;
@@ -43,7 +41,6 @@ h1 {
   backface-visibility: visible;
   transform-style: preserve-3d;
 }
-
 
 .door.open .door-front {
   transform: rotateY(-120deg); /* åbner døren */
@@ -64,6 +61,17 @@ h1 {
   padding: 10px;
   box-sizing: border-box;
   z-index: 1;
+}
+
+/* Indhold i låger */
+.door-content h2 {
+  font-family: 'Mountains of Christmas', cursive; /* julet font */
+  font-size: 22px;
+  font-weight: 700;
+  color: darkred;
+  text-align: center;
+  margin: 5px 0;
+}
 
 .door-content a {
   display: inline-block;
@@ -72,17 +80,8 @@ h1 {
   background: #d33;
   color: white;
   text-decoration: none;
-  border-radius: 1px;
+  border-radius: 4px;
 }
-  .door-content h2 {
-  font-family: 'Mountains of Christmas', cursive; /* julet font */
-  font-size: 22px;        /* gør teksten større */
-  font-weight: 700;       /* fed udgave af fonten */
-  color: darkred;         /* julet rød farve */
-  text-align: center;     /* centreret tekst */
-  margin: 5px 0;          /* luft over og under */
-}
-
 
 .door-content a:hover {
   background: #a22;
