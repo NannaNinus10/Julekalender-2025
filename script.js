@@ -1,5 +1,5 @@
 // TESTDATO (fjern/kommentér denne linje når det er "rigtigt")
-const testDate = new Date("2025-12-05");
+const testDate = new Date("2025-12-24");
 
 function getToday() {
   return testDate ? testDate : new Date();
@@ -25,3 +25,4 @@ document.querySelectorAll(".door").forEach(door => {
     }
   });
 });
+
