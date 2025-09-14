@@ -18,10 +18,11 @@ h1 {
 
 .door {
   position: relative;
-  width: 38px;
-  height: 38px;
+  width: 120px;   /* samme bredde for låge og baggrund */
+  height: 160px;  /* samme højde for låge og baggrund */
   perspective: 1000px;
   margin: auto;
+  overflow: hidden; /* skjuler alt der stikker udenfor */
 }
 
 .door-front {
@@ -33,7 +34,7 @@ h1 {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 2;
+  z-index: 2; /* ligger foran .door-content */
 }
 
 .door.open .door-front {
@@ -45,14 +46,17 @@ h1 {
 }
 
 .door-content {
-  background: white;
-  border: 2px solid #ccc;
-  border-radius: 10px;
+  position: absolute; /* gør så den matcher præcist lågen */
+  top: 0;
+  left: 0;
+  width: 100%;   /* fylder hele døren */
+  height: 100%;  /* fylder hele døren */
+  background: white; /* kan ændres til farve/billede */
+  border: none;  /* fjern evt. kant, så det ikke ses bag lågen */
+  border-radius: 0; /* fjern runding, så den flugter med lågen */
   padding: 10px;
-  height: 100%;
   box-sizing: border-box;
   z-index: 1;
-  position: relative;
 }
 
 .door-content a {
@@ -68,4 +72,5 @@ h1 {
 .door-content a:hover {
   background: #a22;
 }
+
 
