@@ -18,8 +18,8 @@ h1 {
 
 .door {
   position: relative;
-  width: 120px;
-  height: 160px;
+  width: 38px;
+  height: 38px;
   perspective: 1000px;
   margin: auto;
 }
@@ -68,3 +68,4 @@ h1 {
 .door-content a:hover {
   background: #a22;
 }
+
