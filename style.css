@@ -67,16 +67,17 @@ h1 {
 .door-content a {
   display: inline-block;
   margin-top: 10px;
-  padding: 6px 12px;
+  padding: 6px 8px;
   background: #d33;
   color: white;
   text-decoration: none;
-  border-radius: 5px;
+  border-radius: 1px;
 }
 
 .door-content a:hover {
   background: #a22;
 }
+
 
 
 
