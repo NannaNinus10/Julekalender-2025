@@ -70,10 +70,20 @@ h1 {
   text-decoration: none;
   border-radius: 1px;
 }
+  .door-content h2 {
+  font-family: 'Mountains of Christmas', cursive; /* julet font */
+  font-size: 22px;        /* gør teksten større */
+  font-weight: 700;       /* fed udgave af fonten */
+  color: darkred;         /* julet rød farve */
+  text-align: center;     /* centreret tekst */
+  margin: 5px 0;          /* luft over og under */
+}
+
 
 .door-content a:hover {
   background: #a22;
 }
+
 
 
 
