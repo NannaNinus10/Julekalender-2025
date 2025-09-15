@@ -61,7 +61,7 @@ h1 {
   left: 0;
   width: 100%;          /* samme bredde som .door */
   height: 100%;         /* samme højde som .door */
-  background: 204226ff;
+  background: white;
   border-radius: 10px;
   padding: 10px;
   box-sizing: border-box;
@@ -92,6 +92,7 @@ h1 {
   background: #a22;
 
 }
+
 
 
 
