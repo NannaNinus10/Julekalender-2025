@@ -5,9 +5,9 @@ body {
 }
 
 h1 {
-  font-family: 'Mountains of Christmas', cursive;
-  font-size: 40px;
-  color: darkred;
+  font-family: 'Berkshire Swash', cursive;
+  font-size: 60px;
+  color: white;
   margin-top: 20px;
 }
 
@@ -109,6 +109,7 @@ a.back-button {
 a.back-button:hover {
   background-color: #e74c3c; /* lysere rød ved hover */
 }
+
 
 
 
