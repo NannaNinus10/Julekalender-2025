@@ -5,13 +5,24 @@
   <title>Låge 2 – Memory Spil</title>
   <link rel="stylesheet" href="../style.css">
   <style>
+    /* Boks omkring memory-spillet */
+    .content-box {
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 700px;
+      margin: 50px auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
     /* Memory spil specifik CSS */
     .memory-container {
       display: grid;
       grid-template-columns: repeat(4, 120px);
       gap: 15px;
       justify-content: center;
-      margin: 50px auto;
+      margin-top: 20px;
     }
 
     .card {
@@ -43,15 +54,12 @@
     }
 
     .card-front {
-      background-color: white;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 24px;
     }
 
     .card-back {
-      background-color: white;
       transform: rotateY(180deg);
     }
 
@@ -65,15 +73,17 @@
 <body>
   <h1>🎄 Låge 2 – Memory Spil 🎅</h1>
 
-  <p>Find de matchende julekort! 🎁</p>
+  <div class="content-box">
+    <p>Find de matchende julekort! 🎁</p>
 
-  <!-- Memory container -->
-  <div class="memory-container" id="memoryContainer"></div>
+    <!-- Memory container -->
+    <div class="memory-container" id="memoryContainer"></div>
 
-  <!-- Tilbage til kalenderen -->
-  <p>
-    <a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a>
-  </p>
+    <!-- Tilbage til kalenderen -->
+    <p>
+      <a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a>
+    </p>
+  </div>
 
   <script>
     const images = [
@@ -87,10 +97,7 @@
       "assets/star.svg"
     ];
 
-    // Dobbelt op for par
-    let cardImages = [...images, ...images];
-
-    // Bland kortene
+    let cardImages = [...images, ...images]; // dobbelt op for par
     cardImages.sort(() => 0.5 - Math.random());
 
     const memoryContainer = document.getElementById("memoryContainer");
@@ -98,7 +105,7 @@
     let secondCard = null;
     let lockBoard = false;
 
-    cardImages.forEach((src, index) => {
+    cardImages.forEach(src => {
       const card = document.createElement("div");
       card.classList.add("card");
 
@@ -134,5 +141,25 @@
         secondCard = card;
         lockBoard = true;
 
-        const firstImg = firstCard.queryS
+        const firstImg = firstCard.querySelector(".card-front img").src;
+        const secondImg = secondCard.querySelector(".card-front img").src;
 
+        if(firstImg === secondImg) {
+          resetBoard();
+        } else {
+          setTimeout(() => {
+            firstCard.classList.remove("flipped");
+            secondCard.classList.remove("flipped");
+            resetBoard();
+          }, 1000);
+        }
+      });
+    });
+
+    function resetBoard() {
+      [firstCard, secondCard] = [null, null];
+      lockBoard = false;
+    }
+  </script>
+</body>
+</html>
