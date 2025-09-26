@@ -109,7 +109,6 @@ a.back-button {
 a.back-button:hover {
   background-color: #e74c3c; /* lysere rød ved hover */
 }
-
 .content-box {
   background-color: white;
   padding: 20px;
@@ -118,14 +117,13 @@ a.back-button:hover {
   margin: 50px auto;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   text-align: center;
-
-  color: darkgreen; /* <-- her ændrer du skriftfarven */
+  /* color: darkgreen; <-- fjernet */
 }
 
+.content-box h1 {
+  color: darkred; /* overskrift */
+}
 
-
-
-
-
-
-
+.content-box p {
+  color: darkgreen; /* paragraftekst */
+}
