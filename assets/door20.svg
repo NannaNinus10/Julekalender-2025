@@ -7,19 +7,56 @@
    viewBox="0 0 10.054166 10.054166"
    version="1.1"
    id="svg1"
+   sodipodi:docname="door20.svg"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="21.394737"
+     inkscape:cx="19.02337"
+     inkscape:cy="18.97663"
+     inkscape:window-width="1043"
+     inkscape:window-height="1081"
+     inkscape:window-x="994"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1" />
   <defs
      id="defs1" />
   <g
-     id="layer1"
-     transform="translate(-0.28419731,-0.23576311)">
+     id="g31"
+     inkscape:label="20"
+     transform="matrix(0.22949234,0,0,0.22949234,-35.460037,-44.59586)">
     <rect
-       style="fill:#70161f;stroke:#204226;stroke-width:0.370354;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none"
-       id="rect1"
-       width="9.6838121"
-       height="9.6838121"
-       x="0.4693743"
-       y="0.4209401" />
+       style="display:inline;fill:#741303;fill-opacity:1;stroke:#741303;stroke-width:2.52664;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       id="rect28"
+       width="41.283825"
+       height="41.283825"
+       x="155.77844"
+       y="195.58728"
+       inkscape:export-filename="door1.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:35.2204px;font-family:'Californian FB';-inkscape-font-specification:'Californian FB, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;letter-spacing:-0.012007px;word-spacing:-0.108064px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#f0ece1;stroke:none;stroke-width:1.67002;stroke-linecap:round"
+       x="176.28281"
+       y="227.76874"
+       id="text71"><tspan
+         sodipodi:role="line"
+         id="tspan71"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:35.2204px;font-family:'Californian FB';-inkscape-font-specification:'Californian FB, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#f0ece1;stroke:none;stroke-width:1.67001"
+         x="176.27681"
+         y="227.76874">20</tspan></text>
   </g>
 </svg>
