@@ -1,7 +1,7 @@
 body {
   font-family: 'Mountains of Christmas', cursive;
   text-align: center;
-  background: #204226ff;
+  background: #204226;
 }
 
 h1 {
@@ -109,6 +109,7 @@ a.back-button {
 a.back-button:hover {
   background-color: #e74c3c; /* lysere rød ved hover */
 }
+
 
 
 
