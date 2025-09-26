@@ -110,6 +110,16 @@ a.back-button:hover {
   background-color: #e74c3c; /* lysere rød ved hover */
 }
 
+.content-box {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 700px;
+  margin: 50px auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
 
 
 
