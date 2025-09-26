@@ -92,14 +92,13 @@ h1 {
   background: #a22;
 
 }
-
 /* Tilbage-knap */
-.back-button {
+a.back-button {
   display: inline-block;
   padding: 10px 15px;
   background-color: #c0392b; /* rød baggrund */
   color: white;               /* tekstfarve */
-  text-decoration: none;      /* fjern understregning */
+  text-decoration: none;
   border-radius: 8px;         /* runde hjørner */
   font-weight: bold;
   font-size: 16px;
@@ -107,11 +106,9 @@ h1 {
   transition: background-color 0.3s;
 }
 
-.back-button:hover {
+a.back-button:hover {
   background-color: #e74c3c; /* lysere rød ved hover */
 }
-
-
 
 
 
