@@ -53,15 +53,13 @@
       border-radius: 10px;
     }
 
-    .card-front {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+   .card-front {
+  transform: rotateY(180deg); /* fronten starter gemt */
+}
 
-    .card-back {
-      transform: rotateY(180deg);
-    }
+   .card-back {
+  transform: rotateY(0deg); /* bagkortet starter synligt */
+}
 
     .card img {
       width: 100%;
@@ -126,8 +124,8 @@
       imgBack.src = cardBackSrc;
       cardBack.appendChild(imgBack);
 
-      cardInner.appendChild(cardFront);
-      cardInner.appendChild(cardBack);
+cardInner.appendChild(cardBack);   // først bagkortet
+cardInner.appendChild(cardFront);  // derefter frontkortet
       card.appendChild(cardInner);
       memoryContainer.appendChild(card);
 
