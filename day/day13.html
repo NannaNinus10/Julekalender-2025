@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<title>Låge 13 – Find juleord med drille-nisse</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #204226;
+    margin: 0;
+    padding: 0;
+    color: white;
+    text-align: center;
+  }
+
+  .content-box {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 800px;
+    margin: 50px auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+
+  .instruction {
+    font-size: 18px;
+    color: #204226; 
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(10, 40px);
+    grid-template-rows: repeat(10, 40px);
+    gap: 2px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .cell {
+    width: 40px;
+    height: 40px;
+    background-color: #f0ece1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+    user-select: none;
+    transition: transform 0.2s;
+  }
+
+  .cell.found {
+    background-color: #4c7a58;
+    color: white;
+  }
+
+  .cell.wrong {
+    background-color: #993b3b;
+    color: white;
+  }
+
+  .word-list {
+    margin-bottom: 20px;
+  }
+
+  .word-list span {
+    display: inline-block;
+    margin: 5px 10px;
+    font-weight: bold;
+  }
+
+  .word-list span.found {
+    text-decoration: line-through;
+    color: #4c7a58;
+  }
+
+  .final {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4c7a58;
+    margin-top: 20px;
+  }
+
+  /* Tilbage-knap som på day2.html */
+  .back-button {
+    display: inline-block;
+    padding: 12px 18px;
+    background-color: #d6336c;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background 0.3s;
+    margin-top: 10px;
+  }
+
+  .back-button:hover {
+    background-color: #e05580;
+  }
+
+  .shake {
+    animation: shake 0.3s;
+  }
+
+  @keyframes shake {
+    0% { transform: translate(0px, 0px); }
+    25% { transform: translate(-5px, 0px); }
+    50% { transform: translate(5px, 0px); }
+    75% { transform: translate(-5px, 0px); }
+    100% { transform: translate(0px, 0px); }
+  }
+</style>
+</head>
+<body>
+<h1>Glædelig 13. december – Find juleord</h1>
+<div class="content-box">
+  <p class="instruction">
+    Find de skjulte juleord! 🎄<br>
+    Forkerte forsøg får drillenissen til at ryste gitteret – men de fundne ord forbliver sikret.
+  </p>
+
+  <div class="word-list" id="wordList"></div>
+  <div class="grid-container" id="grid"></div>
+  <div id="message"></div>
+
+  <p>
+    <a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a>
+  </p>
+</div>
+
+<script>
+const words = ["NISSE","JULETRÆ","RUDOLF","SNEFNUG","GLØGG","GAVER"];
+const gridSize = 10;
+let foundWords = [];
+
+const gridEl = document.getElementById("grid");
+const wordListEl = document.getElementById("wordList");
+const messageEl = document.getElementById("message");
+
+// Opret tomt gitter
+let grid = Array(gridSize).fill().map(() => Array(gridSize).fill(''));
+
+// Tilføj ord lodret eller vandret (simpelt placeringsalgoritme)
+words.forEach(word => {
+  let placed = false;
+  while(!placed){
+    const dir = Math.random() < 0.5 ? "H" : "V";
+    let row = Math.floor(Math.random()*gridSize);
+    let col = Math.floor(Math.random()*gridSize);
+
+    if(dir==="H" && col+word.length <= gridSize){
+      let canPlace = true;
+      for(let i=0;i<word.length;i++){
+        if(grid[row][col+i] !== '' && grid[row][col+i]!==word[i]){
+          canPlace=false; break;
+        }
+      }
+      if(canPlace){
+        for(let i=0;i<word.length;i++) grid[row][col+i] = word[i];
+        placed = true;
+      }
+    } else if(dir==="V" && row+word.length <= gridSize){
+      let canPlace = true;
+      for(let i=0;i<word.length;i++){
+        if(grid[row+i][col] !== '' && grid[row+i][col]!==word[i]){
+          canPlace=false; break;
+        }
+      }
+      if(canPlace){
+        for(let i=0;i<word.length;i++) grid[row+i][col] = word[i];
+        placed = true;
+      }
+    }
+  }
+});
+
+// Fyld resterende tomme celler med random bogstaver
+for(let r=0;r<gridSize;r++){
+  for(let c=0;c<gridSize;c++){
+    if(grid[r][c]===''){
+      grid[r][c] = String.fromCharCode(65 + Math.floor(Math.random()*26));
+    }
+  }
+}
+
+// Lav HTML for gitter
+for(let r=0;r<gridSize;r++){
+  for(let c=0;c<gridSize;c++){
+    const cell = document.createElement("div");
+    cell.classList.add("cell");
+    cell.textContent = grid[r][c];
+    cell.dataset.row = r;
+    cell.dataset.col = c;
+    cell.addEventListener("click", () => selectCell(cell));
+    gridEl.appendChild(cell);
+  }
+}
+
+// Lav ordliste
+words.forEach(w=>{
+  const span = document.createElement("span");
+  span.textContent = w;
+  span.id = "word-"+w;
+  wordListEl.appendChild(span);
+});
+
+// Simpelt klik: vælg bogstav og tjek om ord er fundet
+let selection = [];
+function selectCell(cell){
+  selection.push(cell);
+  const selectedWord = selection.map(s=>s.textContent).join('');
+  const reverseWord = selectedWord.split('').reverse().join('');
+  
+  if(words.includes(selectedWord) && !foundWords.includes(selectedWord)){
+    selection.forEach(s=>s.classList.add("found"));
+    foundWords.push(selectedWord);
+    document.getElementById("word-"+selectedWord).classList.add("found");
+    selection = [];
+    checkWin();
+  } else if(words.includes(reverseWord) && !foundWords.includes(reverseWord)){
+    selection.forEach(s=>s.classList.add("found"));
+    foundWords.push(reverseWord);
+    document.getElementById("word-"+reverseWord).classList.add("found");
+    selection = [];
+    checkWin();
+  } else if(selection.length>=Math.max(...words.map(w=>w.length))){
+    // forkert forsøg -> ryst gitter
+    gridEl.classList.add("shake");
+    setTimeout(()=>gridEl.classList.remove("shake"),300);
+    selection.forEach(s=>s.classList.add("wrong"));
+    setTimeout(()=>selection.forEach(s=>s.classList.remove("wrong")),500);
+    selection = [];
+  }
+}
+
+function checkWin(){
+  if(foundWords.length===words.length){
+    messageEl.innerHTML = '<div class="final">🎉 Ho ho ho! Du fandt alle juleordene! 🎉</div>';
+  }
+}
+</script>
+</body>
+</html>
