@@ -101,7 +101,7 @@
 </style>
 </head>
 <body>
-  <h1>Glædelig 12. december – Julegavefabrik Hangman</h1>
+  <h1>Glædelig 12. december – Gæt juleordet</h1>
   <div class="content-box">
 
     <p class="instruction">
@@ -180,7 +180,7 @@ function checkWin(){
 // Tjek om tabt
 function checkLose(){
   if(errors >= maxErrors){
-    messageEl.innerHTML = '<div class="final">💥 Øv! Alle gaver gik i stykker… Ordet var: ' + juleord + '</div>';
+    messageEl.innerHTML = '<div class="final"> Øv! Drillenissen tog alle gaverne ud af sækken. '</div>';
     disableAll();
   }
 }
@@ -193,3 +193,4 @@ updateWord();
 </script>
 </body>
 </html>
+
