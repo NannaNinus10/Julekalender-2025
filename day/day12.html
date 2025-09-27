@@ -23,6 +23,13 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   }
 
+  .instruction {
+    font-size: 18px;
+    color: #204226; 
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
   .factory {
     display: flex;
     justify-content: center;
@@ -30,9 +37,9 @@
   }
 
   .factory img {
-    width: 400px;     
-    height: auto;     
-    max-width: 90%;   
+    width: 400px;
+    height: auto;
+    max-width: 90%;
   }
 
   .word {
@@ -76,7 +83,6 @@
     margin-top: 20px;
   }
 
-  /* Tilbageknap fra day2.html */
   .back-button {
     display: inline-block;
     padding: 12px 18px;
@@ -97,8 +103,14 @@
 <body>
   <h1>Glædelig 12. december – Julegavefabrik Hangman</h1>
   <div class="content-box">
+
+    <p class="instruction">
+      Sørg for, at alle gaverne bliver i! 🎁<br>
+      Svarer du forkert, tager drillenissen en pakke ud af sækken.
+    </p>
+
     <div class="factory">
-      <img id="factoryImg" src="../assets/gaver-8.svg" alt="Julegavefabrik">
+      <img id="factoryImg" src="../assets/gaver-0.svg" alt="Julegavefabrik">
     </div>
 
     <div class="word" id="word"></div>
@@ -154,8 +166,7 @@ function guessLetter(l, btn) {
 
 // Opdater baggrundsbillede
 function updateFactoryImage() {
-  const remaining = maxErrors - errors; // antallet af gaver tilbage
-  factoryImg.src = `../assets/gaver-${remaining}.svg`;
+  factoryImg.src = `../assets/gaver-${errors}.svg`; // korrekt rækkefølge
 }
 
 // Tjek om vundet
