@@ -175,30 +175,32 @@
       const optionButtons = quizContainer.querySelectorAll(".options button");
       const explanation = quizContainer.querySelector(".explanation");
 
-      optionButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-          // Marker valgte svar
-          optionButtons.forEach(b => b.classList.remove("selected"));
-          btn.classList.add("selected");
+optionButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    // Marker valgte svar
+    optionButtons.forEach(b => b.classList.remove("selected"));
+    btn.classList.add("selected");
 
-          // Deaktiver alle knapper
-          optionButtons.forEach(b => b.disabled = true);
+    // Deaktiver alle knapper
+    optionButtons.forEach(b => b.disabled = true);
 
-          // Tjek korrekt/forkert
-          if (btn.textContent === q.answer) {
-            btn.classList.add("correct");
-            score++;
-          } else {
-            btn.classList.add("wrong");
-            optionButtons.forEach(b => {
-              if (b.textContent === q.answer) b.classList.add("correct");
-            });
-          }
+    // Marker korrekt/forkert
+    optionButtons.forEach(b => {
+      if (b.textContent === q.answer) {
+        b.classList.add("correct");
+      } else {
+        b.classList.add("wrong"); // alle forkerte bliver røde
+      }
+    });
 
-          explanation.style.display = "block";
-          nextBtn.style.display = "inline-block";
-        });
-      });
+    // Opdater score kun hvis valgt korrekt
+    if (btn.textContent === q.answer) score++;
+
+    // Vis forklaring og næste-knap
+    explanation.style.display = "block";
+    nextBtn.style.display = "inline-block";
+  });
+});
     }
 
     nextBtn.addEventListener("click", () => {
@@ -220,6 +222,7 @@
 
 </body>
 </html>
+
 
 
 
