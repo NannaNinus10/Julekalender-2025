@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="da">
 <head>
@@ -6,140 +5,256 @@
   <title>Låge 2 – Vendespil</title>
   <link rel="stylesheet" href="../style.css">
   <style>
+    /* content-box (hvid boks) */
+    .content-box {
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 760px;
+      margin: 40px auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+
+    /* Memory grid */
     .memory-game {
       width: 640px;
-      margin: 40px auto;
+      margin: 20px auto 10px;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-gap: 10px;
+      grid-template-columns: repeat(4, 150px);
+      grid-auto-rows: 150px;
+      gap: 12px;
+      justify-content: center;
     }
 
     .memory-card {
       width: 150px;
       height: 150px;
+      perspective: 1000px;
       position: relative;
-      transform-style: preserve-3d;
-      transition: transform 0.5s;
-      cursor: pointer;
     }
 
-    .memory-card.flip {
-      transform: rotateY(180deg);
-    }
-
-    .front-face,
-    .back-face {
+    .card-inner {
+      position: relative;
       width: 100%;
       height: 100%;
-      position: absolute;
-      border-radius: 8px;
-      background: #fff;
-      backface-visibility: hidden;
+      transition: transform 0.5s;
+      transform-style: preserve-3d;
     }
 
-    .front-face {
+    .memory-card.flip .card-inner {
       transform: rotateY(180deg);
+    }
+
+    .front, .back {
+      position: absolute;
+      inset: 0;
+      border-radius: 10px;
+      backface-visibility: hidden;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .front img, .back img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .front {
+      transform: rotateY(180deg);
+    }
+
+    .back {
+      transform: rotateY(0deg);
+    }
+
+    /* fallback box hvis billede mangler */
+    .missing {
+      background: #f5f5f5;
+      color: #9a9a9a;
+      font-size: 13px;
+      padding: 6px;
+      text-align: center;
+      line-height: 1.1;
+    }
+
+    /* back-button */
+    a.back-button {
+      display: inline-block;
+      padding: 10px 14px;
+      margin-top: 12px;
+      background-color: #c0392b;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
   <div class="content-box">
-    <h1>🎄 Låge 2 🎅</h1>
-    <p>Find de matchende julekort!</p>
+    <h1>🎄 Låge 2 – Vendespil 🎅</h1>
+    <p>Find de matchende julekort! 🎁</p>
 
-    <div class="memory-game" id="gameBoard"></div>
+    <div class="memory-game" id="gameBoard" aria-live="polite"></div>
 
-    <p>
-      <a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a>
-    </p>
+    <p><a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a></p>
   </div>
 
   <script>
-    const cardsArray = [
-      "candy.png",
-      "cinnamon.png",
-      "gingerbread.png",
-      "nissehue.png",
-      "orange.png",
-      "present.png",
-      "snowflake.png",
-      "star.png"
+    // Base-navne (uden filtype)
+    const baseNames = [
+      "candy",
+      "cinnamon",
+      "gingerbread",
+      "nissehue",
+      "orange",
+      "present",
+      "snowflake",
+      "star"
     ];
 
-    const gameBoard = document.getElementById("gameBoard");
-    let hasFlippedCard = false;
-    let lockBoard = false;
-    let firstCard, secondCard;
+    // Mulige udvidelser vi tjekker (prioritet)
+    const exts = [".svg", ".png", ".webp", ".jpg"];
 
-    // Lav dobbelte kort og bland dem
-    const cards = [...cardsArray, ...cardsArray]
-      .sort(() => 0.5 - Math.random());
+    // Hjælpefunktion: prøv at finde en eksisterende fil (forsøger extensionerne)
+    function findExisting(pathBases) {
+      return new Promise(resolve => {
+        let i = 0;
+        function tryNext() {
+          if (i >= pathBases.length) return resolve(null);
+          const url = pathBases[i];
+          const img = new Image();
+          img.onload = () => resolve(url);
+          img.onerror = () => { i++; tryNext(); };
+          img.src = url;
+        }
+        tryNext();
+      });
+    }
 
-    // Byg kortene på brættet
-    cards.forEach(card => {
-      const memoryCard = document.createElement("div");
-      memoryCard.classList.add("memory-card");
-
-      const imgFront = document.createElement("img");
-      imgFront.src = `../assets/${card}`;
-      imgFront.classList.add("front-face");
-
-      const imgBack = document.createElement("img");
-      imgBack.src = "../assets/card-back.png";
-      imgBack.classList.add("back-face");
-
-      memoryCard.appendChild(imgFront);
-      memoryCard.appendChild(imgBack);
-
-      gameBoard.appendChild(memoryCard);
-
-      memoryCard.addEventListener("click", flipCard);
-    });
-
-    function flipCard() {
-      if (lockBoard) return;
-      if (this === firstCard) return;
-
-      this.classList.add("flip");
-
-      if (!hasFlippedCard) {
-        hasFlippedCard = true;
-        firstCard = this;
-        return;
+    async function resolveAssetFor(base) {
+      const candidates = exts.map(e => `../assets/${base}${e}`);
+      const found = await findExisting(candidates);
+      if (!found) {
+        console.warn(`Manglende asset for "${base}" — forsøgte:`, candidates);
       }
-
-      secondCard = this;
-      checkForMatch();
+      return found; // kan være null
     }
 
-    function checkForMatch() {
-      const isMatch =
-        firstCard.querySelector(".front-face").src ===
-        secondCard.querySelector(".front-face").src;
-
-      isMatch ? disableCards() : unflipCards();
+    async function resolveCardBack() {
+      const candidates = exts.map(e => `../assets/card-back${e}`);
+      const found = await findExisting(candidates);
+      if (!found) console.warn("Manglende card-back — forsøgte:", candidates);
+      return found;
     }
 
-    function disableCards() {
-      firstCard.removeEventListener("click", flipCard);
-      secondCard.removeEventListener("click", flipCard);
-      resetBoard();
-    }
+    // Main: opbyg spillet
+    (async function buildGame() {
+      const resolvedFronts = await Promise.all(baseNames.map(b => resolveAssetFor(b)));
+      const backPath = await resolveCardBack();
 
-    function unflipCards() {
-      lockBoard = true;
-      setTimeout(() => {
-        firstCard.classList.remove("flip");
-        secondCard.classList.remove("flip");
-        resetBoard();
-      }, 1000);
-    }
+      // Log hvad der blev fundet
+      console.log("Resolved fronts:", resolvedFronts);
+      console.log("Resolved back:", backPath);
 
-    function resetBoard() {
-      [hasFlippedCard, lockBoard] = [false, false];
-      [firstCard, secondCard] = [null, null];
-    }
+      // Lav liste med par (brug paths; hvis et path er null, markér det)
+      let cards = [];
+      baseNames.forEach((b, i) => {
+        const p = resolvedFronts[i]; // kan være string eller null
+        cards.push({ id: b, src: p });
+        cards.push({ id: b, src: p });
+      });
+
+      // Shuffle
+      cards.sort(() => 0.5 - Math.random());
+
+      const board = document.getElementById("gameBoard");
+      let first = null, second = null, lock = false;
+
+      cards.forEach(card => {
+        const cardEl = document.createElement("div");
+        cardEl.className = "memory-card";
+        const inner = document.createElement("div");
+        inner.className = "card-inner";
+
+        // Front
+        const front = document.createElement("div");
+        front.className = "front";
+        if (card.src) {
+          const img = document.createElement("img");
+          img.src = card.src;
+          img.alt = card.id;
+          front.appendChild(img);
+        } else {
+          const miss = document.createElement("div");
+          miss.className = "missing";
+          miss.textContent = `Mangler: ${card.id}`;
+          front.appendChild(miss);
+        }
+
+        // Back
+        const back = document.createElement("div");
+        back.className = "back";
+        if (backPath) {
+          const imgB = document.createElement("img");
+          imgB.src = backPath;
+          imgB.alt = "Kort ryg";
+          back.appendChild(imgB);
+        } else {
+          const miss = document.createElement("div");
+          miss.className = "missing";
+          miss.textContent = `Mangler: card-back`;
+          back.appendChild(miss);
+        }
+
+        inner.appendChild(front);
+        inner.appendChild(back);
+        cardEl.appendChild(inner);
+        board.appendChild(cardEl);
+
+        // click
+        cardEl.addEventListener("click", () => {
+          if (lock) return;
+          if (cardEl === first) return;
+          cardEl.classList.add("flip");
+
+          if (!first) {
+            first = cardEl;
+            return;
+          }
+          second = cardEl;
+          lock = true;
+
+          // sammenlign src (hvis både first og second har img)
+          const fImg = first.querySelector(".front img");
+          const sImg = second.querySelector(".front img");
+          const match = fImg && sImg && (fImg.src === sImg.src);
+
+          if (match) {
+            // match — lad dem være vendt
+            first = null;
+            second = null;
+            lock = false;
+          } else {
+            setTimeout(() => {
+              first.classList.remove("flip");
+              second.classList.remove("flip");
+              first = null;
+              second = null;
+              lock = false;
+            }, 900);
+          }
+        });
+      });
+
+      // Hvis nogle billeder ikke blev fundet, åbn devtools og se console.warn
+    })();
   </script>
 </body>
 </html>
-```
