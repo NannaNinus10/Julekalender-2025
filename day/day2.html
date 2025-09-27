@@ -1,165 +1,145 @@
+```html
 <!DOCTYPE html>
 <html lang="da">
 <head>
   <meta charset="UTF-8">
-  <title>Glædelig 2. december – Memory Spil</title>
+  <title>Låge 2 – Vendespil</title>
   <link rel="stylesheet" href="../style.css">
   <style>
-    /* Boks omkring memory-spillet */
-    .content-box {
-      background-color: white;
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 700px;
-      margin: 50px auto;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      text-align: center;
-    }
-
-    /* Memory spil specifik CSS */
-    .memory-container {
+    .memory-game {
+      width: 640px;
+      margin: 40px auto;
       display: grid;
-      grid-template-columns: repeat(4, 120px);
-      gap: 15px;
-      justify-content: center;
-      margin-top: 20px;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: 10px;
     }
 
-    .card {
-      width: 120px;
-      height: 120px;
-      perspective: 1000px;
+    .memory-card {
+      width: 150px;
+      height: 150px;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.5s;
       cursor: pointer;
     }
 
-    .card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-    }
-
-    .card.flipped .card-inner {
+    .memory-card.flip {
       transform: rotateY(180deg);
     }
 
-    .card-front, .card-back {
+    .front-face,
+    .back-face {
+      width: 100%;
+      height: 100%;
       position: absolute;
-      width: 100%;
-      height: 100%;
+      border-radius: 8px;
+      background: #fff;
       backface-visibility: hidden;
-      border-radius: 10px;
     }
 
-    .card-front {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .card-back {
+    .front-face {
       transform: rotateY(180deg);
-    }
-
-    .card img {
-      width: 100%;
-      height: 100%;
-      border-radius: 10px;
     }
   </style>
 </head>
 <body>
-  <h1>Glædelig 2. december – Memory Spil</h1>
-
   <div class="content-box">
+    <h1>🎄 Låge 2 🎅</h1>
     <p>Find de matchende julekort!</p>
 
-    <!-- Memory container -->
-    <div class="memory-container" id="memoryContainer"></div>
+    <div class="memory-game" id="gameBoard"></div>
 
-    <!-- Tilbage til kalenderen -->
     <p>
       <a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a>
     </p>
   </div>
 
   <script>
-const images = [
-  "../assets/candy.svg",
-  "../assets/cinnamon.svg",
-  "../assets/gingerbread.svg",
-  "../assets/nissehue.svg",
-  "../assets/orange.svg",
-  "../assets/present.svg",
-  "../assets/snowflake.svg",
-  "../assets/star.svg"
-];
+    const cardsArray = [
+      "candy.png",
+      "cinnamon.png",
+      "gingerbread.png",
+      "nissehue.png",
+      "orange.png",
+      "present.png",
+      "snowflake.png",
+      "star.png"
+    ];
 
-    let cardImages = [...images, ...images]; // dobbelt op for par
-    cardImages.sort(() => 0.5 - Math.random());
-
-    const memoryContainer = document.getElementById("memoryContainer");
-    let firstCard = null;
-    let secondCard = null;
+    const gameBoard = document.getElementById("gameBoard");
+    let hasFlippedCard = false;
     let lockBoard = false;
+    let firstCard, secondCard;
 
-    cardImages.forEach(src => {
-      const card = document.createElement("div");
-      card.classList.add("card");
+    // Lav dobbelte kort og bland dem
+    const cards = [...cardsArray, ...cardsArray]
+      .sort(() => 0.5 - Math.random());
 
-      const cardInner = document.createElement("div");
-      cardInner.classList.add("card-inner");
+    // Byg kortene på brættet
+    cards.forEach(card => {
+      const memoryCard = document.createElement("div");
+      memoryCard.classList.add("memory-card");
 
-      const cardFront = document.createElement("div");
-      cardFront.classList.add("card-front");
       const imgFront = document.createElement("img");
-      imgFront.src = src;
-      cardFront.appendChild(imgFront);
+      imgFront.src = `../assets/${card}`;
+      imgFront.classList.add("front-face");
 
-      const cardBack = document.createElement("div");
-      cardBack.classList.add("card-back");
       const imgBack = document.createElement("img");
-     imgBack.src = "../assets/card-back.svg";
-      cardBack.appendChild(imgBack);
+      imgBack.src = "../assets/card-back.png";
+      imgBack.classList.add("back-face");
 
-      cardInner.appendChild(cardFront);
-      cardInner.appendChild(cardBack);
-      card.appendChild(cardInner);
-      memoryContainer.appendChild(card);
+      memoryCard.appendChild(imgFront);
+      memoryCard.appendChild(imgBack);
 
-      card.addEventListener("click", () => {
-        if(lockBoard || card === firstCard) return;
-        card.classList.add("flipped");
+      gameBoard.appendChild(memoryCard);
 
-        if(!firstCard) {
-          firstCard = card;
-          return;
-        }
-
-        secondCard = card;
-        lockBoard = true;
-
-        const firstImg = firstCard.querySelector(".card-front img").src;
-        const secondImg = secondCard.querySelector(".card-front img").src;
-
-        if(firstImg === secondImg) {
-          resetBoard();
-        } else {
-          setTimeout(() => {
-            firstCard.classList.remove("flipped");
-            secondCard.classList.remove("flipped");
-            resetBoard();
-          }, 1000);
-        }
-      });
+      memoryCard.addEventListener("click", flipCard);
     });
 
+    function flipCard() {
+      if (lockBoard) return;
+      if (this === firstCard) return;
+
+      this.classList.add("flip");
+
+      if (!hasFlippedCard) {
+        hasFlippedCard = true;
+        firstCard = this;
+        return;
+      }
+
+      secondCard = this;
+      checkForMatch();
+    }
+
+    function checkForMatch() {
+      const isMatch =
+        firstCard.querySelector(".front-face").src ===
+        secondCard.querySelector(".front-face").src;
+
+      isMatch ? disableCards() : unflipCards();
+    }
+
+    function disableCards() {
+      firstCard.removeEventListener("click", flipCard);
+      secondCard.removeEventListener("click", flipCard);
+      resetBoard();
+    }
+
+    function unflipCards() {
+      lockBoard = true;
+      setTimeout(() => {
+        firstCard.classList.remove("flip");
+        secondCard.classList.remove("flip");
+        resetBoard();
+      }, 1000);
+    }
+
     function resetBoard() {
+      [hasFlippedCard, lockBoard] = [false, false];
       [firstCard, secondCard] = [null, null];
-      lockBoard = false;
     }
   </script>
 </body>
 </html>
+```
