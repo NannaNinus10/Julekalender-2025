@@ -30,9 +30,9 @@
   }
 
   .factory img {
-    width: 400px;     /* større størrelse */
+    width: 400px;     
     height: auto;     
-    max-width: 90%;   /* responsiv til mindre skærme */
+    max-width: 90%;   
   }
 
   .word {
@@ -154,7 +154,7 @@ function guessLetter(l, btn) {
 
 // Opdater baggrundsbillede
 function updateFactoryImage() {
-  const remaining = maxErrors - errors;
+  const remaining = maxErrors - errors; // antallet af gaver tilbage
   factoryImg.src = `../assets/gaver-${remaining}.svg`;
 }
 
