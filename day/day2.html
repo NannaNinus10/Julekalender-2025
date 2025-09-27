@@ -86,16 +86,16 @@
   </div>
 
   <script>
-    const images = [
-      "assets/candy.svg",
-      "assets/cinnamon.svg",
-      "assets/gingerbread.svg",
-      "assets/nissehue.svg",
-      "assets/orange.svg",
-      "assets/present.svg",
-      "assets/snowflake.svg",
-      "assets/star.svg"
-    ];
+const images = [
+  "../assets/candy.svg",
+  "../assets/cinnamon.svg",
+  "../assets/gingerbread.svg",
+  "../assets/nissehue.svg",
+  "../assets/orange.svg",
+  "../assets/present.svg",
+  "../assets/snowflake.svg",
+  "../assets/star.svg"
+];
 
     let cardImages = [...images, ...images]; // dobbelt op for par
     cardImages.sort(() => 0.5 - Math.random());
@@ -121,7 +121,7 @@
       const cardBack = document.createElement("div");
       cardBack.classList.add("card-back");
       const imgBack = document.createElement("img");
-      imgBack.src = "assets/card-back.svg";
+     imgBack.src = "../assets/card-back.svg";
       cardBack.appendChild(imgBack);
 
       cardInner.appendChild(cardFront);
