@@ -23,6 +23,17 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   }
 
+  .factory {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .factory img {
+    max-width: 100%;
+    height: auto;
+  }
+
   .word {
     font-size: 30px;
     letter-spacing: 10px;
@@ -57,20 +68,6 @@
   .letters button.wrong { background: #993b3b; color: white; }
   .letters button:disabled { opacity: 0.7; cursor: not-allowed; }
 
-  .gifts {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    font-size: 30px;
-    margin-bottom: 20px;
-  }
-
-  .gift {
-    width: 50px;
-    height: 50px;
-    transition: transform 0.5s, opacity 0.5s;
-  }
-
   .final {
     font-size: 24px;
     font-weight: bold;
@@ -99,10 +96,14 @@
 <body>
   <h1>Glædelig 12. december – Julegavefabrik Hangman</h1>
   <div class="content-box">
-    <div class="gifts" id="gifts"></div>
+    <div class="factory">
+      <img id="factoryImg" src="../assets/gaver-8.svg" alt="Julegavefabrik">
+    </div>
+
     <div class="word" id="word"></div>
     <div class="letters" id="letters"></div>
     <div id="message"></div>
+
     <p>
       <a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a>
     </p>
@@ -116,16 +117,8 @@ let errors = 0;
 
 const wordEl = document.getElementById("word");
 const lettersEl = document.getElementById("letters");
-const giftsEl = document.getElementById("gifts");
+const factoryImg = document.getElementById("factoryImg");
 const messageEl = document.getElementById("message");
-
-// Opret gaver
-for(let i=0;i<maxErrors;i++){
-  const g = document.createElement("span");
-  g.textContent = "🎁";
-  g.classList.add("gift");
-  giftsEl.appendChild(g);
-}
 
 // Opret bogstavknapper
 for(let i=65;i<=90;i++){
@@ -153,17 +146,15 @@ function guessLetter(l, btn) {
   } else {
     btn.classList.add("wrong");
     errors++;
-    loseGift();
+    updateFactoryImage();
     checkLose();
   }
 }
 
-// Gaver går i stykker
-function loseGift(){
-  const gifts = document.querySelectorAll(".gift");
-  if(errors <= gifts.length){
-    gifts[errors-1].textContent = "💥"; // forkert gæt
-  }
+// Opdater baggrundsbillede
+function updateFactoryImage() {
+  const remaining = maxErrors - errors;
+  factoryImg.src = `../assets/gaver-${remaining}.svg`;
 }
 
 // Tjek om vundet
