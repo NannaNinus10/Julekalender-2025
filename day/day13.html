@@ -49,7 +49,7 @@
     cursor: pointer;
     font-weight: bold;
     user-select: none;
-    transition: transform 0.2s;
+    transition: transform 0.2s, background-color 0.3s;
   }
 
   .cell.found {
@@ -227,12 +227,16 @@ function selectCell(cell){
     selection = [];
     checkWin();
   } else if(selection.length>=Math.max(...words.map(w=>w.length))){
-    // forkert forsøg -> ryst gitter
+    // forkert forsøg -> ryst gitter og midlertidig rød markering
     gridEl.classList.add("shake");
-    setTimeout(()=>gridEl.classList.remove("shake"),300);
     selection.forEach(s=>s.classList.add("wrong"));
-    setTimeout(()=>selection.forEach(s=>s.classList.remove("wrong")),500);
-    selection = [];
+    setTimeout(()=>{
+      selection.forEach(s=>{
+        s.classList.remove("wrong"); // fjern rød efter kort tid
+      });
+      gridEl.classList.remove("shake");
+      selection = [];
+    },500);
   }
 }
 
