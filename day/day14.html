@@ -181,8 +181,9 @@
     function moveSack(dir) {
       if(dir==="left") sackX -= sackSpeed;
       if(dir==="right") sackX += sackSpeed;
-      if(sackX < 0) sackX=0;
-      if(sackX > gameArea.offsetWidth - sack.offsetWidth) sackX = gameArea.offsetWidth - sack.offsetWidth;
+if(sackX < -20) sackX = -20; // tillad 20px uden for venstre kant
+if(sackX > gameArea.offsetWidth - sack.offsetWidth + 20) sackX = gameArea.offsetWidth - sack.offsetWidth + 20; // lidt ud til højre
+
       sack.style.left = sackX + "px";
     }
 
@@ -271,3 +272,4 @@
   </script>
 </body>
 </html>
+
