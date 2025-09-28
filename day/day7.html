@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<title>Låge 7 – Julegave sortering</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #204226;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: white;
+  }
+
+  .content-box {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 600px;
+    margin: 40px auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    position: relative;
+  }
+
+  #gameArea {
+    position: relative;
+    width: 500px;
+    height: 300px;
+    margin: 20px auto;
+    overflow: hidden;
+  }
+
+  #background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top:0;
+    left:0;
+    z-index:0;
+  }
+
+  .gift {
+    position: absolute;
+    top: 50px;
+    width: 40px;
+    height: 40px;
+    z-index:1;
+  }
+
+  .basket {
+    position: absolute;
+    bottom: 10px;
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    z-index:2;
+  }
+
+  #scoreDisplay {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  #endScreen {
+    display:none;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #4c7a58;
+  }
+
+  .back-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 16px;
+    background-color: #204226;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+  }
+
+  .back-button:hover {
+    background-color: #35663c;
+  }
+</style>
+</head>
+<body>
+<h1>Glædelig 7. december – Sorter julegaverne!</h1>
+<div class="content-box">
+  <div id="scoreDisplay">Score: 0</div>
+  <div id="gameArea">
+    <img id="background" src="../assets/sorterBånd.svg" alt="Bånd">
+
+    <!-- Kurve -->
+    <img src="../assets/sorterBlåSæk.svg" id="basketBlue" class="basket" style="left:50px;">
+    <img src="../assets/sorterRødSæk.svg" id="basketRed" class="basket" style="left:150px;">
+    <img src="../assets/sorterGrønSæk.svg" id="basketGreen" class="basket" style="left:250px;">
+    <img src="../assets/sorterGulSæk.svg" id="basketYellow" class="basket" style="left:350px;">
+  </div>
+
+  <div id="endScreen"></div>
+
+  <p><a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a></p>
+</div>
+
+<script>
+const giftsData = [
+  {color:"Blå", src:"sorterBlå1.svg"},
+  {color:"Blå", src:"sorterBlå2.svg"},
+  {color:"Blå", src:"sorterBlå3.svg"},
+  {color:"Blå", src:"sorterBlå4.svg"},
+  {color:"Rød", src:"sorterRød1.svg"},
+  {color:"Rød", src:"sorterRød2.svg"},
+  {color:"Rød", src:"sorterRød3.svg"},
+  {color:"Rød", src:"sorterRød4.svg"},
+  {color:"Grøn", src:"sorterGrøn1.svg"},
+  {color:"Grøn", src:"sorterGrøn2.svg"},
+  {color:"Grøn", src:"sorterGrøn3.svg"},
+  {color:"Grøn", src:"sorterGrøn4.svg"},
+  {color:"Gul", src:"sorterGul1.svg"},
+  {color:"Gul", src:"sorterGul2.svg"},
+  {color:"Gul", src:"sorterGul3.svg"},
+  {color:"Gul", src:"sorterGul4.svg"}
+];
+
+let score = 0;
+let giftsIndex = 0;
+const gameArea = document.getElementById("gameArea");
+const scoreDisplay = document.getElementById("scoreDisplay");
+const endScreen = document.getElementById("endScreen");
+
+// Kurve reference
+const baskets = {
+  "Blå": document.getElementById("basketBlue"),
+  "Rød": document.getElementById("basketRed"),
+  "Grøn": document.getElementById("basketGreen"),
+  "Gul": document.getElementById("basketYellow")
+};
+
+function spawnGift() {
+  if(giftsIndex >= giftsData.length) return;
+
+  const giftInfo = giftsData[giftsIndex];
+  giftsIndex++;
+
+  const gift = document.createElement("img");
+  gift.src = `../assets/${giftInfo.src}`;
+  gift.classList.add("gift");
+  gift.dataset.color = giftInfo.color;
+  gift.style.left = "0px";
+  gift.style.top = "50px";
+
+  gameArea.appendChild(gift);
+
+  let posX = 0;
+  const speed = 2;
+
+  const interval = setInterval(() => {
+    posX += speed;
+    gift.style.left = posX + "px";
+
+    if(posX > gameArea.offsetWidth) {
+      gift.remove();
+      clearInterval(interval);
+      checkEndGame();
+    }
+  },20);
+
+  // Klik på kurve
+  Object.keys(baskets).forEach(color => {
+    baskets[color].onclick = () => {
+      if(gift.parentNode){
+        if(color === gift.dataset.color){
+          score++;
+          scoreDisplay.textContent = "Score: " + score;
+        }
+        gift.remove();
+        clearInterval(interval);
+        checkEndGame();
+      }
+    };
+  });
+}
+
+function checkEndGame(){
+  if(giftsIndex >= giftsData.length && document.querySelectorAll(".gift").length === 0){
+    endScreen.style.display = "block";
+    endScreen.textContent = `🎉 Spillet slut! Du sorterede ${score} korrekt ud af ${giftsData.length} pakker! 🎉`;
+  }
+}
+
+// Start spillet med lidt mellemrum mellem gaver
+function startGame(){
+  let delay = 0;
+  giftsData.forEach((g,i)=>{
+    setTimeout(spawnGift, i*1000);
+  });
+}
+
+startGame();
+</script>
+</body>
+</html>
