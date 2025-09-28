@@ -2,7 +2,7 @@
 <html lang="da">
 <head>
 <meta charset="UTF-8">
-<title>Låge 14 – Grib gaver med sækken</title>
+<title>Låge 14 – Grib gaver på tid</title>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -35,7 +35,7 @@
     width: 400px;
     height: 400px;
     margin: 0 auto 10px auto;
-    background: #e8f5e9; /* midlertidig baggrund, kan erstattes med SVG */
+    background: #e8f5e9; /* kan erstattes med baggrund SVG */
     overflow: hidden;
   }
 
@@ -85,13 +85,12 @@
     cursor: pointer;
   }
 
-  .score {
+  .score, .timer {
     font-weight: bold;
     margin-top: 10px;
     color: #204226;
   }
 
-  /* Tilbage-knap som på day2.html */
   .back-button {
     display: inline-block;
     padding: 12px 18px;
@@ -111,12 +110,12 @@
 </head>
 <body>
 
-<h1>Glædelig 14. december – Grib gaverne!</h1>
+<h1>Glædelig 14. december – Fang så mange gaver du kan!</h1>
 
 <div class="content-box">
   <p class="instruction">
-    Flyt sækken og grib så mange gaver du kan! 🎄<br>
-    Gaverne falder fra toppen, og når du har grebet alle 8, er spillet slut.
+    Flyt sækken og fang så mange gaver som muligt! 🎄<br>
+    Spillet varer 45 sekunder.
   </p>
 
   <div id="gameArea">
@@ -131,7 +130,8 @@
     <button class="control-button" id="rightBtn">▶</button>
   </div>
 
-  <div class="score" id="scoreDisplay">Grebne gaver: 0 / 8</div>
+  <div class="score" id="scoreDisplay">Grebne gaver: 0</div>
+  <div class="timer" id="timerDisplay">Tid tilbage: 45s</div>
 
   <p>
     <a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a>
@@ -142,14 +142,14 @@
 const gameArea = document.getElementById("gameArea");
 const sack = document.getElementById("sack");
 const scoreDisplay = document.getElementById("scoreDisplay");
+const timerDisplay = document.getElementById("timerDisplay");
 
-const sackSpeed = 20; // pixels per move
+const sackSpeed = 20;
 let sackPosX = 180; 
-let sackPosY = 340; // for up/down if ønsket
+let sackPosY = 340; 
 
 let score = 0;
-const totalGifts = 8;
-const gifts = [];
+let gifts = [];
 const giftImages = [
   "../assets/gift1.svg",
   "../assets/gift2.svg",
@@ -161,21 +161,8 @@ const giftImages = [
   "../assets/gift8.svg"
 ];
 
-// Spawn gaver
-for(let i=0;i<totalGifts;i++){
-  const gift = document.createElement("img");
-  gift.src = giftImages[i % giftImages.length];
-  gift.classList.add("gift");
-  gift.style.top = "-40px";
-  gift.style.left = Math.floor(Math.random()*360)+"px";
-  gameArea.appendChild(gift);
-  gifts.push({
-    el: gift,
-    x: parseInt(gift.style.left),
-    y: -40,
-    speed: 2 + Math.random()*2
-  });
-}
+const gameDuration = 45; // sekunder
+let timeLeft = gameDuration;
 
 // Kontroller sæk med knapper
 document.getElementById("leftBtn").addEventListener("click",()=>moveSack(-sackSpeed,0));
@@ -198,35 +185,67 @@ function moveSack(dx,dy){
   sack.style.top = sackPosY + "px";
 }
 
+// Spawn nye gaver hvert 800ms
+function spawnGift(){
+  const gift = document.createElement("img");
+  gift.src = giftImages[Math.floor(Math.random()*giftImages.length)];
+  gift.classList.add("gift");
+  gift.style.top = "-40px";
+  gift.style.left = Math.floor(Math.random()*360)+"px";
+  gameArea.appendChild(gift);
+  gifts.push({
+    el: gift,
+    x: parseInt(gift.style.left),
+    y: -40,
+    speed: 1 + Math.random()*2
+  });
+}
+
 // Spil loop
 function gameLoop(){
   gifts.forEach((g, idx)=>{
     g.y += g.speed;
     g.el.style.top = g.y+"px";
 
-    // Tjek om fanget
+    // Fanget?
     if(g.y+40 >= sackPosY && g.y <= sackPosY+60 &&
        g.x+40 >= sackPosX && g.x <= sackPosX+60){
-      // Fanget
-      g.el.style.display="none";
+      g.el.remove();
       gifts.splice(idx,1);
       score++;
-      scoreDisplay.textContent = "Grebne gaver: "+score+" / "+totalGifts;
+      scoreDisplay.textContent = "Grebne gaver: "+score;
     }
 
-    // Fjern gaver der rammer bunden (ingen liv)
+    // Forladt bunden
     if(g.y>400){
-      g.el.style.display="none";
+      g.el.remove();
       gifts.splice(idx,1);
     }
   });
 
-  if(score<totalGifts) requestAnimationFrame(gameLoop);
-  else scoreDisplay.textContent = "🎉 Alle gaver er grebet! Godt klaret! 🎄";
+  requestAnimationFrame(gameLoop);
 }
 
-// Start spil
+// Timer
+function startTimer(){
+  const timer = setInterval(()=>{
+    timeLeft--;
+    timerDisplay.textContent = "Tid tilbage: "+timeLeft+"s";
+    if(timeLeft<=0){
+      clearInterval(timer);
+      // Fjern resterende gaver
+      gifts.forEach(g=>g.el.remove());
+      gifts = [];
+      timerDisplay.textContent = "Tid er ude!";
+      scoreDisplay.textContent = "🎉 Du greb "+score+" gaver! Godt klaret! 🎄";
+    }
+  },1000);
+}
+
+// Start spillet
+setInterval(spawnGift,800);
 gameLoop();
+startTimer();
 </script>
 
 </body>
