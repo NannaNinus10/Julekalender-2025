@@ -152,8 +152,7 @@
 
 <div class="content-box">
   <p class="instruction">
-    Flyt sækken og fang så mange gaver som muligt! 🎄<br>
-    Spillet varer 45 sekunder.
+    Flyt sækken og fang så mange gaver som muligt!<br>
   </p>
 
   <div id="gameArea">
@@ -185,7 +184,7 @@ const scoreDisplay = document.getElementById("scoreDisplay");
 const timerDisplay = document.getElementById("timerDisplay");
 const endScreen = document.getElementById("endScreen");
 
-const sackSpeed = 20;
+const sackSpeed = 24;
 let sackPosX = 180; 
 let sackPosY = 340; 
 
@@ -231,7 +230,7 @@ function moveSack(dx,dy){
 }
 
 // Spawn gaver jævnt over 45 sekunder
-const spawnInterval = (gameDuration / totalGifts) * 1000; // ms
+const spawnInterval = (gameDuration / totalGifts) * 1300; // ms
 const spawnTimer = setInterval(()=>{
   if(!gameActive || spawnedGifts >= totalGifts){
     clearInterval(spawnTimer);
@@ -310,3 +309,4 @@ startTimer();
 
 </body>
 </html>
+
