@@ -3,7 +3,7 @@
 <html lang="da">
 <head>
   <meta charset="UTF-8">
-  <title>Låge XX – Fang gaverne</title>
+  <title>Låge 14 – Fang gaverne</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -70,8 +70,8 @@
       bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
-      width: 70px;
-      height: 95px;
+      width: 90px;
+      height: 120px;
       z-index: 2;
     }
 
@@ -111,7 +111,7 @@
       display: none;
       margin-top: 20px;
       padding: 12px 20px;
-      background: #d6336c;
+      background: #204226;
       color: white;
       font-weight: bold;
       border-radius: 8px;
@@ -136,7 +136,7 @@
   </style>
 </head>
 <body>
-  <h1>Glædelig XX. december – Fang gaverne!</h1>
+  <h1>Glædelig 14. december – Fang gaverne!</h1>
 
   <div class="content-box">
     <div id="gameArea">
@@ -169,18 +169,21 @@
     const totalGifts = 20;
     const spawnInterval = totalTime * 1000 / totalGifts; // ca. 2250 ms
 
-    let sackX = gameArea.offsetWidth / 2 - sack.offsetWidth / 2;
+    let sackX;
     let score = 0;
     let timeLeft = totalTime;
-    let gameInterval, timerInterval, spawnIntervalId;
+    let timerInterval, spawnIntervalId;
     let giftsSpawned = 0;
 
-    // Placer sækken
-    sack.style.left = sackX + "px";
+    function initSack() {
+      sackX = gameArea.offsetWidth / 2 - sack.offsetWidth / 2;
+      sack.style.left = sackX + "px";
+    }
 
     function moveSack(dir) {
       if (dir === "left") sackX -= sackSpeed;
       if (dir === "right") sackX += sackSpeed;
+
       if (sackX < 0) sackX = 0;
       if (sackX > gameArea.offsetWidth - sack.offsetWidth) {
         sackX = gameArea.offsetWidth - sack.offsetWidth;
@@ -188,7 +191,6 @@
       sack.style.left = sackX + "px";
     }
 
-    // Event listeners til styring
     document.addEventListener("keydown", e => {
       if (e.key === "ArrowLeft") moveSack("left");
       if (e.key === "ArrowRight") moveSack("right");
@@ -245,10 +247,12 @@
       clearInterval(spawnIntervalId);
 
       endScreen.style.display = "block";
-      endScreen.textContent = `🎁 Du greb ${score} ud af ${totalGifts} gaver! 🎁`;
+      endScreen.textContent = `🎉 Tillykke! Du greb ${score} ud af ${totalGifts} gaver! 🎉`;
     }
 
     function startGame() {
+      initSack();
+
       timerInterval = setInterval(() => {
         timeLeft--;
         timerDisplay.textContent = "Tid tilbage: " + timeLeft + "s";
