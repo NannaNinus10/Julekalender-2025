@@ -1,233 +1,273 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
-<meta charset="UTF-8">
-<title>Låge 14 – Fang gaverne</title>
-<style>
-body {
-  font-family: Arial, sans-serif;
-  background: #204226;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  color: white;
-}
-.content-box {
-  background-color: white;
-  color: black;
-  padding: 20px;
-  border-radius: 12px;
-  max-width: 500px;
-  margin: 40px auto;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  position: relative;
-}
-#gameArea {
-  position: relative;
-  width: 400px;
-  height: 400px;
-  margin: 0 auto;
-  overflow: hidden;
-}
-#backgroundImage {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
-}
-#hud {
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  display: flex;
-  justify-content: space-between;
-  padding: 5px 10px;
-  background: rgba(255,255,255,0.8);
-  color: #204226;
-  font-weight: bold;
-  border-radius: 8px;
-  z-index: 5;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-}
-#timerDisplay, #scoreDisplay {
-  font-size: 16px;
-}
-#sack {
-  position: absolute;
-  bottom: 10px;
-  width: 100px;
-  height: 130px;
-  z-index: 2;
-}
-.gift {
-  position: absolute;
-  top: 0;
-  width: 28px;
-  height: 28px;
-  z-index: 1;
-}
-.controls {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
-.controls button {
-  padding: 10px 20px;
-  font-size: 20px;
-  background: #204226;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-.controls button:hover { background: #35663c; }
-#endScreen {
-  display: none;
-  margin-top: 20px;
-  padding: 12px 20px;
-  background: #204226;
-  color: white;
-  font-weight: bold;
-  border-radius: 8px;
-  text-align: center;
-}
-.back-button {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 10px 16px;
-  background-color: #204226;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: bold;
-}
-.back-button:hover { background-color: #35663c; }
-</style>
+  <meta charset="UTF-8">
+  <title>Låge 14 – Fang gaverne</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #204226;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      color: white;
+    }
+
+    .content-box {
+      background-color: white;
+      color: black;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 500px;
+      margin: 40px auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      position: relative;
+    }
+
+    #gameArea {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    #backgroundImage {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    /* HUD */
+    #hud {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 10px;
+      background: rgba(255,255,255,0.8);
+      color: #204226;
+      font-weight: bold;
+      border-radius: 8px;
+      z-index: 5;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    #timerDisplay, #scoreDisplay {
+      font-size: 16px;
+    }
+
+    /* Sæk */
+    #sack {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 130px;
+      z-index: 2;
+    }
+
+    /* Gaver */
+    .gift {
+      position: absolute;
+      top: 0;
+      width: 28px;
+      height: 28px;
+      z-index: 1;
+    }
+
+    /* Pileknapper */
+    .controls {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .controls button {
+      padding: 10px 20px;
+      font-size: 20px;
+      background: #204226;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .controls button:hover {
+      background: #35663c;
+    }
+
+    /* Slutskærm */
+    #endScreen {
+      display: none;
+      padding: 12px 20px;
+      background: #204226;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+    }
+
+    /* Tilbage-knap (samme stil som day2) */
+    .back-button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 16px;
+      background-color: #204226;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .back-button:hover {
+      background-color: #35663c;
+    }
+  </style>
 </head>
 <body>
-<h1>Glædelig 14. december – Fang gaverne!</h1>
+  <h1>Glædelig 14. december – Fang gaverne!</h1>
 
-<div class="content-box">
-  <div id="gameArea">
-    <img id="backgroundImage" src="../assets/fangGaveBaggrund.svg" alt="Baggrund">
-    <div id="hud">
-      <div id="timerDisplay">Tid tilbage: 45s</div>
-      <div id="scoreDisplay">Grebne gaver: 0</div>
+  <div class="content-box">
+    <div id="gameArea">
+      <img id="backgroundImage" src="../assets/fangGaveBaggrund.svg" alt="Baggrund">
+      <div id="hud">
+        <div id="timerDisplay">Tid tilbage: 45s</div>
+        <div id="scoreDisplay">Grebne gaver: 0</div>
+      </div>
+      <img id="sack" src="../assets/fangGaveSæk.svg" alt="Sæk">
+      <div id="endScreen"></div>
     </div>
-    <img id="sack" src="../assets/fangGaveSæk.svg" alt="Sæk">
-    <div id="endScreen"></div>
+
+    <div class="controls">
+      <button id="leftBtn">⬅</button>
+      <button id="rightBtn">➡</button>
+    </div>
+
+    <p><a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a></p>
   </div>
 
-  <div class="controls">
-    <button id="leftBtn">⬅</button>
-    <button id="rightBtn">➡</button>
-  </div>
+  <script>
+    const sack = document.getElementById("sack");
+    const gameArea = document.getElementById("gameArea");
+    const timerDisplay = document.getElementById("timerDisplay");
+    const scoreDisplay = document.getElementById("scoreDisplay");
+    const endScreen = document.getElementById("endScreen");
 
-  <p><a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a></p>
-</div>
+    const sackSpeed = 20;
+    const totalTime = 45;
+    const totalGifts = 20;
+    let sackX, score = 0, timeLeft = totalTime, giftsSpawned = 0;
+    let timerInterval, spawnIntervalId;
 
-<script>
-const sack = document.getElementById("sack");
-const gameArea = document.getElementById("gameArea");
-const timerDisplay = document.getElementById("timerDisplay");
-const scoreDisplay = document.getElementById("scoreDisplay");
-const endScreen = document.getElementById("endScreen");
-
-const sackSpeed = 20;
-const totalTime = 45;
-const totalGifts = 20;
-let sackX, score = 0, timeLeft = totalTime, giftsSpawned = 0;
-let timerInterval, spawnIntervalId;
-
-function initSack() {
-  sackX = gameArea.offsetWidth / 2 - sack.offsetWidth / 2;
-  sack.style.left = sackX + "px";
-}
-
-function moveSack(dir) {
-  if(dir==="left") sackX -= sackSpeed;
-  if(dir==="right") sackX += sackSpeed;
-  if(sackX < 0) sackX=0;
-  if(sackX > gameArea.offsetWidth - sack.offsetWidth) sackX = gameArea.offsetWidth - sack.offsetWidth;
-  sack.style.left = sackX + "px";
-}
-
-document.addEventListener("keydown", e=>{
-  if(e.key==="ArrowLeft") moveSack("left");
-  if(e.key==="ArrowRight") moveSack("right");
-});
-document.getElementById("leftBtn").addEventListener("click",()=>moveSack("left"));
-document.getElementById("rightBtn").addEventListener("click",()=>moveSack("right"));
-
-function spawnGift() {
-  if(giftsSpawned>=totalGifts) return;
-  giftsSpawned++;
-  const gift=document.createElement("img");
-  const giftType = Math.floor(Math.random()*8)+1;
-  gift.src = `../assets/fangGave${giftType}.svg`;
-  gift.classList.add("gift");
-  const giftX=Math.random()*(gameArea.offsetWidth-28);
-  gift.style.left = giftX + "px";
-  gift.style.top="0px";
-  gameArea.appendChild(gift);
-
-  let giftY = 0;
-  const fallSpeed = 2; 
-  const fallInterval = setInterval(()=>{
-    giftY += fallSpeed;
-    gift.style.top = giftY + "px";
-
-    const sackRect = sack.getBoundingClientRect();
-    const giftRect = gift.getBoundingClientRect();
-
-    if(
-      giftRect.bottom >= sackRect.top &&
-      giftRect.left < sackRect.right &&
-      giftRect.right > sackRect.left
-    ){
-      score++;
-      scoreDisplay.textContent = "Grebne gaver: " + score;
-      gameArea.removeChild(gift);
-      clearInterval(fallInterval);
-      if(score >= totalGifts) endGame();
+    function initSack() {
+      sackX = gameArea.offsetWidth / 2 - sack.offsetWidth / 2;
+      sack.style.left = sackX + "px";
     }
 
-    if(giftY > gameArea.offsetHeight - 28){
-      if(gameArea.contains(gift)) gameArea.removeChild(gift);
-      clearInterval(fallInterval);
+    function moveSack(dir) {
+      if(dir==="left") sackX -= sackSpeed;
+      if(dir==="right") sackX += sackSpeed;
+      if(sackX < 0) sackX=0;
+      if(sackX > gameArea.offsetWidth - sack.offsetWidth) sackX = gameArea.offsetWidth - sack.offsetWidth;
+      sack.style.left = sackX + "px";
     }
-  },20);
-}
 
-function endGame() {
-  clearInterval(timerInterval);
-  clearInterval(spawnIntervalId);
-  endScreen.style.display="block";
-  endScreen.textContent=`🎉 Tillykke! Du greb ${score} ud af ${totalGifts} gaver! 🎉`;
-}
+    document.addEventListener("keydown", e=>{
+      if(e.key==="ArrowLeft") moveSack("left");
+      if(e.key==="ArrowRight") moveSack("right");
+    });
+    document.getElementById("leftBtn").addEventListener("click",()=>moveSack("left"));
+    document.getElementById("rightBtn").addEventListener("click",()=>moveSack("right"));
 
-function startGame() {
-  initSack();
+    function spawnGift() {
+      if(giftsSpawned >= totalGifts) return;
+      giftsSpawned++;
+      const gift = document.createElement("img");
+      const giftType = Math.floor(Math.random()*8)+1;
+      gift.src = `../assets/fangGave${giftType}.svg`;
+      gift.classList.add("gift");
+      const giftX = Math.random()*(gameArea.offsetWidth-28);
+      gift.style.left = giftX + "px";
+      gift.style.top="0px";
+      gameArea.appendChild(gift);
 
-  timerInterval = setInterval(()=>{
-    timeLeft--;
-    timerDisplay.textContent="Tid tilbage: " + timeLeft + "s";
-    if(timeLeft <= 0) endGame();
-  },1000);
+      let giftY = 0;
+      const fallSpeed = 1.5; // lidt langsommere
 
-  const spawnInterval = (totalTime*1000)/totalGifts;
-  spawnIntervalId = setInterval(()=>{
-    spawnGift();
-    if(giftsSpawned >= totalGifts) clearInterval(spawnIntervalId);
-  }, spawnInterval);
-}
+      const fallInterval = setInterval(()=>{
+        giftY += fallSpeed;
+        gift.style.top = giftY + "px";
 
-startGame();
-</script>
+        const sackRect = sack.getBoundingClientRect();
+        const giftRect = gift.getBoundingClientRect();
+
+        if(
+          giftRect.bottom >= sackRect.top &&
+          giftRect.left < sackRect.right &&
+          giftRect.right > sackRect.left
+        ){
+          score++;
+          scoreDisplay.textContent = "Grebne gaver: " + score;
+          gameArea.removeChild(gift);
+          clearInterval(fallInterval);
+          if(score >= totalGifts) endGame();
+        }
+
+        if (giftY > gameArea.offsetHeight - 28){
+          if(gameArea.contains(gift)) gameArea.removeChild(gift);
+          clearInterval(fallInterval);
+          checkEndGame();
+        }
+      },20);
+    }
+
+    function checkEndGame() {
+      if(score >= totalGifts || timeLeft <= 0 || giftsSpawned >= totalGifts) {
+        endGame();
+      }
+    }
+
+    function endGame() {
+      clearInterval(timerInterval);
+      clearInterval(spawnIntervalId);
+      const gifts = document.querySelectorAll(".gift");
+      gifts.forEach(g => g.remove());
+
+      endScreen.style.display="block";
+      endScreen.textContent=`🎉 Tillykke! Du greb ${score} ud af ${totalGifts} gaver! 🎉`;
+    }
+
+    function startGame() {
+      initSack();
+
+      timerInterval = setInterval(()=>{
+        timeLeft--;
+        timerDisplay.textContent="Tid tilbage: " + timeLeft + "s";
+        if(timeLeft <= 0) endGame();
+      },1000);
+
+      const spawnInterval = (totalTime*1000)/totalGifts;
+      spawnIntervalId = setInterval(()=>{
+        spawnGift();
+        if(giftsSpawned >= totalGifts) clearInterval(spawnIntervalId);
+      }, spawnInterval);
+    }
+
+    startGame();
+  </script>
 </body>
 </html>
