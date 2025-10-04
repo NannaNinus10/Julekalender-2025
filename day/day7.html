@@ -89,23 +89,22 @@
 <h1>Glædelig 7. december – Sorter julegaver!</h1>
 <div class="content-box">
   <div id="gameArea">
-    <!-- Baggrund -->
-    <img src="../assets/SorterMaskineBag.svg" style="width:100%; z-index:0;" alt="Baggrund">
+    <!-- Baggrund bagest -->
+    <img src="../assets/sorterMaskineBag.svg" style="width:100%; z-index:0;" alt="Baggrund">
 
-    <!-- Bånd (ovenpå baggrund) -->
-    <img src="../assets/sorterMaskineBag.svg" style="width:100%; z-index:1;" alt="Bånd">
+    <!-- Gaverne vil bevæge sig mellem baggrund og frontmaskine -->
 
     <!-- Slutskærm -->
     <div id="endScreen"></div>
-
-    <!-- Frontmaskine (øverst) -->
-    <img src="../assets/sorterMaskineFront.svg" style="width:100%; z-index:4;" alt="Frontmaskine">
 
     <!-- Sække -->
     <img src="../assets/sorterBlåSæk.svg" class="sack" id="sackBlå" style="left:20px;">
     <img src="../assets/sorterRødSæk.svg" class="sack" id="sackRød" style="left:120px;">
     <img src="../assets/sorterGulSæk.svg" class="sack" id="sackGul" style="left:220px;">
     <img src="../assets/sorterGrønSæk.svg" class="sack" id="sackGrøn" style="left:320px;">
+
+    <!-- Frontmaskine øverst -->
+    <img src="../assets/sorterMaskineFront.svg" style="width:100%; z-index:4;" alt="Frontmaskine">
   </div>
 
   <p><a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a></p>
@@ -138,13 +137,12 @@ function spawnGifts() {
     type.files.forEach(file => allGifts.push({file:file, color:type.color}));
   });
 
-  // Random rækkefølge
   allGifts = allGifts.sort(() => 0.5 - Math.random());
 
   allGifts.forEach((giftData, i) => {
     setTimeout(() => {
       createGift(giftData);
-    }, i * 1000); // ét sekund mellem hver gave
+    }, i * 1000);
   });
 }
 
@@ -153,32 +151,29 @@ function createGift(data){
   img.src = `../assets/${data.file}`;
   img.classList.add("gift");
   img.dataset.color = data.color;
-  img.style.left = "-50px"; // start uden for venstre kant
+  img.style.left = "-50px";
   img.style.height = getGiftHeight(data.file)+"px";
   gameArea.appendChild(img);
   gifts.push(img);
 
   let posX = -50;
-  const speed = 1; // langsomt
+  const speed = 1;
   const interval = setInterval(()=>{
     posX += speed;
     img.style.left = posX + "px";
 
-    // Fjern når den går ud
     if(posX > 400){
       clearInterval(interval);
       removeGift(img);
     }
   },20);
 
-  // Klik på sæk
   Object.keys(sackMap).forEach(color=>{
     sackMap[color].onclick = ()=>{
-      if(img.parentElement && img.dataset.color===color){
-        sortedCount++;
-        removeGift(img);
-        clearInterval(interval);
-      } else if(img.parentElement){
+      if(img.parentElement){
+        if(img.dataset.color===color){
+          sortedCount++;
+        }
         removeGift(img);
         clearInterval(interval);
       }
@@ -200,8 +195,7 @@ function showEndScreen(){
 }
 
 function getGiftHeight(file){
-  // baseret på tidligere dimensioner
-  if(file.includes("1")) return 53;  // dobbelt størrelse
+  if(file.includes("1")) return 53;
   if(file.includes("2")) return 68;
   if(file.includes("3")) return 36;
   if(file.includes("4")) return 53;
