@@ -4,84 +4,85 @@
 <meta charset="UTF-8">
 <title>Låge 7 – Sorter julegaver</title>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #204226;
-    margin: 0;
-    padding: 0;
-    color: white;
-    text-align: center;
-  }
+body {
+  font-family: Arial, sans-serif;
+  background: #204226;
+  margin: 0;
+  padding: 0;
+  color: white;
+  text-align: center;
+}
 
-  .content-box {
-    background-color: white;
-    color: black;
-    padding: 20px;
-    border-radius: 12px;
-    max-width: 500px;
-    margin: 40px auto;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    position: relative;
-  }
+.content-box {
+  background-color: white;
+  color: black;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 500px;
+  margin: 40px auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  position: relative;
+}
 
-  #gameArea {
-    position: relative;
-    width: 400px;
-    height: 400px;
-    margin: 0 auto;
-    overflow: hidden;
-  }
+#gameArea {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  margin: 0 auto;
+  overflow: hidden;
+}
 
-  #maskineBaggrund, #maskineFront {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-  }
+#maskineBaggrund, #maskineFront {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 
-  .gift {
-    position: absolute;
-    top: 200px;
-    z-index: 2;
-  }
+#maskineBaggrund { z-index: 0; }
+.gift { 
+  position: absolute;
+  top: 200px;
+  z-index: 1;
+}
+#maskineFront { z-index: 3; }
 
-  .sack {
-    width: 70px;
-    height: 95px;
-    margin: 0 5px;
-    cursor: pointer;
-  }
+.sack {
+  width: 70px;
+  height: 95px;
+  margin: 0 5px;
+  cursor: pointer;
+}
 
-  .sacks {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    gap: 10px;
-  }
+.sacks {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 10px;
+}
 
-  .back-button {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 16px;
-    background-color: #204226;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: bold;
-  }
+.back-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 16px;
+  background-color: #204226;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+}
 
-  .back-button:hover {
-    background-color: #35663c;
-  }
+.back-button:hover {
+  background-color: #35663c;
+}
 
-  #scoreDisplay {
-    font-weight: bold;
-    margin-top: 10px;
-    font-size: 18px;
-    color: #204226;
-  }
+#scoreDisplay {
+  font-weight: bold;
+  margin-top: 10px;
+  font-size: 18px;
+  color: #204226;
+}
 </style>
 </head>
 <body>
@@ -100,7 +101,6 @@
   </div>
 
   <div id="scoreDisplay">Score: 0</div>
-
   <p><a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a></p>
 </div>
 
@@ -111,55 +111,57 @@ const gifts = [];
 // 16 pakker: 4 farver × 4 størrelser
 colors.forEach(farve => {
   for(let size=1; size<=4; size++){
-    gifts.push({color: farve, size: size, caught: false});
+    gifts.push({color: farve, size: size, caught: false, imgEl: null});
   }
 });
 
 let score = 0;
 const gameArea = document.getElementById("gameArea");
 
+// Funktion til store bogstaver
 function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
 
-function spawnGift(gift){
-  const img = document.createElement("img");
-  img.src = `../assets/sorter${capitalize(gift.color)}${gift.size}.svg`;
-  img.classList.add("gift");
-  img.style.left = "-40px"; // start uden for venstre kant
-  gameArea.appendChild(img);
-  gift.imgEl = img;
+function spawnGift(gift, delay){
+  setTimeout(()=>{
+    const img = document.createElement("img");
+    img.src = `../assets/sorter${capitalize(gift.color)}${gift.size}.svg`;
+    img.classList.add("gift");
+    img.style.left = "-40px";
+    gameArea.appendChild(img);
+    gift.imgEl = img;
 
-  const speed = 2; // pixels per frame
-  const interval = setInterval(()=>{
-    let left = parseFloat(img.style.left);
-    img.style.left = (left + speed) + "px";
+    const speed = 1; // langsommere
+    const moveInterval = setInterval(()=>{
+      if(!img.parentNode){ clearInterval(moveInterval); return; }
+      let left = parseFloat(img.style.left);
+      img.style.left = (left + speed) + "px";
 
-    // fjern hvis passerer højre kant
-    if(left > 400){
-      clearInterval(interval);
-      if(img.parentNode) img.parentNode.removeChild(img);
-    }
-  }, 20);
+      if(left > 400){ // passerer højre kant
+        clearInterval(moveInterval);
+        if(img.parentNode) img.parentNode.removeChild(img);
+      }
+    }, 20);
+  }, delay);
 }
 
-// Start alle pakker med lidt forskudt timing
-gifts.forEach((gift,i)=>{
-  setTimeout(()=> spawnGift(gift), i*800);
+// Start alle pakker med forskudt timing, så de ikke overlapper
+gifts.forEach((gift, i)=>{
+  spawnGift(gift, i * 1000); // 1 sek forskydning
 });
 
-// Håndtering af sække
+// Håndtering af sække: klik tjekker nærmeste pakke under sækken
 document.querySelectorAll(".sack").forEach(sack=>{
-  sack.addEventListener("click",()=>{
+  sack.addEventListener("click", ()=>{
+    const sackLeft = sack.offsetLeft;
     gifts.forEach(gift=>{
-      if(!gift.caught && gift.imgEl){
-        const giftLeft = parseFloat(gift.imgEl.style.left);
-        if(giftLeft > sack.offsetLeft && giftLeft < sack.offsetLeft + sack.offsetWidth){
-          if(sack.dataset.farve === gift.color){
-            score++;
-          }
-          gift.caught = true;
-          if(gift.imgEl.parentNode) gift.imgEl.parentNode.removeChild(gift.imgEl);
-          document.getElementById("scoreDisplay").textContent = "Score: " + score;
-        }
+      if(gift.caught || !gift.imgEl) return;
+      const giftLeft = parseFloat(gift.imgEl.style.left);
+      const giftRight = giftLeft + gift.imgEl.width;
+      if(giftRight > sackLeft && giftLeft < sackLeft + sack.offsetWidth){
+        gift.caught = true;
+        if(sack.dataset.farve === gift.color) score++;
+        document.getElementById("scoreDisplay").textContent = "Score: " + score;
+        if(gift.imgEl.parentNode) gift.imgEl.parentNode.removeChild(gift.imgEl);
       }
     });
   });
@@ -167,4 +169,3 @@ document.querySelectorAll(".sack").forEach(sack=>{
 </script>
 </body>
 </html>
-
