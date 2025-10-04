@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<title>Day 17 — Småkage-historie</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{
+  --green: #204226;
+  --white: #ffffff;
+  --box-max-width: 900px;
+  --box-padding: 20px;
+  --box-radius: 12px;
+  --shadow: 0 6px 18px rgba(0,0,0,0.2);
+  --back-btn-bg: var(--green);
+  --back-btn-hover: #35663c;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+html,body{
+  height:100%;
+  margin:0;
+  font-family: var(--font);
+  background: var(--green);
+  color: var(--white);
+}
+
+.content-wrap{
+  min-height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  box-sizing:border-box;
+}
+
+.content-box{
+  width:100%;
+  max-width:var(--box-max-width);
+  background: var(--white);
+  color: #111;
+  border-radius: var(--box-radius);
+  padding: var(--box-padding);
+  box-shadow: var(--shadow);
+  box-sizing:border-box;
+}
+
+h1{
+  margin:0 0 14px 0;
+  font-size:20px;
+  color:var(--green);
+}
+
+.meta-row{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:12px;
+}
+
+.back-button{
+  display:inline-block;
+  padding:10px 16px;
+  background: var(--back-btn-bg);
+  color: var(--white);
+  text-decoration:none;
+  border-radius:8px;
+  font-weight:700;
+  transition: background .18s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+}
+.back-button:hover{ background: var(--back-btn-hover); }
+
+.game-area{
+  width:100%;
+  height:400px;
+  background: transparent;
+  border-radius:8px;
+  position:relative;
+  overflow:hidden;
+  margin: 8px 0 14px 0;
+  border:1px solid #ccc;
+}
+
+.info-box{
+  background:#f0f0f0;
+  padding:12px;
+  border-radius:8px;
+  margin-bottom:10px;
+}
+
+.info-box h2{
+  margin:0 0 6px 0;
+  font-size:16px;
+  color:#204226;
+}
+
+.info-box p{
+  margin:0;
+  font-size:14px;
+}
+
+.ingredient{
+  position:absolute;
+  width:40px;
+  height:40px;
+  cursor:pointer;
+  transition: transform 0.3s;
+}
+
+.cookie{
+  position:absolute;
+  width:40px;
+  height:40px;
+  transition: opacity 0.4s;
+}
+
+.skaal{
+  position:absolute;
+  width:80px;
+  height:50px;
+  bottom:20px;
+  left:160px;
+}
+
+.nisse{
+  position:absolute;
+  width:80px;
+  height:120px;
+  bottom:0;
+  left:20px;
+  transition: transform 0.3s;
+}
+
+.hidden{
+  display:none;
+}
+
+.next-btn{
+  display:inline-block;
+  margin-top:8px;
+  padding:6px 12px;
+  background:#204226;
+  color:white;
+  border-radius:6px;
+  text-decoration:none;
+  cursor:pointer;
+}
+.next-btn:hover{ background:#35663c; }
+
+@media (max-width:520px){
+  .content-box{ padding:14px; }
+  .game-area{ height:360px; }
+  h1{ font-size:18px; }
+}
+</style>
+</head>
+<body>
+<div class="content-wrap">
+  <main class="content-box" role="main" aria-labelledby="pageTitle">
+    <header class="meta-row">
+      <h1 id="pageTitle">Dag 17 — Småkage-historie</h1>
+      <a class="back-button" href="../index.html">⬅ Tilbage til kalenderen</a>
+    </header>
+
+    <div class="info-box" id="infoBox">
+      <h2 id="stepTitle">Trin 1: Saml ingredienser</h2>
+      <p id="stepText">Klik på smør, sukker, æg og mel for at tilføje dem til skålen.</p>
+    </div>
+
+    <section class="game-area" id="gameArea">
+      <img src="assets/background.svg" style="position:absolute;left:0;top:0;width:100%;height:100%;z-index:0;">
+      <img src="assets/skaal.svg" class="skaal" id="skaal">
+      <img src="assets/nisse.svg" class="nisse" id="nisse">
+
+      <!-- Ingredienser -->
+      <img src="assets/smor.svg" class="ingredient" id="smor" style="top:20px; left:20px;">
+      <img src="assets/sukker.svg" class="ingredient" id="sukker" style="top:20px; left:80px;">
+      <img src="assets/æg.svg" class="ingredient" id="æg" style="top:20px; left:140px;">
+      <img src="assets/mel.svg" class="ingredient" id="mel" style="top:20px; left:200px;">
+
+      <!-- Småkager udstukket -->
+      <img src="assets/smaakaage_udstukket.svg" class="cookie hidden" id="cookie1" style="bottom:80px; left:120px;">
+      <img src="assets/smaakaage_udstukket.svg" class="cookie hidden" id="cookie2" style="bottom:80px; left:180px;">
+      <img src="assets/smaakaage_udstukket.svg" class="cookie hidden" id="cookie3" style="bottom:80px; left:240px;">
+    </section>
+  </main>
+</div>
+
+<script>
+const ingredients = ["smor","sukker","æg","mel"];
+let added = 0;
+let currentStep = 0;
+
+const steps = [
+  {title:"Trin 1: Saml ingredienser", text:"Klik på smør, sukker, æg og mel for at tilføje dem til skålen."},
+  {title:"Trin 2: Bland ingredienser", text:"Alle ingredienser i skålen er samlet! Lad os røre lidt med skeen."},
+  {title:"Trin 3: Form småkager", text:"Tril små kugler og placer dem på bagepladen."},
+  {title:"Trin 4: Bagning", text:"Småkagerne bages 10–12 minutter. Se dem blive gyldne!"},
+  {title:"Trin 5: Pynt", text:"Nu kan vi pynte småkagerne med glasur og krymmel. God jul!"}
+];
+
+const infoTitle = document.getElementById("stepTitle");
+const infoText = document.getElementById("stepText");
+const nisse = document.getElementById("nisse");
+const cookies = [
+  document.getElementById("cookie1"),
+  document.getElementById("cookie2"),
+  document.getElementById("cookie3")
+];
+
+function nextStep(){
+  currentStep++;
+  if(currentStep>=steps.length){
+    infoTitle.textContent = "Færdig!";
+    infoText.textContent = "Småkagerne er færdige og nisserne jubler!";
+    return;
+  }
+  infoTitle.textContent = steps[currentStep].title;
+  infoText.textContent = steps[currentStep].text;
+
+  if(currentStep===1){
+    // Røre-animation
+    nisse.style.transform = "translateY(-10px)";
+    setTimeout(()=>{nisse.style.transform="translateY(0px)";},300);
+  }
+
+  if(currentStep===2){
+    // Vis småkager på bagepladen (udstukket)
+    cookies.forEach(c=>c.classList.remove("hidden"));
+  }
+
+  if(currentStep===3){
+    // Skift til gyldne småkager
+    cookies.forEach(c=>{
+      c.style.opacity = 0;
+      setTimeout(()=>{
+        c.src="assets/smaakaage_gylden.svg";
+        c.style.opacity = 1;
+      },400);
+    });
+  }
+}
+
+ingredients.forEach(id=>{
+  const el = document.getElementById(id);
+  el.addEventListener("click",()=>{
+    el.style.top = "300px";
+    el.style.left = "160px";
+    el.style.transform = "scale(0.6)";
+    added++;
+    if(added===ingredients.length){
+      const nextBtn = document.createElement("div");
+      nextBtn.className="next-btn";
+      nextBtn.textContent="Næste trin";
+      nextBtn.addEventListener("click", nextStep);
+      document.querySelector(".info-box").appendChild(nextBtn);
+    }
+  });
+});
+</script>
+</body>
+</html>
