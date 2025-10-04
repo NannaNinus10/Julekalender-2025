@@ -12,7 +12,6 @@ body {
   color: white;
   text-align: center;
 }
-
 .content-box {
   background-color: white;
   color: black;
@@ -23,7 +22,6 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   position: relative;
 }
-
 #gameArea {
   position: relative;
   width: 400px;
@@ -31,29 +29,28 @@ body {
   margin: 0 auto;
   overflow: hidden;
 }
-
 #gameArea img {
   position: absolute;
   top: 0;
   left: 0;
 }
-
 .gift {
   position: absolute;
-  top: 210px; /* Kører på båndet */
+  top: 200px; /* på båndet */
   height: auto;
   z-index: 2;
   cursor: pointer;
 }
-
-.sack {
+.sack-btn {
   position: absolute;
-  bottom: 10px; /* i bunden */
-  height: 70px;
+  bottom: 10px;
+  width: 60px;
+  height: 90px;
   cursor: pointer;
+  border: none;
+  background: transparent;
   z-index: 3;
 }
-
 #endScreen {
   display: none;
   padding: 12px 20px;
@@ -68,7 +65,6 @@ body {
   transform: translate(-50%, -50%);
   z-index: 10;
 }
-
 .back-button {
   display: inline-block;
   margin-top: 20px;
@@ -79,7 +75,6 @@ body {
   border-radius: 8px;
   font-weight: bold;
 }
-
 .back-button:hover {
   background-color: #35663c;
 }
@@ -92,17 +87,19 @@ body {
     <!-- Baggrund bagest -->
     <img src="../assets/sorterMaskineBag.svg" style="width:100%; z-index:0;" alt="Baggrund">
 
-    <!-- Slutskærm -->
-    <div id="endScreen"></div>
+    <!-- Gaver vil blive tilføjet her dynamisk -->
 
-    <!-- Sække -->
-    <img src="../assets/sorterBlåSæk.svg" class="sack" id="sackBlå" style="left:20px;">
-    <img src="../assets/sorterRødSæk.svg" class="sack" id="sackRød" style="left:120px;">
-    <img src="../assets/sorterGulSæk.svg" class="sack" id="sackGul" style="left:220px;">
-    <img src="../assets/sorterGrønSæk.svg" class="sack" id="sackGrøn" style="left:320px;">
+    <!-- Sække som knapper -->
+    <button class="sack-btn" id="sackBlå" style="left:20px;"><img src="../assets/sorterBlåSæk.svg" width="100%" height="100%"></button>
+    <button class="sack-btn" id="sackRød" style="left:120px;"><img src="../assets/sorterRødSæk.svg" width="100%" height="100%"></button>
+    <button class="sack-btn" id="sackGul" style="left:220px;"><img src="../assets/sorterGulSæk.svg" width="100%" height="100%"></button>
+    <button class="sack-btn" id="sackGrøn" style="left:320px;"><img src="../assets/sorterGrønSæk.svg" width="100%" height="100%"></button>
 
     <!-- Frontmaskine øverst -->
     <img src="../assets/sorterMaskineFront.svg" style="width:100%; z-index:4;" alt="Frontmaskine">
+
+    <!-- Slutskærm -->
+    <div id="endScreen"></div>
   </div>
 
   <p><a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a></p>
@@ -131,16 +128,11 @@ let sortedCount = 0;
 
 function spawnGifts() {
   let allGifts = [];
-  giftTypes.forEach(type => {
-    type.files.forEach(file => allGifts.push({file:file, color:type.color}));
-  });
-
+  giftTypes.forEach(type => type.files.forEach(file => allGifts.push({file:file, color:type.color})));
   allGifts = allGifts.sort(() => 0.5 - Math.random());
 
   allGifts.forEach((giftData, i) => {
-    setTimeout(() => {
-      createGift(giftData);
-    }, i * 1200); // langsommere
+    setTimeout(() => { createGift(giftData); }, i * 1200);
   });
 }
 
@@ -150,17 +142,18 @@ function createGift(data){
   img.classList.add("gift");
   img.dataset.color = data.color;
 
-  // Halveret størrelse for at undgå overlap
+  // Halveret størrelse for proportioner
+  img.style.width = getGiftWidth(data.file)/2 + "px";
   img.style.height = getGiftHeight(data.file)/2 + "px";
 
-  // Start position
+  // Startposition
   img.style.left = "-50px";
-  img.style.top = 210 + (Math.random()*10-5) + "px"; // lidt vertikal variation
+  img.style.top = 200 + (Math.random()*10-5) + "px"; // lidt variation
   gameArea.appendChild(img);
   gifts.push(img);
 
   let posX = -50;
-  const speed = 0.8; // langsommere
+  const speed = 0.8; // langsom
   const interval = setInterval(()=>{
     posX += speed;
     img.style.left = posX + "px";
@@ -171,16 +164,16 @@ function createGift(data){
     }
   },20);
 
-  // Klik på sække
+  // Sæk klik
   Object.keys(sackMap).forEach(color=>{
     sackMap[color].onclick = ()=>{
-      if(img.parentElement){
-        if(img.dataset.color===color){
-          sortedCount++;
-        }
-        removeGift(img);
-        clearInterval(interval);
+      if(gifts.length===0) return;
+      // find gave længst til højre
+      let rightmost = gifts.reduce((a,b)=>parseFloat(a.style.left)>parseFloat(b.style.left)?a:b);
+      if(rightmost.dataset.color===color){
+        sortedCount++;
       }
+      removeGift(rightmost);
     }
   });
 }
@@ -198,6 +191,13 @@ function showEndScreen(){
   endScreen.textContent = `🎉 Du sorterede ${sortedCount} ud af 16 pakker korrekt! 🎉`;
 }
 
+function getGiftWidth(file){
+  if(file.includes("1")) return 53;
+  if(file.includes("2")) return 68;
+  if(file.includes("3")) return 36;
+  if(file.includes("4")) return 53;
+  return 40;
+}
 function getGiftHeight(file){
   if(file.includes("1")) return 53;
   if(file.includes("2")) return 68;
