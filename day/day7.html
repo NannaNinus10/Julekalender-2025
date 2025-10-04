@@ -2,15 +2,15 @@
 <html lang="da">
 <head>
 <meta charset="UTF-8">
-<title>Låge 7 – Julegave Sortering</title>
+<title>Låge 7 – Sorter julegaver</title>
 <style>
   body {
     font-family: Arial, sans-serif;
     background: #204226;
     margin: 0;
     padding: 0;
-    color: white;
     text-align: center;
+    color: white;
   }
 
   .content-box {
@@ -32,8 +32,7 @@
     overflow: hidden;
   }
 
-  /* Baggrund og front */
-  #maskineBaggrund, #maskineFront {
+  #backgroundBack, #backgroundFront {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -41,37 +40,29 @@
     left: 0;
   }
 
-  /* Gaver */
   .gift {
     position: absolute;
-    top: 200px; /* Y-værdi for bånd */
-    height: auto;
-    z-index: 1; /* gaver mellem baggrund og front */
+    top: 200px; /* Båndets Y-værdi */
+    z-index: 1;
   }
 
-  /* Sække */
   .sack {
     position: absolute;
     bottom: 10px;
+    width: 80px;
+    height: 80px;
     cursor: pointer;
-    z-index: 3; /* ovenpå fronten */
-    width: 70px;
-    height: 95px;
+    z-index: 2;
   }
 
-  /* Tilbage-knap */
-  .back-button {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 10px 16px;
-    background-color: #204226;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
+  #sackBlå { left: 30px; }
+  #sackRød { left: 120px; }
+  #sackGul { left: 210px; }
+  #sackGrøn { left: 300px; }
+
+  #scoreDisplay {
+    margin-top: 10px;
     font-weight: bold;
-  }
-  .back-button:hover {
-    background-color: #35663c;
   }
 
   #endScreen {
@@ -85,9 +76,23 @@
     padding: 15px 20px;
     border-radius: 8px;
     font-weight: bold;
-    z-index: 5;
+    z-index: 10;
   }
 
+  .back-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 16px;
+    background-color: #204226;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+  }
+
+  .back-button:hover {
+    background-color: #35663c;
+  }
 </style>
 </head>
 <body>
@@ -95,52 +100,30 @@
 
 <div class="content-box">
   <div id="gameArea">
-    <!-- Baggrund bag gaverne -->
-    <img id="maskineBaggrund" src="assets/sorterMaskineBag.svg" alt="Baggrund">
+    <img id="backgroundBack" src="../assets/sorterMaskineBag.svg" alt="Baggrund bag">
 
-    <!-- Gaverne kommer her -->
-    
-    <!-- Front ovenpå gaverne -->
-    <img id="maskineFront" src="assets/sorterMaskineFront.svg" alt="Maskine front">
+    <!-- Gaver indsættes dynamisk her -->
 
-    <!-- Sække som knapper -->
-    <img id="sackBlå" class="sack" src="assets/sorterBlåSæk.svg" style="left:10px;">
-    <img id="sackRød" class="sack" src="assets/sorterRødSæk.svg" style="left:110px;">
-    <img id="sackGul" class="sack" src="assets/sorterGulSæk.svg" style="left:210px;">
-    <img id="sackGrøn" class="sack" src="assets/sorterGrønSæk.svg" style="left:310px;">
+    <img id="backgroundFront" src="../assets/sorterMaskineFront.svg" alt="Maskine front">
+
+    <!-- Sække -->
+    <img id="sackBlå" class="sack" src="../assets/sorterBlåSæk.svg" alt="Blå sæk">
+    <img id="sackRød" class="sack" src="../assets/sorterRødSæk.svg" alt="Rød sæk">
+    <img id="sackGul" class="sack" src="../assets/sorterGulSæk.svg" alt="Gul sæk">
+    <img id="sackGrøn" class="sack" src="../assets/sorterGrønSæk.svg" alt="Grøn sæk">
 
     <div id="endScreen"></div>
   </div>
+
+  <div id="scoreDisplay">Sorterede gaver: 0</div>
 
   <p><a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a></p>
 </div>
 
 <script>
-const giftData = [];
-const colors = ['Blå','Rød','Gul','Grøn'];
-
-// Opret 16 gaver (4 farver x 4 størrelser)
-colors.forEach(color => {
-  for(let i=1;i<=4;i++){
-    giftData.push({
-      src: `assets/sorter${color}${i}.svg`,
-      color: color.toLowerCase(),
-      width: 0, // vi sætter inline i JS
-      height: 0
-    });
-  }
-});
-
-// Shuffle gaver
-function shuffle(array){
-  return array.sort(()=>Math.random()-0.5);
-}
-shuffle(giftData);
-
-const gameArea = document.getElementById('gameArea');
-const endScreen = document.getElementById('endScreen');
-let score=0;
-let currentGiftIndex=0;
+const gameArea = document.getElementById("gameArea");
+const scoreDisplay = document.getElementById("scoreDisplay");
+const endScreen = document.getElementById("endScreen");
 
 const sackMap = {
   blå: document.getElementById("sackBlå"),
@@ -149,64 +132,99 @@ const sackMap = {
   grøn: document.getElementById("sackGrøn")
 };
 
-// Opret en gave ad gangen
-function spawnGift(){
-  if(currentGiftIndex>=giftData.length){
-    endGame();
-    return;
+const colors = ["blå","rød","gul","grøn"];
+const giftCounts = 4; // 4 gaver per farve
+let giftsQueue = []; // queue af gaver der skal spawn
+let activeGifts = [];
+let score = 0;
+
+// Opret alle gaver og tilføj til queue
+colors.forEach(color => {
+  for (let i=1; i<=giftCounts; i++) {
+    giftsQueue.push({
+      src: `../assets/sorter${capitalize(color)}${i}.svg`,
+      color: color,
+      caught: false
+    });
   }
-  const giftInfo = giftData[currentGiftIndex];
-  const gift = document.createElement('img');
-  gift.src = giftInfo.src;
-  gift.classList.add('gift');
-  gift.style.left='0px';
-  gift.style.top='200px';
-  gift.style.width='auto';
-  gift.style.height='50px'; // dobbel størrelse, proportionel
+});
+
+// Shuffle queue
+giftsQueue.sort(()=>Math.random()-0.5);
+
+function spawnNextGift() {
+  if (giftsQueue.length === 0) return;
+
+  const giftData = giftsQueue.shift();
+  const gift = document.createElement("img");
+  gift.src = giftData.src;
+  gift.classList.add("gift");
+  gift.dataset.color = giftData.color;
+  gift.dataset.caught = "false";
+  gift.style.left = "-50px";
+  gift.style.top = "200px";
   gameArea.appendChild(gift);
+  activeGifts.push(gift);
 
-  let posX=0;
-  const speed=2;
-  const interval = setInterval(()=>{
-    posX+=speed;
-    gift.style.left=posX+'px';
-    if(posX>gameArea.offsetWidth){
-      gameArea.removeChild(gift);
-      currentGiftIndex++;
-      setTimeout(spawnGift,500); // næste gave efter 0,5s
-      clearInterval(interval);
-    }
-  },20);
+  // Start bevægelse for denne gave
+  moveGift(gift);
 
-  function removeGift(correct){
-    if(correct){
-      score++;
-    }
-    if(gameArea.contains(gift)) gameArea.removeChild(gift);
-    currentGiftIndex++;
-    clearInterval(interval);
-    setTimeout(spawnGift,500);
+  // Spawn næste gave efter 1s
+  if (giftsQueue.length > 0) {
+    setTimeout(spawnNextGift, 1000);
   }
+}
 
-  // knap funktion
-  Object.keys(sackMap).forEach(color=>{
-    sackMap[color].onclick = ()=>{
-      if(color===giftInfo.color){
-        removeGift(true);
-      } else {
-        removeGift(false);
+function moveGift(gift) {
+  function step() {
+    if (gift.dataset.caught === "false") {
+      let left = parseFloat(gift.style.left);
+      left += 2; // hastighed
+      gift.style.left = left + "px";
+
+      if (left > gameArea.offsetWidth) {
+        gift.dataset.caught = "missed";
+        gift.remove();
+        activeGifts = activeGifts.filter(g=>g!==gift);
+        checkEndGame();
+        return;
       }
+      requestAnimationFrame(step);
     }
+  }
+  requestAnimationFrame(step);
+}
+
+// Sække som knapper: tager længst til højre gave på båndet
+Object.keys(sackMap).forEach(color => {
+  sackMap[color].addEventListener("click", () => {
+    if (activeGifts.length === 0) return;
+    let rightmost = activeGifts.reduce((maxGift, g) => 
+      parseFloat(g.style.left) > parseFloat(maxGift.style.left) ? g : maxGift
+    , activeGifts[0]);
+
+    if (rightmost.dataset.color === color) {
+      score++;
+      scoreDisplay.textContent = `Sorterede gaver: ${score}`;
+    }
+    rightmost.dataset.caught = "true";
+    rightmost.remove();
+    activeGifts = activeGifts.filter(g=>g!==rightmost);
+    checkEndGame();
   });
+});
+
+function checkEndGame() {
+  if (activeGifts.length === 0 && giftsQueue.length === 0) {
+    endScreen.style.display = "block";
+    endScreen.textContent = `🎉 Tillykke! Du sorterede ${score} gaver! 🎉`;
+  }
 }
 
-// start spillet
-spawnGift();
+function capitalize(str){ return str.charAt(0).toUpperCase() + str.slice(1); }
 
-function endGame(){
-  endScreen.style.display='block';
-  endScreen.textContent=`🎉 Du sorterede ${score} ud af ${giftData.length} gaver korrekt! 🎉`;
-}
+// Start spillet
+spawnNextGift();
 </script>
 </body>
 </html>
