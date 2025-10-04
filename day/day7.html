@@ -101,7 +101,7 @@
   <div id="gameArea">
     <img id="backgroundBack" src="../assets/sorterMaskineBag.svg" alt="Baggrund bag">
     
-    <!-- Gaver indsættes her dynamisk -->
+    <!-- Gaver indsættes dynamisk her -->
     
     <img id="backgroundFront" src="../assets/sorterMaskineFront.svg" alt="Maskine front">
 
@@ -136,15 +136,16 @@ const giftCounts = 4; // 4 gaver per farve
 let gifts = [];
 let score = 0;
 
-// Opret gaver
+// Opret gaver dynamisk én ad gangen som tidligere fungerede
 colors.forEach(color => {
   for (let i=1; i<=giftCounts; i++) {
     const gift = document.createElement("img");
     gift.src = `../assets/sorter${capitalize(color)}${i}.svg`;
     gift.classList.add("gift");
     gift.dataset.color = color;
-    gift.style.left = "-50px"; // starter udenfor venstre kant
-    gift.style.top = "200px"; // båndets Y-værdi
+    gift.style.left = "-50px";
+    gift.style.top = "200px";
+    gift.dataset.caught = "false";
     gameArea.appendChild(gift);
     gifts.push(gift);
   }
@@ -153,15 +154,14 @@ colors.forEach(color => {
 // Randomize rækkefølge
 gifts.sort(() => Math.random()-0.5);
 
-// Bevæg gaver
+// Bevæg gaverne en ad gangen for at undgå overlap
 function moveGifts() {
   gifts.forEach(gift => {
-    if (!gift.dataset.caught) {
+    if (gift.dataset.caught === "false") {
       let left = parseFloat(gift.style.left);
       left += 2; // hastighed
       gift.style.left = left + "px";
 
-      // Hvis passerer højre kant
       if (left > gameArea.offsetWidth) {
         gift.dataset.caught = "missed";
         checkEndGame();
@@ -171,21 +171,24 @@ function moveGifts() {
   requestAnimationFrame(moveGifts);
 }
 
-// Håndtering af klik på sække
+// Sække fungerer som knapper, tager den gave længst til højre på båndet
 Object.keys(sackMap).forEach(color => {
   sackMap[color].addEventListener("click", () => {
-    // Find den gave der er længst til højre på båndet
-    const candidates = gifts.filter(g => !g.dataset.caught);
+    const candidates = gifts.filter(g => g.dataset.caught === "false");
     if (candidates.length === 0) return;
     let rightmost = candidates.reduce((maxGift, g) => {
       return parseFloat(g.style.left) > parseFloat(maxGift.style.left) ? g : maxGift;
     }, candidates[0]);
 
     if (rightmost.dataset.color === color) {
-      rightmost.dataset.caught = true;
+      rightmost.dataset.caught = "true";
       rightmost.remove();
       score++;
       scoreDisplay.textContent = `Sorterede gaver: ${score}`;
+      checkEndGame();
+    } else {
+      rightmost.dataset.caught = "true"; // én chance per gave
+      rightmost.remove();
       checkEndGame();
     }
   });
@@ -193,7 +196,7 @@ Object.keys(sackMap).forEach(color => {
 
 // Tjek om spillet er slut
 function checkEndGame() {
-  if (gifts.every(g => g.dataset.caught)) {
+  if (gifts.every(g => g.dataset.caught !== "false")) {
     endScreen.style.display = "block";
     endScreen.textContent = `🎉 Tillykke! Du sorterede ${score} gaver! 🎉`;
   }
