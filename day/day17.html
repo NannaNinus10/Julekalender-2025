@@ -109,6 +109,21 @@ h1{
   transition: transform 0.3s;
 }
 
+.ingredient::after{
+  content: attr(data-amount);
+  position:absolute;
+  top:-12px;
+  left:0;
+  font-size:10px;
+  font-weight:700;
+  color:#204226;
+}
+
+.ingredient.added::after{
+  content: "✓ " attr(data-amount);
+  color:#2e7d32;
+}
+
 .cookie{
   position:absolute;
   width:40px;
@@ -166,24 +181,29 @@ h1{
 
     <div class="info-box" id="infoBox">
       <h2 id="stepTitle">Trin 1: Saml ingredienser</h2>
-      <p id="stepText">Klik på smør, sukker, æg og mel for at tilføje dem til skålen.</p>
+      <p id="stepText">
+        Smør 100 g, sukker 80 g, 1 æg og mel 200 g. Klik på ingredienserne for at tilføje dem til skålen.
+      </p>
     </div>
 
     <section class="game-area" id="gameArea">
-      <img src="assets/background.svg" style="position:absolute;left:0;top:0;width:100%;height:100%;z-index:0;">
+      <img src="assets/BagerBaggrund.svg" style="position:absolute;left:0;top:0;width:100%;height:100%;z-index:0;">
       <img src="assets/skaal.svg" class="skaal" id="skaal">
-      <img src="assets/nisse.svg" class="nisse" id="nisse">
+      <img src="assets/BagerNisse.svg" class="nisse" id="nisse">
 
-      <!-- Ingredienser -->
-      <img src="assets/smor.svg" class="ingredient" id="smor" style="top:20px; left:20px;">
-      <img src="assets/sukker.svg" class="ingredient" id="sukker" style="top:20px; left:80px;">
-      <img src="assets/æg.svg" class="ingredient" id="æg" style="top:20px; left:140px;">
-      <img src="assets/mel.svg" class="ingredient" id="mel" style="top:20px; left:200px;">
+      <!-- Ingredienser med mængder -->
+      <img src="assets/smor.svg" class="ingredient" id="smor" data-amount="100 g" style="top:20px; left:20px;">
+      <img src="assets/sukker.svg" class="ingredient" id="sukker" data-amount="80 g" style="top:20px; left:80px;">
+      <img src="assets/æg.svg" class="ingredient" id="æg" data-amount="1 stk" style="top:20px; left:140px;">
+      <img src="assets/mel.svg" class="ingredient" id="mel" data-amount="200 g" style="top:20px; left:200px;">
 
       <!-- Småkager udstukket -->
-      <img src="assets/smaakaage_udstukket.svg" class="cookie hidden" id="cookie1" style="bottom:80px; left:120px;">
-      <img src="assets/smaakaage_udstukket.svg" class="cookie hidden" id="cookie2" style="bottom:80px; left:180px;">
-      <img src="assets/smaakaage_udstukket.svg" class="cookie hidden" id="cookie3" style="bottom:80px; left:240px;">
+      <img src="assets/SmaakageRå.svg" class="cookie hidden" id="cookie1" style="bottom:80px; left:120px;">
+      <img src="assets/SmaakageRå.svg" class="cookie hidden" id="cookie2" style="bottom:80px; left:160px;">
+      <img src="assets/SmaakageRå.svg" class="cookie hidden" id="cookie3" style="bottom:80px; left:200px;">
+      <img src="assets/SmaakageRå.svg" class="cookie hidden" id="cookie4" style="bottom:80px; left:240px;">
+      <img src="assets/SmaakageRå.svg" class="cookie hidden" id="cookie5" style="bottom:80px; left:280px;">
+      <img src="assets/SmaakageRå.svg" class="cookie hidden" id="cookie6" style="bottom:80px; left:320px;">
     </section>
   </main>
 </div>
@@ -194,7 +214,7 @@ let added = 0;
 let currentStep = 0;
 
 const steps = [
-  {title:"Trin 1: Saml ingredienser", text:"Klik på smør, sukker, æg og mel for at tilføje dem til skålen."},
+  {title:"Trin 1: Saml ingredienser", text:"Smør 100 g, sukker 80 g, 1 æg og mel 200 g. Klik på ingredienserne for at tilføje dem til skålen."},
   {title:"Trin 2: Bland ingredienser", text:"Alle ingredienser i skålen er samlet! Lad os røre lidt med skeen."},
   {title:"Trin 3: Form småkager", text:"Tril små kugler og placer dem på bagepladen."},
   {title:"Trin 4: Bagning", text:"Småkagerne bages 10–12 minutter. Se dem blive gyldne!"},
@@ -207,7 +227,10 @@ const nisse = document.getElementById("nisse");
 const cookies = [
   document.getElementById("cookie1"),
   document.getElementById("cookie2"),
-  document.getElementById("cookie3")
+  document.getElementById("cookie3"),
+  document.getElementById("cookie4"),
+  document.getElementById("cookie5"),
+  document.getElementById("cookie6")
 ];
 
 function nextStep(){
@@ -236,7 +259,7 @@ function nextStep(){
     cookies.forEach(c=>{
       c.style.opacity = 0;
       setTimeout(()=>{
-        c.src="assets/smaakaage_gylden.svg";
+        c.src="assets/SmaakageBagt.svg";
         c.style.opacity = 1;
       },400);
     });
@@ -249,6 +272,7 @@ ingredients.forEach(id=>{
     el.style.top = "300px";
     el.style.left = "160px";
     el.style.transform = "scale(0.6)";
+    el.classList.add("added");
     added++;
     if(added===ingredients.length){
       const nextBtn = document.createElement("div");
