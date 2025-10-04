@@ -52,6 +52,7 @@
     width: 80px;
     height: 80px;
     cursor: pointer;
+    z-index: 2;
   }
 
   #sackBlå { left: 30px; }
@@ -100,9 +101,9 @@
 <div class="content-box">
   <div id="gameArea">
     <img id="backgroundBack" src="../assets/sorterMaskineBag.svg" alt="Baggrund bag">
-    
+
     <!-- Gaver indsættes dynamisk her -->
-    
+
     <img id="backgroundFront" src="../assets/sorterMaskineFront.svg" alt="Maskine front">
 
     <!-- Sække -->
@@ -131,32 +132,51 @@ const sackMap = {
   grøn: document.getElementById("sackGrøn")
 };
 
-const colors = ["blå", "rød", "gul", "grøn"];
+const colors = ["blå","rød","gul","grøn"];
 const giftCounts = 4; // 4 gaver per farve
-let gifts = [];
+let giftsQueue = []; // queue af gaver der skal spawn
+let activeGifts = [];
 let score = 0;
 
-// Opret gaver dynamisk én ad gangen som tidligere fungerede
+// Opret alle gaver og tilføj til queue
 colors.forEach(color => {
   for (let i=1; i<=giftCounts; i++) {
-    const gift = document.createElement("img");
-    gift.src = `../assets/sorter${capitalize(color)}${i}.svg`;
-    gift.classList.add("gift");
-    gift.dataset.color = color;
-    gift.style.left = "-50px";
-    gift.style.top = "200px";
-    gift.dataset.caught = "false";
-    gameArea.appendChild(gift);
-    gifts.push(gift);
+    giftsQueue.push({
+      src: `../assets/sorter${capitalize(color)}${i}.svg`,
+      color: color,
+      caught: false
+    });
   }
 });
 
-// Randomize rækkefølge
-gifts.sort(() => Math.random()-0.5);
+// Shuffle queue
+giftsQueue.sort(()=>Math.random()-0.5);
 
-// Bevæg gaverne en ad gangen for at undgå overlap
-function moveGifts() {
-  gifts.forEach(gift => {
+function spawnNextGift() {
+  if (giftsQueue.length === 0) return;
+
+  const giftData = giftsQueue.shift();
+  const gift = document.createElement("img");
+  gift.src = giftData.src;
+  gift.classList.add("gift");
+  gift.dataset.color = giftData.color;
+  gift.dataset.caught = "false";
+  gift.style.left = "-50px";
+  gift.style.top = "200px";
+  gameArea.appendChild(gift);
+  activeGifts.push(gift);
+
+  // Start bevægelse for denne gave
+  moveGift(gift);
+
+  // Spawn næste gave efter 1s
+  if (giftsQueue.length > 0) {
+    setTimeout(spawnNextGift, 1000);
+  }
+}
+
+function moveGift(gift) {
+  function step() {
     if (gift.dataset.caught === "false") {
       let left = parseFloat(gift.style.left);
       left += 2; // hastighed
@@ -164,51 +184,47 @@ function moveGifts() {
 
       if (left > gameArea.offsetWidth) {
         gift.dataset.caught = "missed";
+        gift.remove();
+        activeGifts = activeGifts.filter(g=>g!==gift);
         checkEndGame();
+        return;
       }
+      requestAnimationFrame(step);
     }
-  });
-  requestAnimationFrame(moveGifts);
+  }
+  requestAnimationFrame(step);
 }
 
-// Sække fungerer som knapper, tager den gave længst til højre på båndet
+// Sække som knapper: tager længst til højre gave på båndet
 Object.keys(sackMap).forEach(color => {
   sackMap[color].addEventListener("click", () => {
-    const candidates = gifts.filter(g => g.dataset.caught === "false");
-    if (candidates.length === 0) return;
-    let rightmost = candidates.reduce((maxGift, g) => {
-      return parseFloat(g.style.left) > parseFloat(maxGift.style.left) ? g : maxGift;
-    }, candidates[0]);
+    if (activeGifts.length === 0) return;
+    let rightmost = activeGifts.reduce((maxGift, g) => 
+      parseFloat(g.style.left) > parseFloat(maxGift.style.left) ? g : maxGift
+    , activeGifts[0]);
 
     if (rightmost.dataset.color === color) {
-      rightmost.dataset.caught = "true";
-      rightmost.remove();
       score++;
       scoreDisplay.textContent = `Sorterede gaver: ${score}`;
-      checkEndGame();
-    } else {
-      rightmost.dataset.caught = "true"; // én chance per gave
-      rightmost.remove();
-      checkEndGame();
     }
+    rightmost.dataset.caught = "true";
+    rightmost.remove();
+    activeGifts = activeGifts.filter(g=>g!==rightmost);
+    checkEndGame();
   });
 });
 
-// Tjek om spillet er slut
 function checkEndGame() {
-  if (gifts.every(g => g.dataset.caught !== "false")) {
+  if (activeGifts.length === 0 && giftsQueue.length === 0) {
     endScreen.style.display = "block";
     endScreen.textContent = `🎉 Tillykke! Du sorterede ${score} gaver! 🎉`;
   }
 }
 
-// Start spillet
-moveGifts();
+function capitalize(str){ return str.charAt(0).toUpperCase() + str.slice(1); }
 
-// Hjælpefunktion
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+// Start spillet
+spawnNextGift();
 </script>
 </body>
 </html>
