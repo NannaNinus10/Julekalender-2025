@@ -49,8 +49,8 @@ body {
 #maskineFront { z-index: 3; }
 
 .sack {
-  width: 70px;
-  height: 95px;
+  width: 90px;
+  height: 120px;
   margin: 0 5px;
   cursor: pointer;
 }
@@ -83,6 +83,21 @@ body {
   font-size: 18px;
   color: #204226;
 }
+
+#endScreen {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #204226;
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 5;
+}
 </style>
 </head>
 <body>
@@ -91,6 +106,7 @@ body {
   <div id="gameArea">
     <img id="maskineBaggrund" src="../assets/sorterMaskineBag.svg" alt="Baggrund maskine">
     <img id="maskineFront" src="../assets/sorterMaskineFront.svg" alt="Foran maskine">
+    <div id="endScreen"></div>
   </div>
 
   <div class="sacks">
@@ -106,27 +122,38 @@ body {
 
 <script>
 const colors = ["blå","rød","grøn","gul"];
-const gifts = [];
+let gifts = [];
 
-// 16 pakker: 4 farver × 4 størrelser
+// Opret pakker: 4 farver × 4 størrelser
 colors.forEach(farve => {
   for(let size=1; size<=4; size++){
     gifts.push({color: farve, size: size, caught: false, imgEl: null});
   }
 });
 
+// Bland pakkerne random
+gifts = gifts.sort(()=> Math.random() - 0.5);
+
 let score = 0;
 const gameArea = document.getElementById("gameArea");
+const endScreen = document.getElementById("endScreen");
 
-// Funktion til store bogstaver
-function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+// Størrelser (dobbelt så store)
+const sizes = {
+  1: {w: 26.5, h: 26.5},
+  2: {w: 34, h: 26.5},
+  3: {w: 30, h: 18},
+  4: {w: 19, h: 26.5}
+};
 
 function spawnGift(gift, delay){
   setTimeout(()=>{
     const img = document.createElement("img");
-    img.src = `../assets/sorter${capitalize(gift.color)}${gift.size}.svg`;
+    img.src = `../assets/sorter${gift.color.charAt(0).toUpperCase() + gift.color.slice(1)}${gift.size}.svg`;
     img.classList.add("gift");
     img.style.left = "-40px";
+    img.style.width = sizes[gift.size].w + "px";
+    img.style.height = sizes[gift.size].h + "px";
     gameArea.appendChild(img);
     gift.imgEl = img;
 
@@ -139,6 +166,7 @@ function spawnGift(gift, delay){
       if(left > 400){ // passerer højre kant
         clearInterval(moveInterval);
         if(img.parentNode) img.parentNode.removeChild(img);
+        checkEndGame();
       }
     }, 20);
   }, delay);
@@ -146,10 +174,10 @@ function spawnGift(gift, delay){
 
 // Start alle pakker med forskudt timing, så de ikke overlapper
 gifts.forEach((gift, i)=>{
-  spawnGift(gift, i * 1000); // 1 sek forskydning
+  spawnGift(gift, i * 800); // 0,8s mellem hver pakke
 });
 
-// Håndtering af sække: klik tjekker nærmeste pakke under sækken
+// Håndtering af sække
 document.querySelectorAll(".sack").forEach(sack=>{
   sack.addEventListener("click", ()=>{
     const sackLeft = sack.offsetLeft;
@@ -162,10 +190,19 @@ document.querySelectorAll(".sack").forEach(sack=>{
         if(sack.dataset.farve === gift.color) score++;
         document.getElementById("scoreDisplay").textContent = "Score: " + score;
         if(gift.imgEl.parentNode) gift.imgEl.parentNode.removeChild(gift.imgEl);
+        checkEndGame();
       }
     });
   });
 });
+
+// Tjek om spillet skal slutte
+function checkEndGame(){
+  if(gifts.every(g=>g.caught || !g.imgEl)){
+    endScreen.style.display = "block";
+    endScreen.textContent = `🎉 Tillykke! Du sorterede ${score} ud af ${gifts.length} gaver! 🎉`;
+  }
+}
 </script>
 </body>
 </html>
