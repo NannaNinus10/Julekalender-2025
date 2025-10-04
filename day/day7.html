@@ -1,143 +1,169 @@
-```html
 <!DOCTYPE html>
 <html lang="da">
 <head>
 <meta charset="UTF-8">
-<title>Dag 7 – Julegave-sortering</title>
+<title>Låge 7 – Sorter julegaver</title>
 <style>
   body {
+    font-family: Arial, sans-serif;
     background: #204226;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     margin: 0;
+    padding: 0;
+    color: white;
+    text-align: center;
   }
-  #game {
+
+  .content-box {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 500px;
+    margin: 40px auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    position: relative;
+  }
+
+  #gameArea {
     position: relative;
     width: 400px;
     height: 400px;
+    margin: 0 auto;
     overflow: hidden;
   }
-  #bgBack, #bgFront {
+
+  #maskineBaggrund, #maskineFront {
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
   }
+
   .gift {
     position: absolute;
-    top: 210px; /* båndets højde */
-    left: -50px;
-    transition: left linear;
+    top: 200px;
+    z-index: 2;
   }
-  .sacks {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 15px;
-  }
-  .sacks img {
-    width: 60px;
-    height: auto;
+
+  .sack {
+    width: 70px;
+    height: 95px;
+    margin: 0 5px;
     cursor: pointer;
   }
-  #score {
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(255,255,255,0.8);
-    padding: 6px 12px;
+
+  .sacks {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 10px;
+  }
+
+  .back-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 16px;
+    background-color: #204226;
+    color: white;
+    text-decoration: none;
     border-radius: 8px;
     font-weight: bold;
+  }
+
+  .back-button:hover {
+    background-color: #35663c;
+  }
+
+  #scoreDisplay {
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 18px;
+    color: #204226;
   }
 </style>
 </head>
 <body>
-<div id="game">
-  <img id="bgBack" src="assets/SorterMaskineBag.svg" alt="Maskine baggrund">
-  <div id="score">Point: 0</div>
-  <div class="sacks">
-    <img src="assets/sorterBlåSæk.svg" data-color="blue">
-    <img src="assets/sorterRødSæk.svg" data-color="red">
-    <img src="assets/sorterGrønSæk.svg" data-color="green">
-    <img src="assets/sorterGulSæk.svg" data-color="yellow">
+<h1>Glædelig 7. december – Sorter julegaverne!</h1>
+<div class="content-box">
+  <div id="gameArea">
+    <img id="maskineBaggrund" src="../assets/SorterMaskineBag.svg" alt="Baggrund maskine">
+    <img id="maskineFront" src="../assets/SorterMaskineFront.svg" alt="Foran maskine">
   </div>
-  <img id="bgFront" src="assets/SorterMaskineFront.svg" alt="Maskine forgrund">
+
+  <div class="sacks">
+    <img class="sack" src="../assets/sorterBlåSæk.svg" data-farve="blå">
+    <img class="sack" src="../assets/sorterRødSæk.svg" data-farve="rød">
+    <img class="sack" src="../assets/sorterGrønSæk.svg" data-farve="grøn">
+    <img class="sack" src="../assets/sorterGulSæk.svg" data-farve="gul">
+  </div>
+
+  <div id="scoreDisplay">Score: 0</div>
+
+  <p><a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a></p>
 </div>
 
 <script>
-const game = document.getElementById("game");
-const scoreEl = document.getElementById("score");
-const sacks = document.querySelectorAll(".sacks img");
-let score = 0;
-let gifts = [];
+const colors = ["blå","rød","grøn","gul"];
+const gifts = [];
 
-function spawnGift() {
-  const colors = ["blue","red","green","yellow"];
-  const color = colors[Math.floor(Math.random()*colors.length)];
-  const size = Math.floor(Math.random()*4)+1; // 1-4
-  const gift = document.createElement("img");
-  gift.src = `assets/sorter${capitalize(color)}${size}.svg`;
-  gift.className = "gift";
-  gift.dataset.color = color;
-  gift.dataset.attempted = "false";
-  game.appendChild(gift);
-
-  // animation
-  const duration = 6000; // ms over banen
-  const start = Date.now();
-  function animate() {
-    let t = (Date.now()-start)/duration;
-    if(t>=1) {
-      gift.remove();
-      gifts = gifts.filter(g=>g!==gift);
-      return;
-    }
-    gift.style.left = (-50 + t*(400+50))+"px"; // fra -50px til 400px
-    requestAnimationFrame(animate);
+// 16 pakker: 4 farver × 4 størrelser
+colors.forEach(farve => {
+  for(let size=1; size<=4; size++){
+    gifts.push({color: farve, size: size, caught: false});
   }
-  animate();
-
-  gifts.push(gift);
-}
-
-// klik på sække
-sacks.forEach(s=>{
-  s.addEventListener("click", ()=>{
-    const color = s.dataset.color;
-    if(gifts.length === 0) return;
-
-    // find gave længst fremme
-    let frontGift = gifts.reduce((a,b)=>{
-      let aLeft = parseFloat(a.style.left) || 0;
-      let bLeft = parseFloat(b.style.left) || 0;
-      return aLeft > bLeft ? a : b;
-    });
-
-    // kun hvis ikke allerede forsøgt
-    if(frontGift.dataset.attempted === "false") {
-      if(frontGift.dataset.color === color) {
-        frontGift.remove();
-        gifts = gifts.filter(g=>g!==frontGift);
-        score++;
-        scoreEl.textContent = "Point: " + score;
-      } else {
-        // markeret som forsøgt, men forbliver
-        frontGift.dataset.attempted = "true";
-      }
-    }
-  });
 });
 
-// spawn hvert 2.5 sekund
-setInterval(spawnGift, 2500);
+let score = 0;
+const gameArea = document.getElementById("gameArea");
 
-function capitalize(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+function capitalize(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+
+function spawnGift(gift){
+  const img = document.createElement("img");
+  img.src = `../assets/sorter${capitalize(gift.color)}${gift.size}.svg`;
+  img.classList.add("gift");
+  img.style.left = "-40px"; // start uden for venstre kant
+  gameArea.appendChild(img);
+  gift.imgEl = img;
+
+  const speed = 2; // pixels per frame
+  const interval = setInterval(()=>{
+    let left = parseFloat(img.style.left);
+    img.style.left = (left + speed) + "px";
+
+    // fjern hvis passerer højre kant
+    if(left > 400){
+      clearInterval(interval);
+      if(img.parentNode) img.parentNode.removeChild(img);
+    }
+  }, 20);
+}
+
+// Start alle pakker med lidt forskudt timing
+gifts.forEach((gift,i)=>{
+  setTimeout(()=> spawnGift(gift), i*800);
+});
+
+// Håndtering af sække
+document.querySelectorAll(".sack").forEach(sack=>{
+  sack.addEventListener("click",()=>{
+    gifts.forEach(gift=>{
+      if(!gift.caught && gift.imgEl){
+        const giftLeft = parseFloat(gift.imgEl.style.left);
+        if(giftLeft > sack.offsetLeft && giftLeft < sack.offsetLeft + sack.offsetWidth){
+          if(sack.dataset.farve === gift.color){
+            score++;
+          }
+          gift.caught = true;
+          if(gift.imgEl.parentNode) gift.imgEl.parentNode.removeChild(gift.imgEl);
+          document.getElementById("scoreDisplay").textContent = "Score: " + score;
+        }
+      }
+    });
+  });
+});
 </script>
 </body>
 </html>
-```
