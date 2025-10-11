@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <title>Låge 16 – Julequiz</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #204226;
+      margin: 0;
+      padding: 0;
+    }
+    .content-box {
+      background-color: white;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 800px;
+      margin: 50px auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+    .quiz-intro {
+      background: #4c7a58;
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .quiz-question {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .options button {
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #f0ece1;
+      color: black;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .options button:hover:not(:disabled) {
+      background: #a3936d;
+    }
+    .options button.correct {
+      background: #4c7a58;
+    }
+    .options button.wrong {
+      background: #993b3b;
+      color: white;
+    }
+    .options button:disabled {
+      cursor: not-allowed;
+      opacity: 0.8;
+    }
+    .options button.selected {
+      border: 2px solid #a3936d;
+      background-color: #a3936d;
+      color: #000;
+    }
+    .explanation {
+      display: none;
+      background: #e8f5e9;
+      border-left: 5px solid #2e7d32;
+      padding: 15px;
+      margin-top: 10px;
+      text-align: left;
+      border-radius: 8px;
+    }
+    .next-btn {
+      display: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #993b3b;
+      color: white;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .result {
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 20px;
+      color: #2e7d32;
+    }
+  </style>
+</head>
+<body>
+  <h1>Glædelig 16. december – Julequiz</h1>
+
+  <div class="content-box">
+    <div id="quiz-container"></div>
+    <button class="next-btn" id="nextBtn">Næste spørgsmål</button>
+    <p><a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a></p>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        intro: "Adventskransen kom til Danmark fra Tyskland i begyndelsen af 1900-tallet. Under besættelsen fik den en helt særlig betydning for mange danske familier.",
+        question: "Hvad symboliserede adventskransen især under Anden Verdenskrig i Danmark?",
+        options: [
+          "A) En rent kirkelig tradition uden politisk betydning",
+          "B) Et symbol på national identitet, håb og tilhørsforhold",
+          "C) En kommerciel dekoration for butikker",
+          "D) Et symbol for landbrugets overflod"
+        ],
+        answer: "B) Et symbol på national identitet, håb og tilhørsforhold",
+        explanation: "Under besættelsen blev adventslys og kranse et stille tegn på håb og nationalt fællesskab i mange hjem — et symbol på tilhørsforhold til Danmark i en svær tid."
+      },
+      {
+        intro: "Vi spiser mange julesmåkager i december, men nogle af dem har meget gamle rødder i Danmark.",
+        question: "Hvilken julesmåkage regnes for den ældste i Danmark?",
+        options: ["A) Brunkagen", "B) Klejnen", "C) Jødekagen", "D) Pebernødden"],
+        answer: "B) Klejnen",
+        explanation: "Klejnen omtales allerede i 1600-tallet som 'hareøre', og en opskrift findes fra 1766. Formen kendes muligvis helt tilbage til senmiddelalderen. Pebernødden er næstældst."
+      },
+      {
+        intro: "Julemaden hører både til i det salte og søde køkken – og ingen jul uden dessert! Risalamande har efterhånden fået en fast plads på julebordet.",
+        question: "Hvor stammer vores klassiske juledessert, risalamande, oprindeligt fra?",
+        options: ["A) Frankrig", "B) Tyskland", "C) Danmark", "D) USA"],
+        answer: "C) Danmark",
+        explanation: "Risalamande som vi kender den i dag, kan dateres til slutningen af 1800-tallet. Den var udbredt blandt borgerskabet og fik sit franskklingende navn, men retten er oprindeligt dansk."
+      },
+      {
+        intro: "I juletiden går mange danskere i kirke for at høre juleevangeliet med den kendte sætning 'Og det skete i de dage...'.",
+        question: "Hvilken evangelist har skrevet juleevangeliet?",
+        options: ["A) Markus", "B) Matthæus", "C) Lukas", "D) Johannes"],
+        answer: "C) Lukas",
+        explanation: "Lukas er evangelisten bag juleevangeliet. Hans evangelium beskriver Jesu fødsel, folketællingen, og englen, der fortalte hyrderne om den nyfødte frelser."
+      },
+      {
+        intro: "Vi kender julemiddagen med flæskesteg, and, rødkål og brunede kartofler – men de søde kartofler har faktisk ikke altid været på julebordet.",
+        question: "Hvad var brunede kartofler oprindeligt en erstatning for?",
+        options: [
+          "A) Glaserede kastanjer",
+          "B) Glaserede pastinak",
+          "C) Glaserede kålroer",
+          "D) Glaserede kål"
+        ],
+        answer: "A) Glaserede kastanjer",
+        explanation: "I 1800-tallet spiste man stegt gås med grønlangkål og sukkerbrunede kastanjer. Da kastanjer var dyre, begyndte man at bruge kartofler i stedet – og sådan opstod de brunede kartofler."
+      }
+    ];
+
+    const quizContainer = document.getElementById("quiz-container");
+    const nextBtn = document.getElementById("nextBtn");
+    let currentQuestion = 0;
+    let score = 0;
+
+    function showQuestion(index) {
+      const q = quizData[index];
+      quizContainer.innerHTML = `
+        <div class="quiz-intro">${q.intro}</div>
+        <div class="quiz-question">${q.question}</div>
+        <div class="options">
+          ${q.options.map(opt => `<button>${opt}</button>`).join("")}
+        </div>
+        <div class="explanation">${q.explanation}</div>
+      `;
+
+      const optionButtons = quizContainer.querySelectorAll(".options button");
+      const explanation = quizContainer.querySelector(".explanation");
+
+      optionButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          // Marker valgte svar
+          optionButtons.forEach(b => b.classList.remove("selected"));
+          btn.classList.add("selected");
+
+          // Deaktiver alle knapper
+          optionButtons.forEach(b => b.disabled = true);
+
+          // Marker korrekt/forkert
+          optionButtons.forEach(b => {
+            if (b.textContent === q.answer) {
+              b.classList.add("correct");
+            } else {
+              b.classList.add("wrong");
+            }
+          });
+
+          // Opdater score
+          if (btn.textContent === q.answer) score++;
+
+          // Vis forklaring og næste-knap
+          explanation.style.display = "block";
+          nextBtn.style.display = "inline-block";
+        });
+      });
+    }
+
+    nextBtn.addEventListener("click", () => {
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        showQuestion(currentQuestion);
+        nextBtn.style.display = "none";
+      } else {
+        quizContainer.innerHTML = `
+          <div class="result">Godt klaret! Du fik ${score} ud af ${quizData.length} rigtige 🎄</div>
+        `;
+        nextBtn.style.display = "none";
+      }
+    });
+
+    showQuestion(currentQuestion);
+  </script>
+
+</body>
+</html>
