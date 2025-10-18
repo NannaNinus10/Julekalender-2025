@@ -12,7 +12,6 @@ document.querySelectorAll(".door").forEach(door => {
     const month = getToday().getMonth() + 1;
 
     if (month === 12 && today >= day) {
-      // Toggle åbnet/lukket
       door.classList.toggle("open");
       door.classList.toggle("closed");
     } else {
