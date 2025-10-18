@@ -89,7 +89,7 @@ color: white;
 text-decoration: none;
 border-radius: 6px;
 font-weight: bold;
-font-size: clamp(24px, 3.6vw, 36px);
+font-size: clamp(12px, 1.8vw, 18px);
 transition: background 0.3s ease, transform 0.2s ease;
 }
 
@@ -110,4 +110,5 @@ grid-template-columns: repeat(3, 1fr);
 grid-template-columns: repeat(2, 1fr);
 }
 }
+
 
