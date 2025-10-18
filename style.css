@@ -1,4 +1,3 @@
-/* === BASISSTYLING === */
 body {
   font-family: 'Mountains of Christmas', cursive;
   text-align: center;
@@ -11,32 +10,28 @@ h1 {
   font-family: 'Berkshire Swash', cursive;
   font-size: 60px;
   color: white;
-  margin-top: 20px;
+  margin: 20px 0;
 }
 
-/* === KALENDER GRID === */
 #calendar {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
   gap: 10px;
-  max-width: 900px;
-  margin: 30px auto;
+  max-width: 1000px;
+  margin: 30px auto 50px;
   padding: 0 10px;
 }
 
-/* === LÅGER === */
 .door {
-  position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1; /* Holder kvadratisk form */
-  perspective: 1000px; /* til flip animation */
+  aspect-ratio: 1/1;
+  position: relative;
+  perspective: 800px;
 }
 
 .door-front, .door-content {
   position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -45,22 +40,20 @@ h1 {
   backface-visibility: hidden;
   transition: transform 0.6s;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
-/* === LÅGE FRONT === */
 .door-front {
   z-index: 2;
   cursor: pointer;
-  transform-origin: left center;
 }
 
 .door-front img {
-  width: 80%;
-  height: 80%;
+  max-width: 90%;
+  max-height: 90%;
   object-fit: contain;
 }
 
-/* === LÅGE ÅBN/LUK === */
 .door.open .door-front {
   transform: rotateY(-120deg);
 }
@@ -69,17 +62,15 @@ h1 {
   transform: rotateY(0deg);
 }
 
-/* === LÅGE INDHOLD === */
 .door-content {
   background: white;
   z-index: 1;
-  padding: 5%; /* procentbaseret padding for responsiv skalering */
-  font-size: 1em; /* base font størrelse */
+  padding: 5%;
+  font-size: 2.5vw;
   transform: rotateY(180deg);
 }
 
 .door-content h2 {
-  font-family: 'Mountains of Christmas', cursive;
   font-size: 1.2em;
   color: darkred;
   margin: 0.2em 0;
@@ -107,89 +98,10 @@ h1 {
   background: #a22;
 }
 
-/* === BACK BUTTON (hvis relevant) === */
-a.back-button {
-  display: inline-block;
-  padding: 0.5em 1em;
-  background-color: #c0392b;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: bold;
-  margin-top: 1em;
-  transition: background-color 0.3s;
-}
-
-a.back-button:hover {
-  background-color: #e74c3c;
-}
-
-/* === CONTENT-BOKSER === */
 .content-box {
   background-color: white;
   padding: 2em;
   border-radius: 12px;
   max-width: 700px;
-  margin: 50px auto;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  text-align: center;
-}
-
-.content-box h1 {
-  color: darkred;
-}
-
-.content-box p {
-  color: darkgreen;
-}
-
-/* === RESPONSIVE JUSTERINGER === */
-@media (max-width: 768px) {
-  h1 {
-    font-size: 40px;
-  }
-
-  #calendar {
-    gap: 8px;
-    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-  }
-
-  .door-content h2 {
-    font-size: 1.1em;
-  }
-
-  .door-content p,
-  .door-content a {
-    font-size: 0.9em;
-  }
-
-  a.back-button {
-    font-size: 0.85em;
-    padding: 0.4em 0.6em;
-  }
-}
-
-@media (max-width: 480px) {
-  h1 {
-    font-size: 32px;
-  }
-
-  #calendar {
-    gap: 6px;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-  }
-
-  .door-content h2 {
-    font-size: 1em;
-  }
-
-  .door-content p,
-  .door-content a {
-    font-size: 0.8em;
-  }
-
-  a.back-button {
-    font-size: 0.75em;
-    padding: 0.3em 0.5em;
-  }
-}
+  margin: 0 auto 50px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0
