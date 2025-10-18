@@ -1,4 +1,4 @@
-/* 🎄 BASISSTYLING */
+/* === BASISSTYLING === */
 body {
   font-family: 'Mountains of Christmas', cursive;
   text-align: center;
@@ -11,151 +11,134 @@ h1 {
   font-family: 'Berkshire Swash', cursive;
   font-size: 60px;
   color: white;
-  margin: 20px 0;
+  margin-top: 20px;
 }
 
-/* 🎁 KALENDER GRID */
+/* === KALENDER GRID === */
 #calendar {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 15px;
   max-width: 900px;
   margin: 30px auto;
   padding: 0 10px;
 }
 
-/* 📦 LÅGER */
+/* === LÅGER === */
 .door {
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  max-width: 150px;
-  margin: auto;
   perspective: 1000px;
 }
 
 .door-front {
   position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
   z-index: 2;
   cursor: pointer;
-  transition: transform 1s;
   transform-origin: left center;
   backface-visibility: hidden;
-  border-radius: 10px;
+  transition: transform 1s;
 }
 
-.door.open .door-front {
-  transform: rotateY(-120deg);
-}
-
-.door.closed .door-front {
-  transform: rotateY(0deg);
-}
-
-/* 🎅 INDHOLD BAG LÅGER */
 .door-content {
   position: absolute;
-  top: 0; left: 0;
-  width: 100%; 
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
   background: white;
   border-radius: 10px;
-  padding: 5%;
+  padding: 10px;
   box-sizing: border-box;
-  z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.door.open .door-content {
-  z-index: 3;
+  opacity: 0;
+  z-index: 1;
+  transition: opacity 0.5s;
 }
 
 .door-content h2 {
   font-family: 'Mountains of Christmas', cursive;
-  font-size: 1.2em;
-  font-weight: 700;
+  font-size: 20px;
   color: darkred;
+  margin: 5px 0;
   text-align: center;
-  margin: 0.2em 0;
 }
 
 .door-content p {
-  font-size: 1em;
   color: darkgreen;
+  font-size: 14px;
+  margin: 5px 0 10px;
   text-align: center;
-  margin: 0.2em 0 0.5em 0;
 }
 
 .door-content a {
   display: inline-block;
-  padding: 0.5em 1em;
-  font-size: 0.9em;
+  margin-top: 5px;
+  padding: 6px 10px;
   background: #d33;
   color: white;
   text-decoration: none;
-  border-radius: 5px;
-  font-weight: bold;
-  text-align: center;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: background 0.3s;
 }
 
 .door-content a:hover {
   background: #a22;
 }
 
-/* 🔙 Tilbage-knap */
-a.back-button {
-  display: inline-block;
-  padding: 10px 15px;
-  background-color: #c0392b;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 16px;
-  margin-top: 15px;
-  transition: background-color 0.3s;
+/* === DØR EFFEKT === */
+.door.open .door-front {
+  transform: rotateY(-90deg); /* indad åbning */
 }
 
-a.back-button:hover {
-  background-color: #e74c3c;
+.door.open .door-content {
+  opacity: 1;
+  z-index: 3;
 }
 
-/* 📱 RESPONSIVT DESIGN */
-@media (max-width: 900px) {
+/* === RESPONSIVE JUSTERINGER === */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 40px;
+  }
   #calendar {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
     gap: 10px;
   }
-  h1 { font-size: 45px; }
-  .door-content h2 { font-size: 1.1em; }
-  .door-content p, .door-content a { font-size: 0.9em; }
+  .door-content h2 {
+    font-size: 16px;
+  }
+  .door-content p,
+  .door-content a {
+    font-size: 12px;
+  }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 480px) {
+  h1 {
+    font-size: 32px;
+  }
   #calendar {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
     gap: 8px;
   }
-  h1 { font-size: 38px; }
-  .door-content h2 { font-size: 1em; }
-  .door-content p, .door-content a { font-size: 0.85em; }
-}
-
-@media (max-width: 400px) {
-  #calendar {
-    grid-template-columns: 1fr;
-    gap: 6px;
+  .door-content h2 {
+    font-size: 14px;
   }
-  h1 { font-size: 32px; }
-  .door-content h2 { font-size: 0.95em; }
-  .door-content p, .door-content a { font-size: 0.8em; }
-  .door-content a { padding: 0.4em 0.8em; }
+  .door-content p,
+  .door-content a {
+    font-size: 11px;
+  }
 }
