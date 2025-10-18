@@ -1,3 +1,4 @@
+/* === BASISSTYLING === */
 body {
   font-family: 'Mountains of Christmas', cursive;
   text-align: center;
@@ -13,84 +14,88 @@ h1 {
   margin: 20px 0;
 }
 
+/* === KALENDER-GRID === */
 #calendar {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
   gap: 10px;
   max-width: 1000px;
-  margin: 30px auto 50px;
+  margin: 30px auto;
   padding: 0 10px;
 }
 
+/* === LÅGER === */
 .door {
-  width: 100%;
-  aspect-ratio: 1/1;
   position: relative;
-  perspective: 800px;
+  width: 100%;
+  aspect-ratio: 1 / 1; /* holder firkantet form */
+  perspective: 1000px;
 }
 
 .door-front, .door-content {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   border-radius: 10px;
+  backface-visibility: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  backface-visibility: hidden;
-  transition: transform 0.6s;
   box-sizing: border-box;
   overflow: hidden;
+  transition: transform 0.8s ease;
 }
 
+/* === LÅGE FRONT === */
 .door-front {
   z-index: 2;
   cursor: pointer;
 }
 
 .door-front img {
-  max-width: 90%;
-  max-height: 90%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 
-.door.open .door-front {
-  transform: rotateY(-120deg);
-}
-
-.door.closed .door-front {
-  transform: rotateY(0deg);
-}
-
+/* === INDHOLD BAG LÅGEN === */
 .door-content {
   background: white;
   z-index: 1;
-  padding: 5%;
-  font-size: 2.5vw;
+  padding: 10px;
   transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .door-content h2 {
-  font-size: 1.2em;
+  font-family: 'Mountains of Christmas', cursive;
+  font-size: 1.1em;
   color: darkred;
   margin: 0.2em 0;
   text-align: center;
 }
 
 .door-content p {
-  font-size: 1em;
+  font-size: 0.95em;
   color: darkgreen;
   margin: 0.2em 0 0.5em;
   text-align: center;
 }
 
 .door-content a {
-  font-size: 0.9em;
-  padding: 0.4em 0.6em;
+  display: inline-block;
+  padding: 6px 10px;
   background: #d33;
   color: white;
   text-decoration: none;
   border-radius: 6px;
+  font-size: 0.9em;
   transition: background 0.3s;
 }
 
@@ -98,10 +103,64 @@ h1 {
   background: #a22;
 }
 
-.content-box {
-  background-color: white;
-  padding: 2em;
-  border-radius: 12px;
-  max-width: 700px;
-  margin: 0 auto 50px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0
+/* === ANIMATION TIL ÅBN/LUK === */
+.door.open .door-front {
+  transform: rotateY(-180deg);
+}
+
+.door.closed .door-front {
+  transform: rotateY(0deg);
+}
+
+.door.open .door-content {
+  transform: rotateY(0deg);
+}
+
+.door.closed .door-content {
+  transform: rotateY(180deg);
+}
+
+/* === RESPONSIVT === */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 40px;
+  }
+
+  #calendar {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 8px;
+  }
+
+  .door-content h2 {
+    font-size: 1em;
+  }
+
+  .door-content p,
+  .door-content a {
+    font-size: 0.85em;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 32px;
+  }
+
+  #calendar {
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    gap: 6px;
+  }
+
+  .door-content h2 {
+    font-size: 0.9em;
+  }
+
+  .door-content p,
+  .door-content a {
+    font-size: 0.8em;
+  }
+
+  .door-content a {
+    padding: 5px 8px;
+  }
+}
