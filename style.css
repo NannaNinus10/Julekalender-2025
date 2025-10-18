@@ -1,4 +1,4 @@
-/* === BASISSTYLING === */
+/* 🎄 BASISSTYLING */
 body {
   font-family: 'Mountains of Christmas', cursive;
   text-align: center;
@@ -14,143 +14,148 @@ h1 {
   margin: 20px 0;
 }
 
-/* === KALENDER GRID === */
+/* 🎁 KALENDER GRID */
 #calendar {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-  gap: 10px;
-  max-width: 1000px;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 15px;
+  max-width: 900px;
   margin: 30px auto;
   padding: 0 10px;
 }
 
-/* === LÅGER === */
+/* 📦 LÅGER */
 .door {
   position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
-  perspective: 1200px; /* Perspektiv for realistisk dør-effekt */
+  max-width: 150px;
+  margin: auto;
+  perspective: 1000px;
 }
 
-/* === LÅGE FRONT === */
 .door-front {
   position: absolute;
   top: 0; left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
   z-index: 2;
   cursor: pointer;
-  border-radius: 10px;
-  transform-origin: left center; /* Dør åbner fra venstre kant */
   transition: transform 1s;
+  transform-origin: left center;
   backface-visibility: hidden;
-}
-
-.door-front img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-/* === INDHOLD BAG LÅGEN === */
-.door-content {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background: white;
   border-radius: 10px;
-  padding: 10px;
-  box-sizing: border-box;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  backface-visibility: hidden;
-  transform: rotateY(0deg); /* Står bag lågen */
 }
 
-.door-content h2 {
-  font-family: 'Mountains of Christmas', cursive;
-  font-size: 1.1em;
-  color: darkred;
-  margin: 0.2em 0;
-  text-align: center;
-}
-
-.door-content p {
-  font-size: 0.95em;
-  color: darkgreen;
-  margin: 0.2em 0 0.5em;
-  text-align: center;
-}
-
-.door-content a {
-  display: inline-block;
-  padding: 6px 10px;
-  background: #d33;
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  font-size: 0.9em;
-  transition: background 0.3s;
-}
-
-.door-content a:hover {
-  background: #a22;
-}
-
-/* === ÅBN/LUK ANIMATION === */
 .door.open .door-front {
-  transform: rotateY(-180deg);
+  transform: rotateY(-120deg);
 }
 
 .door.closed .door-front {
   transform: rotateY(0deg);
 }
 
-/* === RESPONSIVT === */
-@media (max-width: 768px) {
-  h1 {
-    font-size: 40px;
-  }
-
-  #calendar {
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-    gap: 8px;
-  }
-
-  .door-content h2 {
-    font-size: 1em;
-  }
-
-  .door-content p,
-  .door-content a {
-    font-size: 0.85em;
-  }
+/* 🎅 INDHOLD BAG LÅGER */
+.door-content {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; 
+  height: 100%;
+  background: white;
+  border-radius: 10px;
+  padding: 5%;
+  box-sizing: border-box;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-@media (max-width: 480px) {
-  h1 {
-    font-size: 32px;
-  }
+.door.open .door-content {
+  z-index: 3;
+}
 
+.door-content h2 {
+  font-family: 'Mountains of Christmas', cursive;
+  font-size: 1.2em;
+  font-weight: 700;
+  color: darkred;
+  text-align: center;
+  margin: 0.2em 0;
+}
+
+.door-content p {
+  font-size: 1em;
+  color: darkgreen;
+  text-align: center;
+  margin: 0.2em 0 0.5em 0;
+}
+
+.door-content a {
+  display: inline-block;
+  padding: 0.5em 1em;
+  font-size: 0.9em;
+  background: #d33;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.door-content a:hover {
+  background: #a22;
+}
+
+/* 🔙 Tilbage-knap */
+a.back-button {
+  display: inline-block;
+  padding: 10px 15px;
+  background-color: #c0392b;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 15px;
+  transition: background-color 0.3s;
+}
+
+a.back-button:hover {
+  background-color: #e74c3c;
+}
+
+/* 📱 RESPONSIVT DESIGN */
+@media (max-width: 900px) {
   #calendar {
-    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  h1 { font-size: 45px; }
+  .door-content h2 { font-size: 1.1em; }
+  .door-content p, .door-content a { font-size: 0.9em; }
+}
+
+@media (max-width: 600px) {
+  #calendar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  h1 { font-size: 38px; }
+  .door-content h2 { font-size: 1em; }
+  .door-content p, .door-content a { font-size: 0.85em; }
+}
+
+@media (max-width: 400px) {
+  #calendar {
+    grid-template-columns: 1fr;
     gap: 6px;
   }
-
-  .door-content h2 {
-    font-size: 0.9em;
-  }
-
-  .door-content p,
-  .door-content a {
-    font-size: 0.8em;
-  }
-
-  .door-content a {
-    padding: 5px 8px;
-  }
+  h1 { font-size: 32px; }
+  .door-content h2 { font-size: 0.95em; }
+  .door-content p, .door-content a { font-size: 0.8em; }
+  .door-content a { padding: 0.4em 0.8em; }
 }
