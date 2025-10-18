@@ -1,4 +1,3 @@
-/* Generelt */
 body {
   font-family: 'Mountains of Christmas', cursive;
   text-align: center;
@@ -9,22 +8,20 @@ body {
 
 h1 {
   font-family: 'Berkshire Swash', cursive;
-  font-size: 60px;
+  font-size: clamp(24px, 5vw, 60px);
   color: white;
   margin-top: 20px;
 }
 
-/* Kalender grid */
 #calendar {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  gap: 10px;
   max-width: 900px;
   margin: 30px auto;
   padding: 0 10px;
 }
 
-/* Låger */
 .door {
   position: relative;
   width: 100%;
@@ -39,10 +36,10 @@ h1 {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  border-radius: 10px;
   cursor: pointer;
-  transition: transform 1s;
+  transition: transform 0.8s;
   transform-origin: left center;
+  backface-visibility: hidden;
   z-index: 2;
 }
 
@@ -50,7 +47,10 @@ h1 {
   transform: rotateY(-110deg);
 }
 
-/* Indhold bag låge */
+.door.closed .door-front {
+  transform: rotateY(0deg);
+}
+
 .door-content {
   position: absolute;
   top: 0; left: 0;
@@ -67,39 +67,30 @@ h1 {
 }
 
 .door-content h2 {
-  font-size: 5vw;
+  font-size: clamp(12px, 2vw, 22px);
+  font-weight: 700;
   color: darkred;
   margin: 0.3em 0;
 }
 
 .door-content p {
-  font-size: 3.5vw;
+  font-size: clamp(10px, 1.8vw, 16px);
   color: darkgreen;
   margin: 0.3em 0;
 }
 
 .door-content a {
-  font-size: 3.5vw;
-  padding: 0.5em 1em;
+  font-size: clamp(10px, 1.5vw, 14px);
+  padding: clamp(4px, 1vw, 8px) clamp(6px, 2vw, 12px);
+  margin-top: 0.3em;
   background: #d33;
   color: white;
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: 4px;
   font-weight: bold;
   transition: background 0.3s;
 }
 
 .door-content a:hover {
   background: #a22;
-}
-
-/* Responsivt */
-@media (max-width: 900px) {
-  #calendar { grid-template-columns: repeat(3, 1fr); gap: 10px; }
-  h1 { font-size: 45px; }
-}
-
-@media (max-width: 600px) {
-  #calendar { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  h1 { font-size: 38px; }
 }
