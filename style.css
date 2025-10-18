@@ -14,11 +14,11 @@ h1 {
   margin-top: 20px;
 }
 
-/* === KALENDER-GRID === */
+/* === KALENDER GRID === */
 #calendar {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
   max-width: 900px;
   margin: 30px auto;
   padding: 0 10px;
@@ -28,33 +28,39 @@ h1 {
 .door {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1; /* holder firkantet form */
-  perspective: 1000px;
+  aspect-ratio: 1 / 1; /* Holder kvadratisk form */
+  perspective: 1000px; /* til flip animation */
 }
 
-.door-front {
+.door-front, .door-content {
   position: absolute;
   top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: 2;
-  cursor: pointer;
-  transition: transform 1s;
-  transform-origin: left center;
-  backface-visibility: visible;
-  transform-style: preserve-3d;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  backface-visibility: hidden;
+  transition: transform 0.6s;
+  box-sizing: border-box;
+}
+
+/* === LÅGE FRONT === */
+.door-front {
+  z-index: 2;
+  cursor: pointer;
+  transform-origin: left center;
 }
 
 .door-front img {
-  width: 100%;
-  height: 100%;
+  width: 80%;
+  height: 80%;
   object-fit: contain;
-  border-radius: 10px;
 }
 
-/* === ÅBN/LUK ANIMATION === */
+/* === LÅGE ÅBN/LUK === */
 .door.open .door-front {
   transform: rotateY(-120deg);
 }
@@ -63,46 +69,37 @@ h1 {
   transform: rotateY(0deg);
 }
 
-/* === LÅGEINDHOLD === */
+/* === LÅGE INDHOLD === */
 .door-content {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
   background: white;
-  border-radius: 10px;
-  padding: 10px;
-  box-sizing: border-box;
   z-index: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  padding: 5%; /* procentbaseret padding for responsiv skalering */
+  font-size: 1em; /* base font størrelse */
+  transform: rotateY(180deg);
 }
 
 .door-content h2 {
   font-family: 'Mountains of Christmas', cursive;
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 1.2em;
   color: darkred;
-  margin: 5px 0;
+  margin: 0.2em 0;
+  text-align: center;
 }
 
 .door-content p {
+  font-size: 1em;
   color: darkgreen;
-  font-size: 14px;
-  margin: 5px 0 10px;
+  margin: 0.2em 0 0.5em;
+  text-align: center;
 }
 
 .door-content a {
-  display: inline-block;
-  margin-top: 5px;
-  padding: 6px 10px;
+  font-size: 0.9em;
+  padding: 0.4em 0.6em;
   background: #d33;
   color: white;
   text-decoration: none;
   border-radius: 6px;
-  font-size: 14px;
   transition: background 0.3s;
 }
 
@@ -110,17 +107,16 @@ h1 {
   background: #a22;
 }
 
-/* === TILBAGEKNAP === */
+/* === BACK BUTTON (hvis relevant) === */
 a.back-button {
   display: inline-block;
-  padding: 8px 12px;
+  padding: 0.5em 1em;
   background-color: #c0392b;
   color: white;
   text-decoration: none;
   border-radius: 8px;
   font-weight: bold;
-  font-size: 15px;
-  margin-top: 15px;
+  margin-top: 1em;
   transition: background-color 0.3s;
 }
 
@@ -131,7 +127,7 @@ a.back-button:hover {
 /* === CONTENT-BOKSER === */
 .content-box {
   background-color: white;
-  padding: 20px;
+  padding: 2em;
   border-radius: 12px;
   max-width: 700px;
   margin: 50px auto;
@@ -147,24 +143,29 @@ a.back-button:hover {
   color: darkgreen;
 }
 
-/* === RESPONSIV JUSTERING === */
+/* === RESPONSIVE JUSTERINGER === */
 @media (max-width: 768px) {
   h1 {
     font-size: 40px;
   }
 
   #calendar {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 10px;
+    gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
   }
 
   .door-content h2 {
-    font-size: 18px;
+    font-size: 1.1em;
   }
 
   .door-content p,
   .door-content a {
-    font-size: 13px;
+    font-size: 0.9em;
+  }
+
+  a.back-button {
+    font-size: 0.85em;
+    padding: 0.4em 0.6em;
   }
 }
 
@@ -174,21 +175,21 @@ a.back-button:hover {
   }
 
   #calendar {
-    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-    gap: 8px;
+    gap: 6px;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   }
 
   .door-content h2 {
-    font-size: 16px;
+    font-size: 1em;
   }
 
   .door-content p,
   .door-content a {
-    font-size: 12px;
+    font-size: 0.8em;
   }
 
   a.back-button {
-    font-size: 13px;
-    padding: 6px 10px;
+    font-size: 0.75em;
+    padding: 0.3em 0.5em;
   }
 }
