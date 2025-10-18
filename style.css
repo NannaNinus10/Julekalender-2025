@@ -96,8 +96,8 @@ h1 {
 
 .door-content a {
   display: inline-block;
-  margin-bottom: 10px;
-  padding: 6px 8px;
+  margin-bottom: 8px;
+  padding: 4px 6px;
   background: #d33;
   color: white;
   text-decoration: none;
@@ -166,3 +166,4 @@ a.back-button:hover {
     font-size: 38px;
   }
 }
+
