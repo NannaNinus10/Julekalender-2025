@@ -23,11 +23,11 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="21.394737"
-     inkscape:cx="19.02337"
+     inkscape:cx="19.04674"
      inkscape:cy="18.97663"
      inkscape:window-width="1043"
      inkscape:window-height="1081"
-     inkscape:window-x="994"
+     inkscape:window-x="855"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg1" />
@@ -47,16 +47,10 @@
        inkscape:export-filename="door1.svg"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:35.2204px;font-family:'Californian FB';-inkscape-font-specification:'Californian FB, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;letter-spacing:-0.012007px;word-spacing:-0.108064px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#f0ece1;stroke:none;stroke-width:1.67002;stroke-linecap:round"
-       x="176.50636"
-       y="137.64647"
-       id="text63"><tspan
-         sodipodi:role="line"
-         id="tspan63"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:35.2204px;font-family:'Californian FB';-inkscape-font-specification:'Californian FB, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#f0ece1;stroke:none;stroke-width:1.67001"
-         x="176.50037"
-         y="137.64647">12</tspan></text>
+    <path
+       style="font-size:35.2204px;font-family:'Californian FB';-inkscape-font-specification:'Californian FB, Normal';text-align:center;letter-spacing:-0.012007px;word-spacing:-0.108064px;text-anchor:middle;fill:#f0ece1;stroke-width:1.67001;stroke-linecap:round"
+       d="m 172.78052,137.47449 q 0,0.17198 -0.13758,0.17198 h -9.40701 q -0.17198,0 -0.17198,-0.20637 v -0.56752 q 0,-0.20637 0.17198,-0.20637 h 3.12993 q 0.36115,0 0.36115,-0.92866 0,-0.18917 0.0344,-7.79045 0.0344,-7.61847 0.0344,-7.84204 0,-2.45924 -0.10318,-3.16433 -0.17198,-1.16943 -1.87453,-1.16943 h -1.307 q -0.20637,0 -0.20637,-0.20637 v -0.53312 q 0,-0.20637 0.20637,-0.20637 h 1.84012 q 2.14969,0 3.02676,-0.17198 0.87707,-0.18917 0.84267,-0.18917 0.25796,0 0.25796,0.36115 0,-0.0344 -0.15477,8.34077 -0.13758,8.35796 -0.13758,9.02866 0,4.47134 0.73949,4.47134 h 2.6828 q 0.17198,0 0.17198,0.17198 z m 16.99628,-2.11528 q 0,0.086 -0.20637,0.56751 -0.29236,0.6707 -0.6707,1.51338 -0.13758,0.20637 -0.29236,0.20637 h -12.98408 q -0.29236,0 -0.29236,-0.53312 0,-0.34395 0.60191,-0.73949 4.45415,-2.95797 7.08536,-6.36306 1.82293,-2.39045 2.51083,-4.21338 0.6535,-1.70255 0.6535,-3.88663 0,-2.35605 -1.16943,-3.66306 -1.3414,-1.53057 -4.21337,-1.53057 -3.4051,0 -4.90128,1.94331 -0.13758,0.17198 -0.30956,0.10319 -0.29235,-0.13758 -0.29235,-0.27516 0,-0.53312 0.92866,-1.47899 0.82548,-0.84267 1.65096,-1.307 2.0121,-1.15223 4.64331,-1.15223 2.7172,0 4.36816,1.65095 1.58216,1.58217 1.58216,4.40255 0,1.89173 -0.77388,3.80064 -1.47898,3.62867 -3.76625,6.1223 -2.54522,2.78599 -5.14204,4.7293 -0.17197,0.12038 -0.17197,0.22357 0,0.18917 0.41274,0.18917 h 4.23057 q 3.80064,0 5.70956,-0.41274 0.46433,-0.10318 0.56752,-0.10318 0.24076,0 0.24076,0.20637 z"
+       id="text63"
+       aria-label="12" />
   </g>
 </svg>

@@ -24,7 +24,7 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="7.564182"
      inkscape:cx="-6.5439991"
-     inkscape:cy="7.0728071"
+     inkscape:cy="7.2050091"
      inkscape:window-width="1920"
      inkscape:window-height="1094"
      inkscape:window-x="-11"
@@ -271,16 +271,10 @@
        style="opacity:1;fill:#f0ece1;stroke:#f0ece1;stroke-width:0.0470958;stroke-linecap:round;stroke-linejoin:round"
        d="m 1.1926912,4.2562671 a 0.07015824,0.07015824 0 0 1 -0.070158,0.070158 0.07015824,0.07015824 0 0 1 -0.070158,-0.070158 0.07015824,0.07015824 0 0 1 0.070158,-0.070158 0.07015824,0.07015824 0 0 1 0.070158,0.070158 z"
        transform="matrix(4.3574439,0,0,4.3574439,106.88097,11.09221)" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:35.2204px;font-family:'Californian FB';-inkscape-font-specification:'Californian FB, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;letter-spacing:-0.012007px;word-spacing:-0.108064px;writing-mode:lr-tb;direction:ltr;text-anchor:middle;display:inline;fill:#741303;stroke:none;stroke-width:1.67002;stroke-linecap:round"
-       x="129.49236"
-       y="43.400414"
-       id="text54"><tspan
-         sodipodi:role="line"
-         id="tspan54"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:35.2204px;font-family:'Californian FB';-inkscape-font-specification:'Californian FB, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#741303;stroke:none;stroke-width:1.67001"
-         x="129.48636"
-         y="43.400414">3</tspan></text>
+    <path
+       style="font-size:35.2204px;font-family:'Californian FB';-inkscape-font-specification:'Californian FB, Normal';text-align:center;letter-spacing:-0.012007px;word-spacing:-0.108064px;text-anchor:middle;fill:#741303;stroke-width:1.67001;stroke-linecap:round"
+       d="m 135.80382,36.641811 q 0,2.975161 -3.14713,5.451595 -1.99491,1.582167 -5.91593,1.582167 -2.45924,0 -3.69745,-0.980255 -0.24077,-0.189173 -0.24077,-0.34395 0,-0.103184 0.12038,-0.240764 0.12039,-0.154777 0.18918,-0.154777 -0.0516,0 0.42993,0.275159 0.84268,0.498727 2.95797,0.498727 1.04904,0 2.20127,-0.395542 1.16943,-0.395542 1.99491,-1.049045 1.3242,-1.049045 1.77134,-1.857326 0.58471,-0.997453 0.58471,-2.682804 0,-1.874524 -2.0121,-3.45669 -0.91147,-0.722293 -4.00701,-1.375797 -0.49873,-0.103185 -0.49873,-0.447134 0,-0.223567 0.60191,-0.429937 1.70255,-0.584713 3.19873,-1.926115 1.16943,-1.049045 1.16943,-3.45669 0,-1.461784 -0.87707,-2.510829 -0.80828,-0.945861 -2.64841,-0.945861 -2.13249,0 -3.62867,1.100638 -0.42993,0.309554 -0.49872,0.309554 -0.27516,0 -0.27516,-0.395542 0,-0.137579 0.17197,-0.343949 0.98026,-1.15223 2.51083,-1.943313 1.3758,-0.705096 3.83504,-0.705096 1.46178,0 2.7172,1.135032 1.35859,1.238218 1.35859,3.164333 0,2.149683 -1.96051,4.127391 -1.44458,1.444587 -2.14968,1.891721 -0.49872,0.326752 0.10319,0.429937 2.44204,0.395541 3.93822,1.685351 1.70254,1.461784 1.70254,3.989811 z"
+       id="text54"
+       aria-label="3" />
   </g>
 </svg>
