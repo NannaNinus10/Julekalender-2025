@@ -1,4 +1,4 @@
-// Testdato (fjern/kommentér når rigtigt)
+// Testdato (fjern/kommentér ved rigtige datoer)
 const testDate = new Date("2025-12-24");
 
 function getToday() {
@@ -12,7 +12,7 @@ document.querySelectorAll(".door").forEach(door => {
     const month = getToday().getMonth() + 1;
 
     if (month === 12 && today >= day) {
-      door.classList.toggle("open"); // Åbn/luk låge
+      door.classList.toggle("open"); // Lågen åbner/ lukker
       door.classList.toggle("closed");
     } else {
       alert("For tidligt! Vent til " + day + ". december 🎄");
