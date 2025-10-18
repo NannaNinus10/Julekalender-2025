@@ -1,4 +1,4 @@
-// TESTDATO (fjern/kommentér denne linje når det er "rigtigt")
+// TESTDATO (fjern/kommentér når det er "rigtigt")
 const testDate = new Date("2025-12-24");
 
 function getToday() {
@@ -25,4 +25,3 @@ document.querySelectorAll(".door").forEach(door => {
     }
   });
 });
-
