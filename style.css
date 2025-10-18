@@ -73,7 +73,7 @@ h1 {
   font-size: clamp(14px, 2.6vw, 28px);
   color: darkred;
   margin-top: 12px;   /* rykker overskriften lidt ned */
-  margin-bottom: 6px; /* giver luft til teksten */
+  margin-bottom: 9px; /* giver luft til teksten */
 }
 
 .door-content p {
@@ -120,6 +120,7 @@ h1 {
     margin-top: -6px; /* knap rykkes en smule op */
   }
 }
+
 
 
 
