@@ -14,7 +14,7 @@ body {
 }
 h1 {
   font-size: 24px;
-  margin-top: 20px;
+  margin: 20px 0;
 }
 .content-box {
   background-color: white;
@@ -30,14 +30,16 @@ h1 {
 #gameArea {
   position: relative;
   width: 100%;
-  padding-top: 100%; /* kvadratisk bånd */
-  overflow: hidden;
+  padding-top: 100%; /* kvadratisk spilområde */
   margin: 0 auto 20px auto;
+  overflow: hidden;
 }
-#gameArea img {
+#backgroundBack, #backgroundFront {
   position: absolute;
   width: 100%;
   height: 100%;
+  top: 0;
+  left: 0;
   object-fit: contain;
 }
 .gift {
@@ -93,7 +95,6 @@ h1 {
 
 @media (max-width: 600px) {
   h1 { font-size: 20px; }
-  .content-box { padding: 15px; }
   .gift { width: 30px; height: 30px; }
   .sack { max-width: 60px; }
 }
@@ -106,6 +107,7 @@ h1 {
 <div class="content-box">
   <div id="gameArea">
     <img id="backgroundBack" src="../assets/sorterMaskineBag.svg" alt="Baggrund bag">
+    
     <img id="backgroundFront" src="../assets/sorterMaskineFront.svg" alt="Maskine front">
 
     <img id="sackBlå" class="sack" src="../assets/sorterBlåSæk.svg" alt="Blå sæk">
@@ -139,7 +141,7 @@ let giftsQueue = [];
 let activeGifts = [];
 let score = 0;
 
-// Lav queue af gaver
+// Opret queue af gaver
 colors.forEach(color => {
   for (let i=1; i<=giftCounts; i++) {
     giftsQueue.push({
@@ -166,9 +168,7 @@ function spawnNextGift() {
 
   moveGift(gift);
 
-  if (giftsQueue.length > 0) {
-    setTimeout(spawnNextGift, 1000);
-  }
+  if (giftsQueue.length > 0) setTimeout(spawnNextGift, 1000);
 }
 
 function moveGift(gift) {
