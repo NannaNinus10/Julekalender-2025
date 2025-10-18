@@ -82,6 +82,7 @@ margin-bottom: 10px;
 }
 
 .door-content a {
+margin-top: -5px; /* trækker knappen lidt op */
 display: inline-block;
 padding: clamp(5px, 0.8vw, 10px) clamp(8px, 1.6vw, 18px);
 background: #d33;
@@ -110,5 +111,6 @@ grid-template-columns: repeat(3, 1fr);
 grid-template-columns: repeat(2, 1fr);
 }
 }
+
 
 
