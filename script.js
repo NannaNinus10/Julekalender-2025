@@ -1,4 +1,3 @@
-// Testdato (fjern/kommentér når kalenderen kører på rigtigt tidspunkt)
 const testDate = new Date("2025-12-24");
 
 function getToday() {
