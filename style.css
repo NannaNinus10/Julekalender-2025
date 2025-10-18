@@ -2,33 +2,31 @@ body {
   font-family: 'Mountains of Christmas', cursive;
   text-align: center;
   background: #204226;
+  margin: 0;
+  padding: 0;
 }
 
 h1 {
   font-family: 'Berkshire Swash', cursive;
-  font-size: 60px;
+  font-size: clamp(32px, 6vw, 60px); /* skalerer automatisk */
   color: white;
   margin-top: 20px;
 }
 
 #calendar {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); /* dynamisk antal kolonner */
   gap: 15px;
   max-width: 900px;
   margin: 30px auto;
+  padding: 0 10px;
 }
 
 .door {
   position: relative;
-  width: 152px;      /* styrer hele lågens bredde */
-  height: 152px;     /* styrer hele lågens højde */
-  perspective: 1000px;
-  margin: auto;
-}
-
-.door img {
+  aspect-ratio: 1 / 1; /* gør lågerne kvadratiske uanset skærmstørrelse */
   width: 100%;
+  perspective: 1000px;
 }
 
 .door-front {
@@ -38,7 +36,7 @@ h1 {
   z-index: 2;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: cover; /* cover = udfyld helt */
+  background-size: cover;
   cursor: pointer;
   transition: transform 1s;
   transform-origin: left center;
@@ -46,60 +44,61 @@ h1 {
   transform-style: preserve-3d;
 }
 
-
 .door.open .door-front {
-  transform: rotateY(-120deg); /* åbner døren */
+  transform: rotateY(-120deg);
 }
 
 .door.closed .door-front {
-  transform: rotateY(0deg); /* lukker døren */
+  transform: rotateY(0deg);
 }
 
 .door-content {
-  position: absolute;   /* lægger sig præcis bag døren */
-  top: 0;
-  left: 0;
-  width: 100%;          /* samme bredde som .door */
-  height: 100%;         /* samme højde som .door */
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   background: white;
   border-radius: 10px;
   padding: 10px;
   box-sizing: border-box;
   z-index: 1;
+  overflow: hidden;
 }
 
-/* Indhold i låger */
 .door-content h2 {
-  font-family: 'Mountains of Christmas', cursive; /* julet font */
-  font-size: 22px;
-  font-weight: 700;
+  font-size: clamp(14px, 3vw, 22px);
   color: darkred;
-  text-align: center;
   margin: 5px 0;
+}
+
+.door-content p {
+  font-size: clamp(12px, 2.5vw, 16px);
+  color: darkgreen;
+  margin-bottom: 5px;
 }
 
 .door-content a {
   display: inline-block;
-  margin-bottom: 10px;
-  padding: 6px 8px;
+  margin-bottom: 8px;
+  padding: 6px 10px;
   background: #d33;
   color: white;
   text-decoration: none;
   border-radius: 4px;
+  font-size: clamp(12px, 2.5vw, 16px);
 }
 
 .door-content a:hover {
   background: #a22;
-
 }
+
 /* Tilbage-knap */
 a.back-button {
   display: inline-block;
   padding: 10px 15px;
-  background-color: #c0392b; /* rød baggrund */
-  color: white;               /* tekstfarve */
+  background-color: #c0392b;
+  color: white;
   text-decoration: none;
-  border-radius: 8px;         /* runde hjørner */
+  border-radius: 8px;
   font-weight: bold;
   font-size: 16px;
   margin-top: 15px;
@@ -107,8 +106,10 @@ a.back-button {
 }
 
 a.back-button:hover {
-  background-color: #e74c3c; /* lysere rød ved hover */
+  background-color: #e74c3c;
 }
+
+/* Content bokse (til undersider) */
 .content-box {
   background-color: white;
   padding: 20px;
@@ -117,13 +118,38 @@ a.back-button:hover {
   margin: 50px auto;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   text-align: center;
-  /* color: darkgreen; <-- fjernet */
 }
 
 .content-box h1 {
-  color: darkred; /* overskrift */
+  color: darkred;
 }
 
 .content-box p {
-  color: darkgreen; /* paragraftekst */
+  color: darkgreen;
+}
+
+/* --- RESPONSIV TILPASNING --- */
+@media (max-width: 768px) {
+  #calendar {
+    gap: 10px;
+  }
+
+  .door-content {
+    padding: 6px;
+  }
+
+  a.back-button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  #calendar {
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  }
+
+  h1 {
+    font-size: 36px;
+  }
 }
