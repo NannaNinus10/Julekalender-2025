@@ -62,7 +62,7 @@ display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-padding: 6%;
+padding: 10%;
 box-sizing: border-box;
 z-index: 1;
 text-align: center;
@@ -70,26 +70,26 @@ overflow: hidden;
 }
 
 .door-content h2 {
-font-size: clamp(12px, 2.2vw, 24px);
+font-size: clamp(14px, 2.6vw, 28px);
 color: darkred;
-margin: 4px 0;
+margin: 6px 0;
 }
 
 .door-content p {
-font-size: clamp(10px, 1.8vw, 18px);
+font-size: clamp(12px, 2vw, 22px);
 color: darkgreen;
-margin-bottom: 8px;
+margin-bottom: 10px;
 }
 
 .door-content a {
 display: inline-block;
-padding: clamp(3px, 0.6vw, 8px) clamp(6px, 1.2vw, 14px);
+padding: clamp(5px, 0.8vw, 10px) clamp(8px, 1.6vw, 18px);
 background: #d33;
 color: white;
 text-decoration: none;
-border-radius: 5px;
+border-radius: 6px;
 font-weight: bold;
-font-size: clamp(10px, 1.5vw, 16px);
+font-size: clamp(12px, 1.8vw, 18px);
 transition: background 0.3s ease, transform 0.2s ease;
 }
 
