@@ -39,7 +39,7 @@ h1 {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  z-index: 3; /* Ligger over indhold */
+  z-index: 3; /* over indhold */
   cursor: pointer;
   transform-origin: left center;
   backface-visibility: hidden;
@@ -50,7 +50,7 @@ h1 {
   transform: rotateY(-90deg); /* Åbner indad */
 }
 
-/* Indhold bag lågen */
+/* Indhold bag låge */
 .door-content {
   position: absolute;
   top: 0; left: 0;
@@ -63,7 +63,7 @@ h1 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 1; /* Under lågen */
+  z-index: 1; /* under lågen */
 }
 
 .door-content h2 {
@@ -75,8 +75,8 @@ h1 {
 }
 
 .door-content p {
-  font-size: 14px;
   color: darkgreen;
+  font-size: 14px;
   margin: 5px 0 10px;
   text-align: center;
 }
@@ -109,4 +109,5 @@ h1 {
   h1 { font-size: 32px; }
   #calendar { grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); gap: 8px; }
   .door-content h2 { font-size: 14px; }
-  .door-content p, .door-cont
+  .door-content p, .door-content a { font-size: 11px; }
+}
