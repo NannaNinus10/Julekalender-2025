@@ -70,14 +70,14 @@ h1 {
 }
 
 .door-content h2 {
-  font-size: clamp(28px, 5.2vw, 56px);
+  font-size: clamp(14px, 2.6vw, 28px);
   color: darkred;
   margin-top: 12px;   /* rykker overskriften lidt ned */
-  margin-bottom: 3px; /* giver luft til teksten */
+  margin-bottom: 6px; /* giver luft til teksten */
 }
 
 .door-content p {
-  font-size: clamp(24px, 4vw, 44px);
+  font-size: clamp(12px, 4vw, 22px);
   color: darkgreen;
   margin-bottom: 10px;
 }
@@ -120,5 +120,6 @@ h1 {
     margin-top: -6px; /* knap rykkes en smule op */
   }
 }
+
 
 
