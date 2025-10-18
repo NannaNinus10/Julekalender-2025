@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<title>Låge 24 – Julequiz</title>
 <style>
 body {
   font-family: Arial, sans-serif;
@@ -7,107 +12,205 @@ body {
   text-align: center;
   color: white;
 }
-
+h1 {
+  font-size: 24px;
+  margin-top: 20px;
+}
 .content-box {
   background-color: white;
-  color: black;
-  padding: clamp(15px, 5%, 25px);
+  padding: 20px;
   border-radius: 12px;
-  max-width: 90%;
-  width: 400px;
-  margin: 30px auto;
+  max-width: 800px;
+  width: 90%;
+  margin: 20px auto;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  position: relative;
+  text-align: center;
 }
-
-#gameArea {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1 / 1; /* holder kvadratisk område */
-  margin: 0 auto;
-  overflow: hidden;
-}
-
-#backgroundBack,
-#backgroundFront {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-}
-
-.gift {
-  position: absolute;
-  top: 50%;
-  z-index: 2;
-  width: 10%; /* dynamisk størrelse */
-  transform: translateY(-50%);
-}
-
-.sack {
-  position: absolute;
-  bottom: 2%;
-  width: 18%;
-  height: auto;
-  cursor: pointer;
-  z-index: 4;
-}
-
-#sackBlå { left: 2%; }
-#sackRød { left: 25%; }
-#sackGul { left: 48%; }
-#sackGrøn { left: 71%; }
-
-#scoreDisplay {
-  margin-top: 10px;
-  font-weight: bold;
-  font-size: clamp(16px, 2.5vw, 20px);
-}
-
-#endScreen {
-  display: none;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #204226;
+.quiz-intro {
+  background: #4c7a58;
   color: white;
-  padding: clamp(10px, 3vw, 20px);
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: clamp(16px, 3vw, 20px);
-  z-index: 10;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  text-align: left;
+  font-size: 16px;
 }
-
+.quiz-question { font-size: 18px; font-weight: bold; margin-bottom: 15px; }
+.options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.options button {
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: #f0ece1;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  width: 100%;
+}
+.options button.correct { background: #4c7a58; }
+.options button.wrong { background: #993b3b; }
+.options button:disabled { opacity: 0.8; cursor: not-allowed; }
+.explanation {
+  display: none;
+  background: #e8f5e9;
+  border-left: 5px solid #2e7d32;
+  padding: 15px;
+  margin-top: 10px;
+  text-align: left;
+  border-radius: 8px;
+}
+.next-btn {
+  display: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: #993b3b;
+  color: white;
+  cursor: pointer;
+  margin-top: 20px;
+}
+.result {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 20px;
+  color: #2e7d32;
+}
 .back-button {
   display: inline-block;
   margin-top: 20px;
-  padding: clamp(8px, 2vw, 14px) clamp(12px, 3vw, 20px);
+  padding: 10px 16px;
   background-color: #204226;
   color: white;
   text-decoration: none;
   border-radius: 8px;
   font-weight: bold;
 }
+.back-button:hover { background-color: #35663c; }
 
-.back-button:hover {
-  background-color: #35663c;
-}
-
-/* Mobiljusteringer */
 @media (max-width: 600px) {
-  .content-box {
-    width: 95%;
-    padding: 10px;
-  }
-
-  .sack {
-    width: 20%;
-  }
-
-  .gift {
-    width: 12%;
-  }
+  h1 { font-size: 20px; }
+  .content-box { padding: 15px; }
+  .quiz-intro { font-size: 14px; }
+  .quiz-question { font-size: 16px; }
+  .options button { font-size: 14px; padding: 10px; }
+  .next-btn { font-size: 14px; padding: 10px; }
 }
 </style>
+</head>
+<body>
+
+<h1>Glædelig 24. december – Julequiz</h1>
+
+<div class="content-box">
+  <div id="quiz-container"></div>
+  <button class="next-btn" id="nextBtn">Næste spørgsmål</button>
+  <p><a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a></p>
+</div>
+
+<script>
+const quizData = [
+  {
+    intro: "I 1600-tallets protestantiske Danmark fandtes endnu ikke julegaver som vi kender dem i dag. I stedet havde man en form for juleløn til tjenestefolk og små gaver til samfundets svageste.",
+    question: "Hvad bestod disse tidlige 'julegaver' typisk af?",
+    options: ["Sølvmønter og smykker", "Brød og æbleskiver", "Legetøj og dukker", "Vin og øl"],
+    answer: "Brød og æbleskiver",
+    explanation: "Julegaver i 1600-tallet var ofte naturalier som brød eller æbleskiver, som tjente både som julegratiale til tjenestefolk og som 'ceremoniel barmhjertighed' til tiggere og daglejere."
+  },
+  {
+    intro: "I 1700-tallet begyndte børnene at få små gaver til jul. Det var stadig langt fra nutidens julegaver, men de første spor af legetøj dukkede op.",
+    question: "Hvilken type gaver fik børnene typisk i 1700-tallet?",
+    options: ["Sølvkæder og små mønter", "Legetøj som små trædyr, dukker og vogne", "Slikposer og julekonfekt", "Nye sko eller hjemmestrikkede vanter"],
+    answer: "Legetøj som små trædyr, dukker og vogne",
+    explanation: "Børnene fik ofte håndlavet legetøj såsom trædyr, dukker og vogne. Gaverne var enkle og synlige på juletræet, så børnene vidste på forhånd, hvad de fik."
+  },
+  {
+    intro: "I midten af 1800-tallet blev julefejringen mere familieorienteret, og julegaver begyndte at sprede sig uden for det fine borgerskab.",
+    question: "Hvilke gaver var især populære til børn i denne periode?",
+    options: ["Legetøj og små bøger", "Slik og konfekt", "Pengegaver", "Håndlavede træmøbler"],
+    answer: "Legetøj og små bøger",
+    explanation: "I 1800-tallet var julegaver til børn typisk legetøj og små bøger, og gaverne blev ofte hængt op på juletræet, mens overraskelsesgaver kom først senere."
+  },
+  {
+    intro: "I midten af 1800-tallet spredte juletraditionen sig til hele befolkningen, og man begyndte at samle familien omkring julehygge. Børn fik legetøjsgaver, som ofte blev lagt synligt på juletræet, og lidt senre begyndte der at komme papir til gaveindpakning og gaveposer til at pakke gaverne ind, hvilket lagde grunden til de overraskelsesgaver, vi kender i dag.",
+    question: "Hvornår blev det normalt at gaverne var en overraskelse, ved at bruge gaveinpakning?",
+    options: ["1600-tallet", "Midten af 1700-tallet", "Slutningen af 1800-tallet", "1960'erne"],
+    answer: "Slutningen af 1800-tallet",
+    explanation: "Overraskelsesgaver og gaveindpakning begyndte at dukke op i slutningen af 1800-tallet, og i starten af 1900-tallet blev de tilgængelige for hele landet."
+  },
+  {
+    intro: "I 1930'erne introducerede Magasin du Nord den første butiksjulemand i Danmark.",
+    question: "Hvad var en vigtig funktion for butiksjulemanden?",
+    options: ["At dele slikposer ud til børn", "At tage imod ønsker fra børn på ønskesedler", "At synge julesange for kunderne", "At tænde julelysene i butikken"],
+    answer: "At tage imod ønsker fra børn på ønskesedler",
+    explanation: "Butiksjulemanden modtog ønskesedler fra børn med forslag til gaver, hvilket kan ses som starten på ønskeseddel-traditionen i Danmark."
+  },
+  {
+    intro: "I 1960'erne og 70'erne begyndte Magasin at eksperimentere med teknologiske løsninger til julegaver.",
+    question: "Hvad kunne den tidlige gaveønskemaskine i Magasin gøre?",
+    options: ["Udskrive forslag til gaver baseret på personlige oplysninger", "Pakke gaver ind automatisk", "Sende ønskesedler med posten", "Regne ud hvor mange børn der ville komme i butikken"],
+    answer: "Udskrive forslag til gaver baseret på personlige oplysninger",
+    explanation: "Magasin havde en datamaskine, hvor man kunne indtaste oplysninger om en person, og algoritmen foreslog passende gaver, en tidlig analog forløber for digitale ønskesedler."
+  },
+  {
+    intro: "I dag har ønskesedlerne digitaliseret gavehandlen, men der er også nye tendenser.",
+    question: "Hvilken type julegave er især populær blandt moderne danskere i dag?",
+    options: ["Oplevelsesgaver som koncerter eller rejser", "Små dukker og trædyr", "Kun én gave per barn", "Gaver til naboer og kolleger"],
+    answer: "Oplevelsesgaver som koncerter eller rejser",
+    explanation: "I nutiden vælger mange at give oplevelser frem for materielle ting for at gøre gaven mere mindeværdig og bæredygtig."
+  }
+];
+
+const quizContainer = document.getElementById("quiz-container");
+const nextBtn = document.getElementById("nextBtn");
+let currentQuestion = 0;
+let score = 0;
+
+function showQuestion(index) {
+  const q = quizData[index];
+  quizContainer.innerHTML = `
+    <div class="quiz-intro">${q.intro}</div>
+    <div class="quiz-question">${q.question}</div>
+    <div class="options">
+      ${q.options.map(opt => `<button>${opt}</button>`).join("")}
+    </div>
+    <div class="explanation">${q.explanation}</div>
+  `;
+
+  const optionButtons = quizContainer.querySelectorAll(".options button");
+  const explanation = quizContainer.querySelector(".explanation");
+
+  optionButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      optionButtons.forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+
+      optionButtons.forEach(b => b.disabled = true);
+      optionButtons.forEach(b => {
+        if (b.textContent === q.answer) b.classList.add("correct");
+        else b.classList.add("wrong");
+      });
+
+      if (btn.textContent === q.answer) score++;
+      explanation.style.display = "block";
+      nextBtn.style.display = "inline-block";
+    });
+  });
+}
+
+nextBtn.addEventListener("click", () => {
+  currentQuestion++;
+  if (currentQuestion < quizData.length) {
+    showQuestion(currentQuestion);
+    nextBtn.style.display = "none";
+  } else {
+    quizContainer.innerHTML = `<div class="result">Godt klaret! Du fik ${score} ud af ${quizData.length} rigtige 🎉</div>`;
+    nextBtn.style.display = "none";
+  }
+});
+
+showQuestion(currentQuestion);
+</script>
+
+</body>
+</html>
