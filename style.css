@@ -1,156 +1,112 @@
-/* === BASISSTYLING === */
+/* 🎄 GENERELT LAYOUT */
 body {
-  font-family: 'Mountains of Christmas', cursive;
-  text-align: center;
-  background: #204226;
-  margin: 0;
-  padding: 0;
+font-family: 'Mountains of Christmas', cursive;
+text-align: center;
+background: #204226;
+margin: 0;
+padding: 0;
 }
 
 h1 {
-  font-family: 'Berkshire Swash', cursive;
-  font-size: 60px;
-  color: white;
-  margin-top: 20px;
+font-family: 'Berkshire Swash', cursive;
+font-size: clamp(32px, 6vw, 60px);
+color: white;
+margin-top: 20px;
 }
 
-/* === KALENDER-GRID === */
+/* 🎁 KALENDER-GRID */
 #calendar {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-  gap: 10px;
-  max-width: 960px;
-  margin: 30px auto;
-  padding: 0 10px;
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+gap: 12px;
+max-width: 900px;
+margin: 30px auto;
+padding: 0 10px;
 }
 
-/* === LÅGER === */
+/* 📦 LÅGER */
 .door {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  perspective: 1000px;
+position: relative;
+width: 100%;
+aspect-ratio: 1 / 1;
+perspective: 1000px;
 }
 
 .door-front {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  z-index: 2;
-  cursor: pointer;
-  transition: transform 1s;
-  transform-origin: left center;
-  backface-visibility: hidden;
-}
-
-.door.open .door-front {
-  transform: rotateY(-120deg); /* åbner "indad" */
+position: absolute;
+inset: 0;
+background-repeat: no-repeat;
+background-position: center;
+background-size: contain;
+cursor: pointer;
+transform-origin: left center;
+transition: transform 1s ease;
+z-index: 3;
 }
 
 .door.closed .door-front {
-  transform: rotateY(0deg);
+transform: rotateY(0deg);
 }
 
-/* === INDHOLD BAG LÅGEN === */
+.door.open .door-front {
+transform: rotateY(-115deg);
+}
+
+/* 🎅 INDHOLD BAG LÅGER */
 .door-content {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background: white;
-  border-radius: 10px;
-  padding: 5%;
-  box-sizing: border-box;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.3s;
+position: absolute;
+inset: 0;
+background: white;
+border-radius: 10px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 6%;
+box-sizing: border-box;
+z-index: 1;
+text-align: center;
+overflow: hidden;
 }
 
 .door-content h2 {
-  font-family: 'Mountains of Christmas', cursive;
-  font-size: 1rem;
-  font-weight: 700;
-  color: darkred;
-  text-align: center;
-  margin: 0.2em 0;
+font-size: clamp(12px, 2.2vw, 24px);
+color: darkred;
+margin: 4px 0;
 }
 
 .door-content p {
-  font-size: 1rem;
-  color: darkgreen;
-  margin: 0.2em 0 0.5em 0;
-  text-align: center;
+font-size: clamp(10px, 1.8vw, 18px);
+color: darkgreen;
+margin-bottom: 8px;
 }
 
 .door-content a {
-  display: inline-block;
-  padding: 0.4em 0.6em;
-  background: #d33;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: bold;
-  font-size: 0.9rem;
-  transition: background 0.3s;
+display: inline-block;
+padding: clamp(3px, 0.6vw, 8px) clamp(6px, 1.2vw, 14px);
+background: #d33;
+color: white;
+text-decoration: none;
+border-radius: 5px;
+font-weight: bold;
+font-size: clamp(10px, 1.5vw, 16px);
+transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .door-content a:hover {
-  background: #a22;
+background: #a22;
+transform: scale(1.05);
 }
 
-/* === TILBAGEKNAP PÅ DAGSIDER === */
-a.back-button {
-  display: inline-block;
-  padding: 4px 8px;
-  background-color: #c0392b;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 10px;
-  margin-top: 10px;
-  transition: background-color 0.3s;
+/* 📱 RESPONSIVT DESIGN */
+@media (max-width: 900px) {
+#calendar {
+grid-template-columns: repeat(3, 1fr);
+}
 }
 
-a.back-button:hover {
-  background-color: #e74c3c;
+@media (max-width: 600px) {
+#calendar {
+grid-template-columns: repeat(2, 1fr);
 }
-
-/* === RESPONSIV JUSTERING === */
-@media (max-width: 768px) {
-  h1 {
-    font-size: 40px;
-  }
-
-  .door-content h2 {
-    font-size: 1.2rem;
-  }
-
-  .door-content p,
-  .door-content a {
-    font-size: 0.8rem;
-  }
 }
-
-@media (max-width: 480px) {
-  h1 {
-    font-size: 32px;
-  }
-
-  .door-content h2 {
-    font-size: 1rem;
-  }
-
-  .door-content p,
-  .door-content a {
-    font-size: 0.7rem;
-  }
-}
-
