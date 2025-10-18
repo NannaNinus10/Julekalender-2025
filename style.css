@@ -1,116 +1,122 @@
 /* 🎄 GENERELT LAYOUT */
 body {
-font-family: 'Mountains of Christmas', cursive;
-text-align: center;
-background: #204226;
-margin: 0;
-padding: 0;
+  font-family: 'Mountains of Christmas', cursive;
+  text-align: center;
+  background: #204226;
+  margin: 0;
+  padding: 0;
 }
 
 h1 {
-font-family: 'Berkshire Swash', cursive;
-font-size: clamp(32px, 6vw, 60px);
-color: white;
-margin-top: 20px;
+  font-family: 'Berkshire Swash', cursive;
+  font-size: clamp(32px, 6vw, 60px);
+  color: white;
+  margin-top: 20px;
 }
 
 /* 🎁 KALENDER-GRID */
 #calendar {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-gap: 12px;
-max-width: 900px;
-margin: 30px auto;
-padding: 0 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 0 10px;
 }
 
 /* 📦 LÅGER */
 .door {
-position: relative;
-width: 100%;
-aspect-ratio: 1 / 1;
-perspective: 1000px;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  perspective: 1000px;
 }
 
 .door-front {
-position: absolute;
-inset: 0;
-background-repeat: no-repeat;
-background-position: center;
-background-size: contain;
-cursor: pointer;
-transform-origin: left center;
-transition: transform 1s ease;
-z-index: 3;
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  cursor: pointer;
+  transform-origin: left center;
+  transition: transform 1s ease;
+  z-index: 3;
 }
 
 .door.closed .door-front {
-transform: rotateY(0deg);
+  transform: rotateY(0deg);
 }
 
 .door.open .door-front {
-transform: rotateY(-115deg);
+  transform: rotateY(-115deg);
 }
 
 /* 🎅 INDHOLD BAG LÅGER */
 .door-content {
-position: absolute;
-inset: 0;
-background: white;
-border-radius: 10px;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 3%;
-box-sizing: border-box;
-z-index: 1;
-text-align: center;
-overflow: hidden;
+  position: absolute;
+  inset: 0;
+  background: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3%;
+  box-sizing: border-box;
+  z-index: 1;
+  text-align: center;
+  overflow: hidden;
 }
 
 .door-content h2 {
-font-size: clamp(28px, 5.2vw, 56px);
-color: darkred;
-margin: 6px 0;
+  font-size: clamp(28px, 5.2vw, 56px);
+  color: darkred;
+  margin-top: 12px;   /* rykker overskriften lidt ned */
+  margin-bottom: 6px; /* giver luft til teksten */
 }
 
 .door-content p {
-font-size: clamp(24px, 4vw, 44px);
-color: darkgreen;
-margin-bottom: 10px;
+  font-size: clamp(24px, 4vw, 44px);
+  color: darkgreen;
+  margin-bottom: 10px;
 }
 
 .door-content a {
-margin-top: -5px; /* trækker knappen lidt op */
-display: inline-block;
-padding: clamp(5px, 0.8vw, 10px) clamp(8px, 1.6vw, 18px);
-background: #d33;
-color: white;
-text-decoration: none;
-border-radius: 6px;
-font-weight: bold;
-font-size: clamp(12px, 1.8vw, 18px);
-transition: background 0.3s ease, transform 0.2s ease;
+  margin-top: -10px; /* trækker knappen lidt op */
+  display: inline-block;
+  padding: clamp(5px, 0.8vw, 10px) clamp(8px, 1.6vw, 18px);
+  background: #d33;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: clamp(12px, 1.8vw, 18px);
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .door-content a:hover {
-background: #a22;
-transform: scale(1.05);
+  background: #a22;
+  transform: scale(1.05);
 }
 
 /* 📱 RESPONSIVT DESIGN */
 @media (max-width: 900px) {
-#calendar {
-grid-template-columns: repeat(3, 1fr);
-}
+  #calendar {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 600px) {
-#calendar {
-grid-template-columns: repeat(2, 1fr);
+  #calendar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .door-content h2 {
+    margin-top: 8px;  /* lidt mindre afstand på små skærme */
+  }
+
+  .door-content a {
+    margin-top: -6px; /* knap rykkes en smule op */
+  }
 }
-}
-
-
-
