@@ -70,28 +70,28 @@ h1 {
 }
 
 .door-content h2 {
-  font-size: clamp(14px, 2.6vw, 28px);
+  font-size: clamp(12px, 2vw, 22px);
   color: darkred;
   margin-top: 12px;   /* rykker overskriften lidt ned */
   margin-bottom: 9px; /* giver luft til teksten */
 }
 
 .door-content p {
-  font-size: clamp(12px, 4vw, 22px);
+  font-size: clamp(12px, 3vw, 18px);
   color: darkgreen;
   margin-bottom: 10px;
 }
 
 .door-content a {
-  margin-top: -10px; /* trækker knappen lidt op */
+  margin-top: -8px; /* trækker knappen lidt op */
   display: inline-block;
-  padding: clamp(5px, 0.8vw, 10px) clamp(8px, 1.6vw, 18px);
+  padding: clamp(4px, 0.6vw, 8px) clamp(6px, 1.2vw, 14px);
   background: #d33;
   color: white;
   text-decoration: none;
   border-radius: 6px;
   font-weight: bold;
-  font-size: clamp(12px, 1.8vw, 18px);
+  font-size: clamp(10px, 1.5vw, 16px);
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
@@ -120,6 +120,7 @@ h1 {
     margin-top: -6px; /* knap rykkes en smule op */
   }
 }
+
 
 
 
