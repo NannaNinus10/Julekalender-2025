@@ -17,7 +17,20 @@
     h1 {
       margin-top: 30px;
     }
+.images {
+  display: flex;           /* placer billederne på en række */
+  flex-wrap: wrap;         /* går til ny linje hvis der ikke er plads */
+  justify-content: center; /* centrerer billederne */
+  gap: 10px;               /* afstand mellem billederne */
+  margin-top: 15px;        /* lidt afstand over billederne */
+}
 
+.small-image {
+  width: 80px;             /* størrelse på billederne */
+  height: auto;            /* bevarer proportioner */
+  border-radius: 8px;      /* runde hjørner */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* lille skygge for dybde */
+}
     .content-box {
       background-color: white;
       color: black;
@@ -110,6 +123,11 @@
         <li>De "gamle" krea nisser.</li>
         <li>Ninja nissen.</li>
       </ol>
+<div class="images">
+  <img src="billeder/julekugle.jpg" alt="Julekugle" class="small-image">
+  <img src="billeder/pyntestjerne.jpg" alt="Pyntestjerne" class="small-image">
+  <img src="billeder/hjemmelavet-dekoration.jpg" alt="Hjemmelavet dekoration" class="small-image">
+</div>
 
       <p><em>Det var 3 ting, som jeg forbandt med december og jul – men hvad vil du selv skrive?</em></p>
     </div>
