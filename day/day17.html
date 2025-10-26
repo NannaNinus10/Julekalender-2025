@@ -1,288 +1,123 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
-<meta charset="utf-8">
-<title>Day 17 — Småkage-historie</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<style>
-:root{
-  --green: #204226;
-  --white: #ffffff;
-  --box-max-width: 900px;
-  --box-padding: 20px;
-  --box-radius: 12px;
-  --shadow: 0 6px 18px rgba(0,0,0,0.2);
-  --back-btn-bg: var(--green);
-  --back-btn-hover: #35663c;
-  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-}
+  <meta charset="UTF-8">
+  <title>Låge 17 – Dagens juleanbefaling</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #204226;
+      margin: 0;
+      padding: 0;
+      color: white;
+      text-align: center;
+    }
 
-html,body{
-  height:100%;
-  margin:0;
-  font-family: var(--font);
-  background: var(--green);
-  color: var(--white);
-}
+    h1 {
+      margin-top: 30px;
+    }
 
-.content-wrap{
-  min-height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:24px;
-  box-sizing:border-box;
-}
+    .content-box {
+      background-color: white;
+      color: black;
+      padding: 20px 30px;
+      border-radius: 12px;
+      max-width: 800px;
+      margin: 50px auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      text-align: left;
+    }
 
-.content-box{
-  width:100%;
-  max-width:var(--box-max-width);
-  background: var(--white);
-  color: #111;
-  border-radius: var(--box-radius);
-  padding: var(--box-padding);
-  box-shadow: var(--shadow);
-  box-sizing:border-box;
-}
+    .recommendation {
+      background-color: #f9f3e5;
+      border-left: 6px solid #993b3b;
+      padding: 18px;
+      margin-top: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
 
-h1{
-  margin:0 0 14px 0;
-  font-size:20px;
-  color:var(--green);
-}
+    .recommendation h2 {
+      color: #993b3b;
+      margin-top: 0;
+      font-size: 1.4em;
+    }
 
-.meta-row{
-  display:flex;
-  gap:12px;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:12px;
-}
+    .recommendation p {
+      margin: 8px 0;
+      line-height: 1.5;
+    }
 
-.back-button{
-  display:inline-block;
-  padding:10px 16px;
-  background: var(--back-btn-bg);
-  color: var(--white);
-  text-decoration:none;
-  border-radius:8px;
-  font-weight:700;
-  transition: background .18s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-}
-.back-button:hover{ background: var(--back-btn-hover); }
+    .recommendation a {
+      color: #993b3b;
+      font-weight: bold;
+      text-decoration: none;
+    }
 
-.game-area{
-  width:100%;
-  height:400px;
-  background: transparent;
-  border-radius:8px;
-  position:relative;
-  overflow:hidden;
-  margin: 8px 0 14px 0;
-  border:1px solid #ccc;
-}
+    .recommendation a:hover {
+      text-decoration: underline;
+    }
 
-.info-box{
-  background:#f0f0f0;
-  padding:12px;
-  border-radius:8px;
-  margin-bottom:10px;
-}
+    .back-button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #993b3b;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+    }
 
-.info-box h2{
-  margin:0 0 6px 0;
-  font-size:16px;
-  color:#204226;
-}
+    .back-button:hover {
+      background-color: #7c2f2f;
+    }
 
-.info-box p{
-  margin:0;
-  font-size:14px;
-}
+    /* Mobilvenlighed */
+    @media (max-width: 480px) {
+      .content-box {
+        margin: 20px;
+        padding: 15px;
+      }
 
-.ingredient{
-  position:absolute;
-  width:40px;
-  height:40px;
-  cursor:pointer;
-  transition: transform 0.3s;
-}
+      h1 {
+        font-size: 1.5rem;
+      }
 
-.ingredient::after{
-  content: attr(data-amount);
-  position:absolute;
-  top:-12px;
-  left:0;
-  font-size:10px;
-  font-weight:700;
-  color:#204226;
-}
+      .recommendation h2 {
+        font-size: 1.2rem;
+      }
 
-.ingredient.added::after{
-  content: "✓ " attr(data-amount);
-  color:#2e7d32;
-}
+      .recommendation p {
+        font-size: 0.9rem;
+      }
 
-.cookie{
-  position:absolute;
-  width:40px;
-  height:40px;
-  transition: opacity 0.4s;
-}
-
-.skaal{
-  position:absolute;
-  width:80px;
-  height:50px;
-  bottom:20px;
-  left:160px;
-}
-
-.nisse{
-  position:absolute;
-  width:80px;
-  height:120px;
-  bottom:0;
-  left:20px;
-  transition: transform 0.3s;
-}
-
-.hidden{
-  display:none;
-}
-
-.next-btn{
-  display:inline-block;
-  margin-top:8px;
-  padding:6px 12px;
-  background:#204226;
-  color:white;
-  border-radius:6px;
-  text-decoration:none;
-  cursor:pointer;
-}
-.next-btn:hover{ background:#35663c; }
-
-@media (max-width:520px){
-  .content-box{ padding:14px; }
-  .game-area{ height:360px; }
-  h1{ font-size:18px; }
-}
-</style>
+      .back-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
 </head>
-<body>
-<div class="content-wrap">
-  <main class="content-box" role="main" aria-labelledby="pageTitle">
-    <header class="meta-row">
-      <h1 id="pageTitle">Dag 17 — Småkage-historie</h1>
-      <a class="back-button" href="../index.html">⬅ Tilbage til kalenderen</a>
-    </header>
 
-    <div class="info-box" id="infoBox">
-      <h2 id="stepTitle">Trin 1: Saml ingredienser</h2>
-      <p id="stepText">
-        Smør 100 g, sukker 80 g, 1 æg og mel 200 g. Klik på ingredienserne for at tilføje dem til skålen.
-      </p>
+<body>
+  <h1>Glædelig 17. december</h1>
+
+  <div class="content-box">
+    <h2>Dagens juleanbefaling</h2>
+    <div class="recommendation">
+      <p><strong>Film:</strong> <em>Den lille julemand</em> (2014)</p>
+      <p>Julemanden skal finde sin afløser efter de vedtagne tre regler:  
+      Afløseren skal hedde Nicholas, være forældreløs og have et rent hjerte!  
+      Og julemanden finder på et børnehjem den sande afløser.  
+      Men denne får sit hyr med jobbet — blandt andet fordi han lider af højdeskræk!</p>
+      <p>Se filmen på <a href="https://fjernleje.filmstriben.dk/film/9000002753/den-lille-julemand" target="_blank">Filmstriben.dk</a></p>
+    <strong>Hvorfor anbefaler jeg denne?:</strong> Som skrevet lidt tidligere er jeg blevet opereret en del, og har skulle være en del hjemme i forbindelse med det. Så til en af mine indlæggelser i december måned kørte der tilfældigvis en julefilm på TV'et den hed "Den lille julemand". Så jeg kan ikke sige om det er filmens handling der overvandt mig, eller om det var fordi jeg kan huske den spredte julestemning i hospitalssengen. Det er i og for sig også ligegyldigt, for det er en film jeg faktisk har genset mange gange, og det er en af de julefilm der også i dag der gør mig glad. Så overvej om du vil se den.</p>
     </div>
 
-    <section class="game-area" id="gameArea">
-      <img src="assets/BagerBaggrund.svg" style="position:absolute;left:0;top:0;width:100%;height:100%;z-index:0;">
-      <img src="assets/skaal.svg" class="skaal" id="skaal">
-      <img src="assets/BagerNisse.svg" class="nisse" id="nisse">
-
-      <!-- Ingredienser med mængder -->
-      <img src="assets/smor.svg" class="ingredient" id="smor" data-amount="100 g" style="top:20px; left:20px;">
-      <img src="assets/sukker.svg" class="ingredient" id="sukker" data-amount="80 g" style="top:20px; left:80px;">
-      <img src="assets/æg.svg" class="ingredient" id="æg" data-amount="1 stk" style="top:20px; left:140px;">
-      <img src="assets/mel.svg" class="ingredient" id="mel" data-amount="200 g" style="top:20px; left:200px;">
-
-      <!-- Småkager udstukket -->
-      <img src="assets/SmaakageRå.svg" class="cookie hidden" id="cookie1" style="bottom:80px; left:120px;">
-      <img src="assets/SmaakageRå.svg" class="cookie hidden" id="cookie2" style="bottom:80px; left:160px;">
-      <img src="assets/SmaakageRå.svg" class="cookie hidden" id="cookie3" style="bottom:80px; left:200px;">
-      <img src="assets/SmaakageRå.svg" class="cookie hidden" id="cookie4" style="bottom:80px; left:240px;">
-      <img src="assets/SmaakageRå.svg" class="cookie hidden" id="cookie5" style="bottom:80px; left:280px;">
-      <img src="assets/SmaakageRå.svg" class="cookie hidden" id="cookie6" style="bottom:80px; left:320px;">
-    </section>
-  </main>
-</div>
-
-<script>
-const ingredients = ["smor","sukker","æg","mel"];
-let added = 0;
-let currentStep = 0;
-
-const steps = [
-  {title:"Trin 1: Saml ingredienser", text:"Smør 100 g, sukker 80 g, 1 æg og mel 200 g. Klik på ingredienserne for at tilføje dem til skålen."},
-  {title:"Trin 2: Bland ingredienser", text:"Alle ingredienser i skålen er samlet! Lad os røre lidt med skeen."},
-  {title:"Trin 3: Form småkager", text:"Tril små kugler og placer dem på bagepladen."},
-  {title:"Trin 4: Bagning", text:"Småkagerne bages 10–12 minutter. Se dem blive gyldne!"},
-  {title:"Trin 5: Pynt", text:"Nu kan vi pynte småkagerne med glasur og krymmel. God jul!"}
-];
-
-const infoTitle = document.getElementById("stepTitle");
-const infoText = document.getElementById("stepText");
-const nisse = document.getElementById("nisse");
-const cookies = [
-  document.getElementById("cookie1"),
-  document.getElementById("cookie2"),
-  document.getElementById("cookie3"),
-  document.getElementById("cookie4"),
-  document.getElementById("cookie5"),
-  document.getElementById("cookie6")
-];
-
-function nextStep(){
-  currentStep++;
-  if(currentStep>=steps.length){
-    infoTitle.textContent = "Færdig!";
-    infoText.textContent = "Småkagerne er færdige og nisserne jubler!";
-    return;
-  }
-  infoTitle.textContent = steps[currentStep].title;
-  infoText.textContent = steps[currentStep].text;
-
-  if(currentStep===1){
-    // Røre-animation
-    nisse.style.transform = "translateY(-10px)";
-    setTimeout(()=>{nisse.style.transform="translateY(0px)";},300);
-  }
-
-  if(currentStep===2){
-    // Vis småkager på bagepladen (udstukket)
-    cookies.forEach(c=>c.classList.remove("hidden"));
-  }
-
-  if(currentStep===3){
-    // Skift til gyldne småkager
-    cookies.forEach(c=>{
-      c.style.opacity = 0;
-      setTimeout(()=>{
-        c.src="assets/SmaakageBagt.svg";
-        c.style.opacity = 1;
-      },400);
-    });
-  }
-}
-
-ingredients.forEach(id=>{
-  const el = document.getElementById(id);
-  el.addEventListener("click",()=>{
-    el.style.top = "300px";
-    el.style.left = "160px";
-    el.style.transform = "scale(0.6)";
-    el.classList.add("added");
-    added++;
-    if(added===ingredients.length){
-      const nextBtn = document.createElement("div");
-      nextBtn.className="next-btn";
-      nextBtn.textContent="Næste trin";
-      nextBtn.addEventListener("click", nextStep);
-      document.querySelector(".info-box").appendChild(nextBtn);
-    }
-  });
-});
-</script>
+    <p style="text-align:center;">
+      <a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a>
+    </p>
+  </div>
 </body>
 </html>
