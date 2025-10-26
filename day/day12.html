@@ -1,1 +1,187 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <title>Låge 5 – Læs og forstå juleventyret</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --green: #204226;
+      --white: #ffffff;
+      --box-radius: 12px;
+      --shadow: 0 6px 18px rgba(0,0,0,0.2);
+      --btn-blue: #741303;
+    }
+    html,body{ height:100%; margin:0; font-family:system-ui,Segoe UI,Roboto,Arial; background:var(--green); color:var(--white); }
+    .wrap{ min-height:100%; display:flex; align-items:center; justify-content:center; padding:20px; box-sizing:border-box; }
+    .box{
+      width:100%; max-width:820px; background:var(--white); color:#111; border-radius:var(--box-radius); padding:22px; box-shadow:var(--shadow);
+    }
+    h1{ margin:0 0 8px 0; color:var(--green); font-size:22px; }
+    .game-area{ display:block; }
+    .quiz-card{ background:#f0e6cc; border-radius:10px; padding:16px; box-shadow:0 2px 6px rgba(0,0,0,0.06); margin-bottom:12px; }
+    .question{ font-size:18px; font-weight:700; margin-bottom:10px; color:#204226; }
+    .options{ display:flex; flex-direction:column; gap:10px; }
+    .options button{
+      padding:12px 14px; font-size:16px; border: none; border-radius:8px; text-align:left; cursor:pointer;
+      background:#f0ece1; color:#111; transition: transform .06s, background .12s;
+    }
+    .options button:hover:not(:disabled){ transform:translateY(-2px); background:#e3dcbc; }
+    .options button.correct{ background: #35663c; color:white; border:2px solid #2f492c; }
+    .options button.wrong{ background: #c62828; color:white; border:2px solid #741303; }
+    .options button.selected{ box-shadow: 0 0 0 3px rgba(163,147,109,0.12); }
+    .options button:disabled{ opacity:0.85; cursor:not-allowed; }
+    .explanation{ display:none; background:#f0e6cc; border-left:5px solid #741303; padding:12px; margin-top:10px; border-radius:6px; color:#182617; }
+    .next-btn{
+      margin-top:14px; padding:10px 16px; border:none; border-radius:8px; background:var(--btn-blue); color:white; cursor:pointer;
+    }
+    .progress{ font-weight:700; color:#4c7a58; margin-bottom:8px; }
+    #result{ display:none; font-size:20px; font-weight:800; color:#2e7d32; margin-top:12px; }
+    .back-button{ display:inline-block; margin-top:14px; padding:10px 16px; background:var(--green); color:white; text-decoration:none; border-radius:8px; font-weight:700; }
+    .back-button:hover{ background:#35663c; }
+    @media (max-width:540px){
+      .box{ padding:14px; }
+      .question{ font-size:16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <main class="box" role="main" aria-labelledby="title">
+      <h1 id="title">Glædelig 5. december – Læs og forstå juleventyret</h1>
+
+      <!-- Intro / historie -->
+      <div id="introContainer" class="game-area">
+        <div class="quiz-card">
+          <p id="introText">
+           I et gammelt, skrånende hus, hvor hvert hjørne gemte på hemmeligheder fra generationer, boede en lille nisse. Luften var fyldt med duften af gran, friskbagte æbleskiver og kanel, og lidt smørsmag hang stadig i køkkenluften fra de småkager, familien havde bagt tidligere på dagen. Nissen elskede december – det var hans yndlingstid på året, hvor magien næsten kunne mærkes på huden.</p> Hver aften, når familien var gået i seng, listede han rundt på loftet. Hans små fødder knirkede næsten ikke mod de gamle gulvbrædder, og gennem sprækkerne kunne han se stuen nedenunder. Træet stod endnu halvpynte, og guirlander og kugler ventede på at blive hængt op. Børnene lå trygt i deres senge, uvidende om de små hænder, der snart ville bringe træet til live.
+</p>Men i år føltes noget forkert. Lyset i stuen blinkede ikke, og ingen havde sat grød ud til ham på bordet. Et stik af sorg gik gennem nissen. Alligevel vidste han, at julens magi kunne findes, selv når man følte sig glemt. Han tog en dyb indånding og sagde stille til sig selv: “Jeg må bringe glæde alligevel.”</p>
+Han kravlede ned på gulvet og fandt en gammel kasse med lyskæder, glitrende kugler og små stjerner. Med forsigtige hænder begyndte han at pynte træet. Nogle kugler faldt, guirlander gled ned – men nissen lo stille for sig selv. </p>Hans hjerte bankede varmt, mens han trådte tilbage og beundrede sit arbejde. Træet begyndte at gløde under de små blinkende lys, og hele rummet blev fyldt med et varmt, gyldent skær.
+</p>Da familien vågnede næste morgen, blev de mødt af synet af et fuldt oplyst træ med glitrende kugler, glimmerende stjerner og lys, der dansede på væggene. Børnene råbte af fryd, mens duften af gran og kanel fyldte deres næser, og selv de voksne smilede forundret. Ingen vidste præcist, hvordan det hele var sket, men nissen kiggede stille frem fra en skygge i loftet, tilfreds og glad. Selv uden grød eller småkager havde han skabt juleglæde og magi – præcis som han altid havde ønsket.
+Og sådan stod han et øjeblik stille, midt i natten og duften af gran og kanel, og lod julemagien fylde huset. Julen handlede ikke om at blive set, men om at give glæde – og denne nat havde han gjort netop det. </p>
+          <button id="startQuizBtn" class="next-btn">Start spørgsmålene</button>
+        </div>
+      </div>
+
+      <!-- Quiz container -->
+      <div class="progress" id="progress" style="display:none;">Spørgsmål 1 / 5</div>
+      <section class="game-area" id="quizContainer" aria-live="polite"></section>
+
+      <div id="result" role="status" aria-live="assertive"></div>
+
+      <p style="text-align:center;">
+        <a class="back-button" href="../index.html">⬅ Tilbage til kalenderen</a>
+      </p>
+    </main>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Hvor bor nissen?",
+        options: ["I et slot", "I et gammelt hus", "På et julemarked", "I en kirke"],
+        answer: "I et gammelt hus",
+        explanation: "Historien fortæller os, at nissen bor i et gammel, skrånende hus, fyldt med hemmeligheder fra generationer"
+      },
+      {
+        question: "Hvornår listede nissen rundt for at pynte juletræet",
+        options: ["Om morgenen", "Til middag", "Om natten", "Om aftnen"],
+        answer: "Om natten",
+        explanation: "Familien sover, mens nissen bevæger sig rundt for at pynte træet, så det først bliver opdaget om morgenen"
+      },
+      {
+        question: "Hvordan følte nissen sig, inden han besluttede at pynte træet?",
+        options: ["Glad og spændt", "Trist og glemt", "Sulten og træt", "Sur og vred"],
+        answer: "Trist og glemt",
+        explanation: "Nissen følte sig trist, fordi lysene ikke blinkede, og ingen havde sat grød ud til ham, men han valgte alligevel at bringe glæde"
+      },
+      {
+        question: "Hvad brugte nissen til at pynre juletræet?",
+        options: ["Lyskæder, kugler og stjerner", "Papir og klister", "Glimmer og bøger", "Farvede bånd og kager"],
+        answer: "Lyskæder, kugler og stjerner",
+        explanation: "Historien beskriver, at nissen fandt en kasse med lyskæder, glitrende kugler og små stjerne og brugte dem til at pynte træet"
+      },
+      {
+        question: "Hvordan reagerede familien, da de vågnede næste morgen?",
+        options: ["De blev sure", "De blev forundrede og glade", "De sov videre", "De lagde ikke mærke til træet"],
+        answer: "De blev forundrede og glade",
+        explanation: "Familien blev mødt af et fuldt oplyst og pyntet træ og glædede sig over nissens arbejde, selvom de ikke vidste, hvordan det var sket."
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    const quizContainer = document.getElementById('quizContainer');
+    const progressEl = document.getElementById('progress');
+    const resultEl = document.getElementById('result');
+    const introContainer = document.getElementById('introContainer');
+    const startQuizBtn = document.getElementById('startQuizBtn');
+
+    startQuizBtn.addEventListener('click', () => {
+      introContainer.style.display = 'none';
+      progressEl.style.display = 'block';
+      renderQuestion(current);
+    });
+
+    function renderQuestion(i){
+      const q = quizData[i];
+      quizContainer.innerHTML = `
+        <div class="quiz-card" role="group" aria-labelledby="q${i}">
+          <div id="q${i}" class="question">${q.question}</div>
+          <div class="options" role="list">
+            ${q.options.map(opt => `<button role="listitem" class="opt-btn" type="button">${opt}</button>`).join('')}
+          </div>
+          <div class="explanation" aria-hidden="true"></div>
+          <button class="next-btn">Næste spørgsmål</button>
+        </div>
+      `;
+
+      progressEl.textContent = `Spørgsmål ${i+1} / ${quizData.length}`;
+      const optionButtons = quizContainer.querySelectorAll('.opt-btn');
+      const explanationEl = quizContainer.querySelector('.explanation');
+      const nextBtn = quizContainer.querySelector('.next-btn');
+
+      optionButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          optionButtons.forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          optionButtons.forEach(b => b.disabled = true);
+
+          const text = btn.textContent.trim();
+          if(text === q.answer){
+            btn.classList.add('correct');
+            score++;
+          } else {
+            btn.classList.add('wrong');
+            optionButtons.forEach(b => { if(b.textContent.trim() === q.answer) b.classList.add('correct'); });
+          }
+
+          explanationEl.textContent = q.explanation;
+          explanationEl.style.display = 'block';
+          explanationEl.setAttribute('aria-hidden','false');
+
+          nextBtn.style.display = 'inline-block';
+        });
+      });
+
+      nextBtn.addEventListener('click', () => {
+        if(current < quizData.length - 1){
+          current++;
+          renderQuestion(current);
+        } else {
+          showResult();
+        }
+      });
+    }
+
+    function showResult(){
+      quizContainer.innerHTML = '';
+      progressEl.textContent = '';
+      resultEl.style.display = 'block';
+      resultEl.textContent = `Tillykke! Du fik ${score} ud af ${quizData.length} rigtige.`;
+    }
+  </script>
+</body>
+</html>
 
