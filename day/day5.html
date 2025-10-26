@@ -1,1 +1,188 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <title>Låge 5 – Læs og forstå juleventyret</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --green: #204226;
+      --white: #ffffff;
+      --box-radius: 12px;
+      --shadow: 0 6px 18px rgba(0,0,0,0.2);
+      --btn-blue: #35663c;
+    }
+    html,body{ height:100%; margin:0; font-family:system-ui,Segoe UI,Roboto,Arial; background:var(--green); color:var(--white); }
+    .wrap{ min-height:100%; display:flex; align-items:center; justify-content:center; padding:20px; box-sizing:border-box; }
+    .box{
+      width:100%; max-width:820px; background:var(--white); color:#111; border-radius:var(--box-radius); padding:22px; box-shadow:var(--shadow);
+    }
+    h1{ margin:0 0 8px 0; color:var(--green); font-size:22px; }
+    .game-area{ display:block; }
+    .quiz-card{ background:#fafafa; border-radius:10px; padding:16px; box-shadow:0 2px 6px rgba(0,0,0,0.06); margin-bottom:12px; }
+    .question{ font-size:18px; font-weight:700; margin-bottom:10px; color:#204226; }
+    .options{ display:flex; flex-direction:column; gap:10px; }
+    .options button{
+      padding:12px 14px; font-size:16px; border: none; border-radius:8px; text-align:left; cursor:pointer;
+      background:#f0ece1; color:#111; transition: transform .06s, background .12s;
+    }
+    .options button:hover:not(:disabled){ transform:translateY(-2px); background:#e3dcbc; }
+    .options button.correct{ background: #35663c; color:white; border:2px solid #2f492c; }
+    .options button.wrong{ background: #c62828; color:white; border:2px solid #741303; }
+    .options button.selected{ box-shadow: 0 0 0 3px rgba(163,147,109,0.12); }
+    .options button:disabled{ opacity:0.85; cursor:not-allowed; }
+    .explanation{ display:none; background:#f0e6cc; border-left:5px solid #741303; padding:12px; margin-top:10px; border-radius:6px; color:#182617; }
+    .next-btn{
+      display:none; margin-top:14px; padding:10px 16px; border:none; border-radius:8px; background:var(--btn-blue); color:white; cursor:pointer;
+    }
+    .progress{ font-weight:700; color:#4c7a58; margin-bottom:8px; }
+    #result{ display:none; font-size:20px; font-weight:800; color:#2e7d32; margin-top:12px; }
+    .back-button{ display:inline-block; margin-top:14px; padding:10px 16px; background:var(--green); color:white; text-decoration:none; border-radius:8px; font-weight:700; }
+    .back-button:hover{ background:#35663c; }
+    @media (max-width:540px){
+      .box{ padding:14px; }
+      .question{ font-size:16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <main class="box" role="main" aria-labelledby="title">
+      <h1 id="title">Glædelig 5. december – Julequiz</h1>
+
+      <!-- Intro / historie -->
+      <div id="introContainer" class="game-area">
+        <div class="quiz-card">
+          <p id="introText">
+            I et gammelt hus, hvor der altid duftede af gran og æbleskiver, boede en lille nisse.  
+            Hver december listede han rundt på loftet og kiggede ned gennem sprækken i gulvet.  
+            Han kunne se familien pynte op, bage småkager og hænge julestrømper op.  
+            Men i år var der noget galt – julelysene blinkede ikke, og ingen havde sat grød ud til ham!  
+            Nissen blev både fornærmet og trist. En aften besluttede han sig for at hjælpe alligevel ved at finde nogle gamle lyskæder og tænde lysene på træet.
+          </p>
+          <button id="startQuizBtn" class="next-btn">Start spørgsmålene 🎅</button>
+        </div>
+      </div>
+
+      <!-- Quiz container -->
+      <div class="progress" id="progress" style="display:none;">Spørgsmål 1 / 5</div>
+      <section class="game-area" id="quizContainer" aria-live="polite"></section>
+
+      <div id="result" role="status" aria-live="assertive"></div>
+
+      <p style="text-align:center;">
+        <a class="back-button" href="../index.html">⬅ Tilbage til kalenderen</a>
+      </p>
+    </main>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Hvilken dag i december fejrer vi Luciadag i Danmark?",
+        options: ["6. december", "13. december", "21. december", "24. december"],
+        answer: "13. december",
+        explanation: "Luciadag falder den 13. december og er en skandinavisk tradition med lysoptog og lussekatter."
+      },
+      {
+        question: "Hvilken julesmåkage er den ældste i Danmark?",
+        options: ["Brunkagen", "Klejnen", "Jødekagen", "Pebernødden"],
+        answer: "Klejnen",
+        explanation: "Klejnen kendes i Danmark fra 1600-tallet som 'hareøre'. Den ældste bevarede opskrift er fra 1766."
+      },
+      {
+        question: "Hvor stammer risalamande fra?",
+        options: ["Frankrig", "Tyskland", "Danmark", "USA"],
+        answer: "Danmark",
+        explanation: "Risalamande stammer fra slutningen af 1800-tallet i Danmark. Traditionen med at gemme en mandel stammer dog fra Frankrig."
+      },
+      {
+        question: "Hvilken evangelist har skrevet juleevangeliet med sætningen 'Og det skete i de dage'?",
+        options: ["Markus", "Matthæus", "Lukas", "Johannes"],
+        answer: "Lukas",
+        explanation: "Lukasevangeliet indeholder den detaljerede beretning om Jesu fødsel, herunder folketællingen der fik Maria og Josef til at rejse til Bethlehem."
+      },
+      {
+        question: "Hvad erstattede brunede kartofler oprindeligt?",
+        options: ["Glasserede kastanjer", "Glasserede pastinak", "Glasserede kålroer", "Glasserede kål"],
+        answer: "Glasserede kastanjer",
+        explanation: "I 1800-tallet hos de højere borgere var brunede kastanjer almindeligt. Fattige erstattede de dyre kastanjer med kartofler."
+      }
+    ];
+
+    let current = 0;
+    let score = 0;
+
+    const quizContainer = document.getElementById('quizContainer');
+    const progressEl = document.getElementById('progress');
+    const resultEl = document.getElementById('result');
+    const introContainer = document.getElementById('introContainer');
+    const startQuizBtn = document.getElementById('startQuizBtn');
+
+    startQuizBtn.addEventListener('click', () => {
+      introContainer.style.display = 'none';
+      progressEl.style.display = 'block';
+      renderQuestion(current);
+    });
+
+    function renderQuestion(i){
+      const q = quizData[i];
+      quizContainer.innerHTML = `
+        <div class="quiz-card" role="group" aria-labelledby="q${i}">
+          <div id="q${i}" class="question">${q.question}</div>
+          <div class="options" role="list">
+            ${q.options.map(opt => `<button role="listitem" class="opt-btn" type="button">${opt}</button>`).join('')}
+          </div>
+          <div class="explanation" aria-hidden="true"></div>
+          <button class="next-btn">Næste spørgsmål</button>
+        </div>
+      `;
+
+      progressEl.textContent = `Spørgsmål ${i+1} / ${quizData.length}`;
+      const optionButtons = quizContainer.querySelectorAll('.opt-btn');
+      const explanationEl = quizContainer.querySelector('.explanation');
+      const nextBtn = quizContainer.querySelector('.next-btn');
+
+      optionButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          optionButtons.forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          optionButtons.forEach(b => b.disabled = true);
+
+          const text = btn.textContent.trim();
+          if(text === q.answer){
+            btn.classList.add('correct');
+            score++;
+          } else {
+            btn.classList.add('wrong');
+            optionButtons.forEach(b => { if(b.textContent.trim() === q.answer) b.classList.add('correct'); });
+          }
+
+          explanationEl.textContent = q.explanation;
+          explanationEl.style.display = 'block';
+          explanationEl.setAttribute('aria-hidden','false');
+
+          nextBtn.style.display = 'inline-block';
+        });
+      });
+
+      nextBtn.addEventListener('click', () => {
+        if(current < quizData.length - 1){
+          current++;
+          renderQuestion(current);
+        } else {
+          showResult();
+        }
+      });
+    }
+
+    function showResult(){
+      quizContainer.innerHTML = '';
+      progressEl.textContent = '';
+      resultEl.style.display = 'block';
+      resultEl.textContent = `Tillykke! Du fik ${score} ud af ${quizData.length} rigtige.`;
+    }
+  </script>
+</body>
+</html>
 
