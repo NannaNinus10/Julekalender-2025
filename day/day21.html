@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<title>Låge 21 – Julegavefabrik</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #204226;
+    margin: 0;
+    padding: 0;
+    color: white;
+    text-align: center;
+  }
+
+  .content-box {
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 800px;
+    margin: 50px auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+
+  .instruction {
+    font-size: 18px;
+    color: #204226; 
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+
+  .factory {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .factory img {
+    width: 400px;
+    height: auto;
+    max-width: 90%;
+  }
+
+  .word {
+    font-size: 30px;
+    letter-spacing: 10px;
+    margin-bottom: 20px;
+    color: black;
+  }
+
+  .letters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 20px;
+  }
+
+  .letters button {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background: #f0ece1;
+    color: black;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .letters button:hover:not(:disabled) {
+    background: #a3936d;
+  }
+
+  .letters button.correct { background: #4c7a58; color: white; }
+  .letters button.wrong { background: #993b3b; color: white; }
+  .letters button:disabled { opacity: 0.7; cursor: not-allowed; }
+
+  .final {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4c7a58;
+    margin-top: 20px;
+  }
+
+  .back-button {
+    display: inline-block;
+    padding: 12px 18px;
+    background-color: #d6336c;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background 0.3s;
+    margin-top: 10px;
+  }
+
+  .back-button:hover {
+    background-color: #e05580;
+  }
+</style>
+</head>
+<body>
+  <h1>Glædelig 21. december – Gæt juleordet</h1>
+  <div class="content-box">
+
+    <p class="instruction">
+      Sørg for, at alle gaverne bliver i! 🎁<br>
+      Svarer du forkert, tager drillenissen en pakke ud af sækken.
+    </p>
+
+    <div class="factory">
+      <img id="factoryImg" src="../assets/gaver-0.svg" alt="Julegavefabrik">
+    </div>
+
+    <div class="word" id="word"></div>
+    <div class="letters" id="letters"></div>
+    <div id="message"></div>
+
+    <p>
+      <a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a>
+    </p>
+  </div>
+
+<script>
+const juleord = "RENSDYR";
+const maxErrors = 8;
+let guessed = [];
+let errors = 0;
+
+const wordEl = document.getElementById("word");
+const lettersEl = document.getElementById("letters");
+const factoryImg = document.getElementById("factoryImg");
+const messageEl = document.getElementById("message");
+
+// Opret bogstavknapper
+for(let i=65;i<=90;i++){
+  let l = String.fromCharCode(i);
+  let btn = document.createElement("button");
+  btn.textContent = l;
+  btn.addEventListener("click", () => guessLetter(l, btn));
+  lettersEl.appendChild(btn);
+}
+
+// Vis ord med _ 
+function updateWord() {
+  let display = juleord.split("").map(l => guessed.includes(l) ? l : "_").join(" ");
+  wordEl.textContent = display;
+}
+
+// Gæt bogstav
+function guessLetter(l, btn) {
+  btn.disabled = true;
+  if(juleord.includes(l)){
+    guessed.push(l);
+    btn.classList.add("correct");
+    updateWord();
+    checkWin();
+  } else {
+    btn.classList.add("wrong");
+    errors++;
+    updateFactoryImage();
+    checkLose();
+  }
+}
+
+// Opdater baggrundsbillede
+function updateFactoryImage() {
+  factoryImg.src = `../assets/gaver-${errors}.svg`; // korrekt rækkefølge
+}
+
+// Tjek om vundet
+function checkWin(){
+  if(juleord.split("").every(l => guessed.includes(l))){
+    messageEl.innerHTML = '<div class="final">🎉 Ho ho ho! Du reddede julegaverne! 🎉</div>';
+    disableAll();
+  }
+}
+
+// Tjek om tabt
+function checkLose(){
+  if(errors >= maxErrors){
+    messageEl.innerHTML = '<div class="final">Øv! Drillenissen tog alle gaverne ud af sækken.</div>';
+    disableAll();
+  }
+}
+
+function disableAll(){
+  document.querySelectorAll(".letters button").forEach(b => b.disabled = true);
+}
+
+updateWord();
+</script>
+</body>
+</html>
+
+
