@@ -1,9 +1,49 @@
-<!DOCTYPE html>
-<html lang="da">
 <head>
 <meta charset="UTF-8">
 <title>Låge 13 – Find juleord med drille-nisse</title>
+
 <style>
+
+  /* Mobilvenlighed */
+  @media (max-width: 480px) {
+
+    h1 {
+      font-size: 20px;
+      margin-top: 15px;
+    }
+
+    .content-box {
+      margin: 20px;
+      padding: 15px;
+    }
+
+    .instruction {
+      font-size: 14px;
+      padding: 12px;
+    }
+
+    .grid-container {
+      grid-template-columns: repeat(10, 30px);
+      grid-template-rows: repeat(10, 30px);
+      gap: 2px;
+    }
+
+    .cell {
+      width: 30px;
+      height: 30px;
+      font-size: 14px;
+    }
+
+    .word-list {
+      font-size: 14px;
+    }
+
+    .back-button {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+    }
+  }
+
   body {
     font-family: Arial, sans-serif;
     background: #204226;
@@ -84,20 +124,20 @@
     margin-top: 20px;
   }
 
-    .back-button {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #741303;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-    }
+  .back-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #741303;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+  }
 
-    .back-button:hover {
-      background-color: #5c0e0e;
-    }
+  .back-button:hover {
+    background-color: #5c0e0e;
+  }
 
   .shake {
     animation: shake 0.3s;
@@ -112,139 +152,3 @@
   }
 </style>
 </head>
-<body>
-<h1>Glædelig 13. december – Find juleord</h1>
-<div class="content-box">
-  <p class="instruction">
-    Find de skjulte juleord! 🎄<br>
-    Forkerte forsøg får drillenissen til at ryste gitteret – men de fundne ord forbliver sikret. Du skal trykke på 1 bogstav ad gangen, og trykke på bogstaverne i den korrekte rækkefølge.
-  </p>
-
-  <div class="word-list" id="wordList"></div>
-  <div class="grid-container" id="grid"></div>
-  <div id="message"></div>
-
-  <p>
-    <a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a>
-  </p>
-</div>
-
-<script>
-const words = ["NISSE","JULETRÆ","RUDOLF","SNEFNUG","GLØGG","GAVER"];
-const gridSize = 10;
-let foundWords = [];
-
-const gridEl = document.getElementById("grid");
-const wordListEl = document.getElementById("wordList");
-const messageEl = document.getElementById("message");
-
-// Opret tomt gitter
-let grid = Array(gridSize).fill().map(() => Array(gridSize).fill(''));
-
-// Tilføj ord lodret eller vandret (simpelt placeringsalgoritme)
-words.forEach(word => {
-  let placed = false;
-  while(!placed){
-    const dir = Math.random() < 0.5 ? "H" : "V";
-    let row = Math.floor(Math.random()*gridSize);
-    let col = Math.floor(Math.random()*gridSize);
-
-    if(dir==="H" && col+word.length <= gridSize){
-      let canPlace = true;
-      for(let i=0;i<word.length;i++){
-        if(grid[row][col+i] !== '' && grid[row][col+i]!==word[i]){
-          canPlace=false; break;
-        }
-      }
-      if(canPlace){
-        for(let i=0;i<word.length;i++) grid[row][col+i] = word[i];
-        placed = true;
-      }
-    } else if(dir==="V" && row+word.length <= gridSize){
-      let canPlace = true;
-      for(let i=0;i<word.length;i++){
-        if(grid[row+i][col] !== '' && grid[row+i][col]!==word[i]){
-          canPlace=false; break;
-        }
-      }
-      if(canPlace){
-        for(let i=0;i<word.length;i++) grid[row+i][col] = word[i];
-        placed = true;
-      }
-    }
-  }
-});
-
-// Fyld resterende tomme celler med random bogstaver
-for(let r=0;r<gridSize;r++){
-  for(let c=0;c<gridSize;c++){
-    if(grid[r][c]===''){
-      grid[r][c] = String.fromCharCode(65 + Math.floor(Math.random()*26));
-    }
-  }
-}
-
-// Lav HTML for gitter
-for(let r=0;r<gridSize;r++){
-  for(let c=0;c<gridSize;c++){
-    const cell = document.createElement("div");
-    cell.classList.add("cell");
-    cell.textContent = grid[r][c];
-    cell.dataset.row = r;
-    cell.dataset.col = c;
-    cell.addEventListener("click", () => selectCell(cell));
-    gridEl.appendChild(cell);
-  }
-}
-
-// Lav ordliste
-words.forEach(w=>{
-  const span = document.createElement("span");
-  span.textContent = w;
-  span.id = "word-"+w;
-  wordListEl.appendChild(span);
-});
-
-// Simpelt klik: vælg bogstav og tjek om ord er fundet
-let selection = [];
-function selectCell(cell){
-  selection.push(cell);
-  const selectedWord = selection.map(s=>s.textContent).join('');
-  const reverseWord = selectedWord.split('').reverse().join('');
-  
-  if(words.includes(selectedWord) && !foundWords.includes(selectedWord)){
-    selection.forEach(s=>s.classList.add("found"));
-    foundWords.push(selectedWord);
-    document.getElementById("word-"+selectedWord).classList.add("found");
-    selection = [];
-    checkWin();
-  } else if(words.includes(reverseWord) && !foundWords.includes(reverseWord)){
-    selection.forEach(s=>s.classList.add("found"));
-    foundWords.push(reverseWord);
-    document.getElementById("word-"+reverseWord).classList.add("found");
-    selection = [];
-    checkWin();
-  } else if(selection.length>=Math.max(...words.map(w=>w.length))){
-    // forkert forsøg -> ryst gitter og midlertidig rød markering
-    gridEl.classList.add("shake");
-    selection.forEach(s=>s.classList.add("wrong"));
-    setTimeout(()=>{
-      selection.forEach(s=>{
-        s.classList.remove("wrong"); // fjern rød efter kort tid
-      });
-      gridEl.classList.remove("shake");
-      selection = [];
-    },500);
-  }
-}
-
-function checkWin(){
-  if(foundWords.length===words.length){
-    messageEl.innerHTML = '<div class="final">🎉 Ho ho ho! Du fandt alle juleordene! 🎉</div>';
-  }
-}
-</script>
-</body>
-</html>
-
-
