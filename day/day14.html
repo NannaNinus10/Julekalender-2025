@@ -30,6 +30,8 @@
       height: 400px;
       margin: 0 auto;
       overflow: hidden;
+      background: #e0e0e0;
+      border-radius: 12px;
     }
 
     #backgroundImage {
@@ -55,7 +57,7 @@
       color: #204226;
       font-weight: bold;
       border-radius: 8px;
-      z-index: 5;
+      z-index: 50; /* højere end sækken */
       box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     }
 
@@ -71,7 +73,7 @@
       transform: translateX(-50%);
       width: 100px;
       height: 130px;
-      z-index: 2;
+      z-index: 10; /* lavere end HUD, men højere end gaver */
     }
 
     /* Gaver */
@@ -80,7 +82,7 @@
       top: 0;
       width: 28px;
       height: 28px;
-      z-index: 1;
+      z-index: 5;
     }
 
     /* Pileknapper */
@@ -118,10 +120,10 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      z-index: 10;
+      z-index: 100;
     }
 
-    /* Tilbage-knap (samme stil som day2) */
+    /* Tilbage-knap */
     .back-button {
       display: inline-block;
       margin-top: 20px;
@@ -181,8 +183,13 @@
     function moveSack(dir) {
       if(dir==="left") sackX -= sackSpeed;
       if(dir==="right") sackX += sackSpeed;
-if(sackX < -20) sackX = -20; // tillad 20px uden for venstre kant
-if(sackX > gameArea.offsetWidth - sack.offsetWidth + 20) sackX = gameArea.offsetWidth - sack.offsetWidth + 20; // lidt ud til højre
+
+      // Grænser: tillad 20px uden for begge kanter
+      const leftLimit = -20;
+      const rightLimit = gameArea.offsetWidth - sack.offsetWidth + 20;
+
+      if (sackX < leftLimit) sackX = leftLimit;
+      if (sackX > rightLimit) sackX = rightLimit;
 
       sack.style.left = sackX + "px";
     }
@@ -207,7 +214,7 @@ if(sackX > gameArea.offsetWidth - sack.offsetWidth + 20) sackX = gameArea.offset
       gameArea.appendChild(gift);
 
       let giftY = 0;
-      const fallSpeed = 1.5; // lidt langsommere
+      const fallSpeed = 1.5;
 
       const fallInterval = setInterval(()=>{
         giftY += fallSpeed;
@@ -245,11 +252,10 @@ if(sackX > gameArea.offsetWidth - sack.offsetWidth + 20) sackX = gameArea.offset
     function endGame() {
       clearInterval(timerInterval);
       clearInterval(spawnIntervalId);
-      const gifts = document.querySelectorAll(".gift");
-      gifts.forEach(g => g.remove());
+      document.querySelectorAll(".gift").forEach(g => g.remove());
 
       endScreen.style.display="block";
-      endScreen.textContent=`🎉 Tillykke! Du greb ${score} ud af ${totalGifts} gaver! 🎉`;
+      endScreen.textContent=`Tillykke! Du greb ${score} ud af ${totalGifts} gaver!`;
     }
 
     function startGame() {
@@ -272,4 +278,3 @@ if(sackX > gameArea.offsetWidth - sack.offsetWidth + 20) sackX = gameArea.offset
   </script>
 </body>
 </html>
-
