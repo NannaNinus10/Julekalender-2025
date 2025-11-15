@@ -1,164 +1,190 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
-  <meta charset="UTF-8">
-  <title>Låge 8 – Julequiz</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <style>
-    :root{
-      --green: #204226;
-      --white: #ffffff;
-      --box-radius: 12px;
-      --shadow: 0 6px 18px rgba(0,0,0,0.2);
-      --btn-red: #993b3b;
-    }
-    html,body{ height:100%; margin:0; font-family:Arial,sans-serif; background:var(--green); color:var(--white); }
-    .wrap{ min-height:100%; display:flex; align-items:center; justify-content:center; padding:20px; box-sizing:border-box; }
-    .box{ width:100%; max-width:820px; background:var(--white); color:#111; border-radius:var(--box-radius); padding:22px; box-shadow:var(--shadow); }
-    h1{ margin:0 0 12px 0; color:var(--green); font-size:22px; text-align:center; }
-    .quiz-card{ background:#fafafa; border-radius:10px; padding:16px; box-shadow:0 2px 6px rgba(0,0,0,0.06); margin-bottom:12px; }
-    .intro{ font-weight:600; margin-bottom:12px; color:#204226; }
-    .question{ font-size:18px; font-weight:700; margin-bottom:10px; color:#204226; }
-    .options{ display:flex; flex-direction:column; gap:10px; }
-    .options button{
-      padding:12px 14px; font-size:16px; border:none; border-radius:8px; text-align:left; cursor:pointer; background:#f0ece1; color:#111; transition: transform .06s, background .12s;
-    }
-    .options button:hover:not(:disabled){ transform:translateY(-2px); background:#e3dcbc; }
-    .options button.correct{ background:#2e7d32; color:white; border:2px solid #1f5e23; }
-    .options button.wrong{ background:#c62828; color:white; border:2px solid #8b1f1f; }
-    .options button.selected{ box-shadow:0 0 0 3px rgba(163,147,109,0.12); }
-    .options button:disabled{ opacity:0.85; cursor:not-allowed; }
-    .explanation{ display:none; background:#fff8e1; border-left:5px solid #f9a825; padding:12px; margin-top:10px; border-radius:6px; color:#5a3f00; }
-    .next-btn{ display:none; margin-top:14px; padding:10px 16px; border:none; border-radius:8px; background:var(--btn-red); color:white; cursor:pointer; }
-    #result{ display:none; font-size:20px; font-weight:800; color:#2e7d32; margin-top:12px; text-align:center; }
-    .back-button{ display:inline-block; margin-top:14px; padding:10px 16px; background:var(--green); color:white; text-decoration:none; border-radius:8px; font-weight:700; text-align:center; }
-    .back-button:hover{ background:#35663c; }
-  </style>
+<meta charset="UTF-8">
+<title>Låge 8 – Julequiz</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #204226;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  color: white;
+}
+h1 {
+  font-size: 24px;
+  margin-top: 20px;
+}
+.content-box {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 800px;
+  width: 90%;
+  margin: 20px auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  text-align: center;
+}
+.quiz-question { font-size: 18px; font-weight: bold; margin-bottom: 15px; color:#204226; }
+.options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.options button {
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: #f0ece1;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  width: 100%;
+  text-align: left;
+}
+.options button.correct { background: #4c7a58; color: white; }
+.options button.wrong { background: #993b3b; color: white; }
+.options button:disabled { opacity: 0.8; cursor: not-allowed; }
+.explanation {
+  display: none;
+  background: #e8f5e9;
+  border-left: 5px solid #2e7d32;
+  padding: 15px;
+  margin-top: 10px;
+  text-align: left;
+  border-radius: 8px;
+  color:#184d28;
+}
+.next-btn {
+  display: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: #993b3b;
+  color: white;
+  cursor: pointer;
+  margin-top: 20px;
+}
+.result { font-size: 20px; font-weight: bold; margin-top: 20px; color: #2e7d32; }
+.back-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 16px;
+  background-color: #204226;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+}
+.back-button:hover { background-color: #35663c; }
+@media (max-width: 600px) {
+  h1 { font-size: 20px; }
+  .content-box { padding: 15px; }
+  .quiz-question { font-size: 16px; }
+  .options button { font-size: 14px; padding: 10px; }
+  .next-btn { font-size: 14px; padding: 10px; }
+}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <main class="box">
-      <h1>Glædelig 8. december – Julequiz</h1>
 
-      <div id="quizContainer" aria-live="polite"></div>
+<h1>Glædelig 8. december – Julequiz</h1>
 
-      <div id="result" role="status" aria-live="assertive"></div>
+<div class="content-box">
+  <div id="quiz-container"></div>
+  <button class="next-btn" id="nextBtn">Næste spørgsmål</button>
+  <p><a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a></p>
+</div>
 
-      <p style="text-align:center;">
-        <a class="back-button" href="../index.html">⬅ Tilbage til kalenderen</a>
-      </p>
-    </main>
-  </div>
+<script>
+const quizData = [
+  {
+    question: "Hvor mange gange har vi officielt haft hvid jul siden år 1900?",
+    options: ["9", "25", "47", "72"],
+    answer: "9",
+    explanation: "Siden 1900 har vi kun haft hvid jul 9 gange: 1915, 1923, 1938, 1969, 1981, 1995, 2009 og 2010."
+  },
+  {
+    question: "Hvornår fik julemanden det udseende vi kender i dag (rød dragt, hvidt skæg, ho-ho-ho)?",
+    options: ["1870'erne", "Start 1900-tallet", "1930'erne", "1950'erne"],
+    answer: "1930'erne",
+    explanation: "I 1931 blev julemanden brugt i en Coca-Cola reklame, og siden da har vi haft den runde, glade mand i rødt og hvidt."
+  },
+  {
+    question: "Hvilket kød er oftest på julebordet?",
+    options: ["And", "Flæskesteg", "Kalkun", "Gås"],
+    answer: "And",
+    explanation: "77% af danskerne spiser and juleaften, 64% flæskesteg, 9% kalkun og 5% gås."
+  },
+  {
+    question: "Hvor mange rensdyr trækker julemandens kane?",
+    options: ["7", "8", "9", "10"],
+    answer: "9",
+    explanation: "Oprindeligt var der 8 rensdyr i digtet 'A Visit from St. Nicholas'. Rudolf blev tilføjet i 1939, så i dag tæller vi 9."
+  },
+  {
+    question: "Hvordan lyder omkvædet i første vers af 'Dejlig er den himmelblå'?",
+    options: [
+      "//: os fra jorden op til sig. ://",
+      "//: som en lille stjernesol. ://",
+      "//: skulle fødes på vor jord. ://",
+      "//: til at lyse for vor fod. ://"
+    ],
+    answer: "//: os fra jorden op til sig. ://",
+    explanation: "Oprindeligt havde salmen 19 vers, men i dag synger vi 7. Første vers slutter med //: os fra jorden op til sig. ://."
+  },
+  {
+    question: "Hvilken var den første danske julekalender på TV?",
+    options: ["Vinterbyøster", "Jullerup Færgeby", "Jul i Gammelby", "Historier fra hele verden"],
+    answer: "Historier fra hele verden",
+    explanation: "Historier fra hele verden var den første danske julekalender på TV. Den blev sendt i 1962 på DR og var samtidig Børnenes U-landskalender."
+  }
+];
 
-  <script>
-    const quizData = [
-      {
-        intro: "I Danmark oplever vi tit sne i december måned. For at man officielt kan kalde det en hvid jul, skal 90% af Danmark være dækket af mindst 0,5 cm sne juleaftensdag.",
-        question: "Hvor mange gange har vi officielt haft hvid jul siden år 1900?",
-        options: ["9", "25", "47", "72"],
-        answer: "9",
-        explanation: "Siden 1900 har vi kun haft hvid jul 9 gange: 1915, 1923, 1938, 1969, 1981, 1995, 2009 og 2010."
-      },
-      {
-        intro: "Julemanden er en ikonisk figur i julen, og hans udseende har udviklet sig over tid.",
-        question: "Hvornår fik julemanden det udseende vi kender i dag (rød dragt, hvidt skæg, ho-ho-ho)?",
-        options: ["1870'erne", "Start 1900-tallet", "1930'erne", "1950'erne"],
-        answer: "1930'erne",
-        explanation: "I 1931 blev julemanden brugt i en Coca-Cola reklame, og siden da har vi haft den runde, glade mand i rødt og hvidt. Tidligere afbildninger var mere bispeagtige."
-      },
-      {
-        intro: "Hvilket kød spises oftest på julebordet i Danmark?",
-        question: "Hvilket kød er oftest på julebordet?",
-        options: ["And", "Flæskesteg", "Kalkun", "Gås"],
-        answer: "And",
-        explanation: "77% af danskerne spiser and juleaften, 64% flæskesteg, 9% kalkun og 5% gås."
-      },
-      {
-        intro: "Julemandens rensdyr trækker hans kane gennem natten.",
-        question: "Hvor mange rensdyr trækker julemandens kane?",
-        options: ["7", "8", "9", "10"],
-        answer: "9",
-        explanation: "Oprindeligt var der 8 rensdyr i digtet 'A Visit from St. Nicholas'. Rudolf blev tilføjet i 1939, så i dag tæller vi 9."
-      },
-      {
-        intro: "Vi synger ofte omkring juletræet. En klassiker er 'Dejlig er den himmelblå'.",
-        question: "Hvordan lyder omkvædet i første vers?",
-        options: [
-          "//: os fra jorden op til sig. ://",
-          "//: som en lille stjernesol. ://",
-          "//: skulle fødes på vor jord. ://",
-          "//: til at lyse for vor fod. ://"
-        ],
-        answer: "//: os fra jorden op til sig. ://",
-        explanation: "Oprindeligt havde salmen 19 vers, men i dag synger vi 7. Første vers slutter med //: os fra jorden op til sig. ://."
-      },
-      {
-        intro: "Den første danske TV-julekalender blev sendt i 1962.",
-        question: "Hvilken var den første danske julekalender på TV?",
-        options: ["Vinterbyøster", "Jullerup Færgeby", "Jul i Gammelby", "Historier fra hele verden"],
-        answer: "Historier fra hele verden",
-        explanation: "Historier fra hele verden var den første danske julekalender på TV. Den blev sendt i 1962 på DR og var samtidig Børnenes U-landskalender."
-      }
-    ];
+let currentQuestion = 0;
+let score = 0;
 
-    const quizContainer = document.getElementById('quizContainer');
-    const resultEl = document.getElementById('result');
-    let current = 0;
-    let score = 0;
+const quizContainer = document.getElementById("quiz-container");
+const nextBtn = document.getElementById("nextBtn");
 
-    function renderQuestion(i){
-      const q = quizData[i];
-      quizContainer.innerHTML = `
-        <div class="quiz-card">
-          <div class="intro">${q.intro}</div>
-          <div class="question">${q.question}</div>
-          <div class="options">
-            ${q.options.map(opt => `<button>${opt}</button>`).join('')}
-          </div>
-          <div class="explanation" aria-hidden="true"></div>
-          <button class="next-btn">Næste spørgsmål</button>
-        </div>
-      `;
+function showQuestion(index) {
+  const q = quizData[index];
+  quizContainer.innerHTML = `
+    <div class="quiz-question">${q.question}</div>
+    <div class="options">
+      ${q.options.map(opt => `<button>${opt}</button>`).join("")}
+    </div>
+    <div class="explanation">${q.explanation}</div>
+  `;
 
-      const optionButtons = quizContainer.querySelectorAll('.options button');
-      const explanationEl = quizContainer.querySelector('.explanation');
-      const nextBtn = quizContainer.querySelector('.next-btn');
+  const optionButtons = quizContainer.querySelectorAll(".options button");
+  const explanation = quizContainer.querySelector(".explanation");
 
-      optionButtons.forEach(btn=>{
-        btn.addEventListener('click',()=>{
-          optionButtons.forEach(b=>b.classList.remove('selected'));
-          btn.classList.add('selected');
-          optionButtons.forEach(b=>b.disabled=true);
-
-          const text = btn.textContent.trim();
-          if(text === q.answer){
-            btn.classList.add('correct');
-            score++;
-          } else {
-            btn.classList.add('wrong');
-            optionButtons.forEach(b=>{ if(b.textContent.trim()===q.answer) b.classList.add('correct'); });
-          }
-
-          explanationEl.textContent = q.explanation;
-          explanationEl.style.display='block';
-          explanationEl.setAttribute('aria-hidden','false');
-          nextBtn.style.display='inline-block';
-        });
+  optionButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      optionButtons.forEach(b => b.disabled = true);
+      optionButtons.forEach(b => {
+        if (b.textContent === q.answer) b.classList.add("correct");
+        else b.classList.add("wrong");
       });
+      if (btn.textContent === q.answer) score++;
+      explanation.style.display = "block";
+      nextBtn.style.display = "inline-block";
+    });
+  });
+}
 
-      nextBtn.addEventListener('click',()=>{
-        if(current<quizData.length-1){
-          current++;
-          renderQuestion(current);
-        } else {
-          quizContainer.innerHTML='';
-          resultEl.style.display='block';
-          resultEl.textContent=`🎄 Godt klaret! Du fik ${score} ud af ${quizData.length} rigtige.`;
-        }
-      });
-    }
+nextBtn.addEventListener("click", () => {
+  currentQuestion++;
+  if (currentQuestion < quizData.length) {
+    showQuestion(currentQuestion);
+    nextBtn.style.display = "none";
+  } else {
+    quizContainer.innerHTML = `<div class="result">Godt klaret! Du fik ${score} ud af ${quizData.length} rigtige 🎉</div>`;
+    nextBtn.style.display = "none";
+  }
+});
 
-    renderQuestion(current);
-  </script>
+showQuestion(currentQuestion);
+</script>
+
 </body>
 </html>
