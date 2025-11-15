@@ -10,7 +10,7 @@
       --white: #ffffff;
       --box-radius: 12px;
       --shadow: 0 6px 18px rgba(0,0,0,0.2);
-      --btn-blue: #741303;
+      --btn-blue: #35663c;
     }
     html,body{ height:100%; margin:0; font-family:system-ui,Segoe UI,Roboto,Arial; background:var(--green); color:var(--white); }
     .wrap{ min-height:100%; display:flex; align-items:center; justify-content:center; padding:20px; box-sizing:border-box; }
@@ -19,7 +19,7 @@
     }
     h1{ margin:0 0 8px 0; color:var(--green); font-size:22px; }
     .game-area{ display:block; }
-    .quiz-card{ background:#f0e6cc; border-radius:10px; padding:16px; box-shadow:0 2px 6px rgba(0,0,0,0.06); margin-bottom:12px; }
+    .quiz-card{ background:#fafafa; border-radius:10px; padding:16px; box-shadow:0 2px 6px rgba(0,0,0,0.06); margin-bottom:12px; }
     .question{ font-size:18px; font-weight:700; margin-bottom:10px; color:#204226; }
     .options{ display:flex; flex-direction:column; gap:10px; }
     .options button{
@@ -33,7 +33,7 @@
     .options button:disabled{ opacity:0.85; cursor:not-allowed; }
     .explanation{ display:none; background:#f0e6cc; border-left:5px solid #741303; padding:12px; margin-top:10px; border-radius:6px; color:#182617; }
     .next-btn{
-      margin-top:14px; padding:10px 16px; border:none; border-radius:8px; background:var(--btn-blue); color:white; cursor:pointer; display:none;
+      display:none; margin-top:14px; padding:10px 16px; border:none; border-radius:8px; background:var(--btn-blue); color:white; cursor:pointer;
     }
     .progress{ font-weight:700; color:#4c7a58; margin-bottom:8px; }
     #result{ display:none; font-size:20px; font-weight:800; color:#2e7d32; margin-top:12px; }
@@ -50,6 +50,8 @@
     <main class="box" role="main" aria-labelledby="title">
       <h1 id="title">Glædelig 16. december – Julequiz</h1>
 
+      </div>
+
       <div class="progress" id="progress">Spørgsmål 1 / 5</div>
 
       <section class="game-area" id="quizContainer" aria-live="polite"></section>
@@ -65,31 +67,36 @@
   <script>
     const quizData = [
       {
+        intro: "Hvilken dag i december fejrer vi Luciadag i Danmark?",
         question: "Luciadag falder på…?",
         options: ["6. december", "13. december", "21. december", "24. december"],
         answer: "13. december",
         explanation: "Luciadag falder den 13. december og er en skandinavisk tradition med lysoptog og lussekatter."
       },
       {
+        intro: "Julesmåkager har mange varianter. Men hvilken er den ældste i Danmark?",
         question: "Hvilken julesmåkage er den ældste?",
         options: ["Brunkagen", "Klejnen", "Jødekagen", "Pebernødden"],
         answer: "Klejnen",
         explanation: "Klejnen kendes i Danmark fra 1600-tallet som 'hareøre'. Den ældste bevarede opskrift er fra 1766."
       },
       {
+        intro: "Julegodter og desserter hører til på julebordet. Risalamande er en klassiker.",
         question: "Hvor stammer risalamande fra?",
         options: ["Frankrig", "Tyskland", "Danmark", "USA"],
         answer: "Danmark",
         explanation: "Risalamande, som vi kender den, stammer fra slutningen af 1800-tallet i Danmark. Traditionen med at gemme en mandel stammer dog fra Frankrig."
       },
       {
+        intro: "Juleevangeliet læses i kirken juleaftensdag.",
         question: "Hvilken evangelist har skrevet juleevangeliet med sætningen 'Og det skete i de dage'?",
         options: ["Markus", "Matthæus", "Lukas", "Johannes"],
         answer: "Lukas",
         explanation: "Lukasevangeliet indeholder den detaljerede beretning om Jesu fødsel, herunder folketællingen der fik Maria og Josef til at rejse til Bethlehem."
       },
       {
-        question: "Hvad erstattede brunede kartofler oprindeligt?",
+        intro: "Brunede kartofler på julebordet var ikke altid standard.",
+        question: "Hvad erstattede de oprindeligt?",
         options: ["Glasserede kastanjer", "Glasserede pastinak", "Glasserede kålroer", "Glasserede kål"],
         answer: "Glasserede kastanjer",
         explanation: "I 1800-tallet hos de højere borgere var brunede kastanjer almindeligt. Fattige erstattede de dyre kastanjer med kartofler, som blev billigere og mere tilgængelige."
@@ -158,10 +165,14 @@
       quizContainer.innerHTML = '';
       progressEl.textContent = '';
       resultEl.style.display = 'block';
-      resultEl.textContent = `Tillykke! Du fik ${score} ud af ${quizData.length} rigtige.`;
+      resultEl.textContent = `🎄 Tillykke! Du fik ${score} ud af ${quizData.length} rigtige.`;
     }
 
     renderQuestion(current);
   </script>
 </body>
 </html>
+
+
+
+
