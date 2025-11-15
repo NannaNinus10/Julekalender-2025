@@ -1,8 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="da">
 <head>
   <meta charset="UTF-8">
-  <title>Låge 23 – Dagens juleanbefaling</title>
+  <title>Låge 23 – Skriveværkstedet</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -16,7 +17,23 @@
     h1 {
       margin-top: 30px;
     }
+     .images {
+  display: flex;           /* placer billederne på en række */
+  flex-wrap: wrap;         /* går til ny linje hvis der ikke er plads */
+  justify-content: center; /* centrerer billederne */
+  gap: 10px;               /* afstand mellem billederne */
+  margin-top: 15px;        /* lidt afstand over billederne */
+}
 
+
+.small-image {
+  width: 150px;             /* størrelse på billederne */
+  height: auto;            /* bevarer proportioner */
+  border-radius: 8px;      /* runde hjørner */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* lille skygge for dybde */
+
+  
+}
     .content-box {
       background-color: white;
       color: black;
@@ -29,8 +46,8 @@
     }
 
     .recommendation {
-      background-color: #f9f3e5;
-      border-left: 6px solid #993b3b;
+      background-color: #f0ece1;
+      border-left: 6px solid #741303;
       padding: 18px;
       margin-top: 10px;
       border-radius: 10px;
@@ -38,7 +55,7 @@
     }
 
     .recommendation h2 {
-      color: #993b3b;
+      color: #741303;
       margin-top: 0;
       font-size: 1.4em;
     }
@@ -48,21 +65,11 @@
       line-height: 1.5;
     }
 
-    .recommendation a {
-      color: #993b3b;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
-    .recommendation a:hover {
-      text-decoration: underline;
-    }
-
     .back-button {
       display: inline-block;
       margin-top: 20px;
       padding: 10px 20px;
-      background-color: #993b3b;
+      background-color: #741303;
       color: white;
       text-decoration: none;
       border-radius: 8px;
@@ -70,7 +77,7 @@
     }
 
     .back-button:hover {
-      background-color: #7c2f2f;
+      background-color: #5c0e0e;
     }
 
     /* Mobilvenlighed */
@@ -101,19 +108,30 @@
 </head>
 
 <body>
-  <h1>Glædelig 23. december</h1>
+  <h1>Glædelig 23. december </h1>
 
   <div class="content-box">
-    <h2>Dagens juleanbefaling</h2>
+    <h2>Skriveværkstedet</h2>
     <div class="recommendation">
-      <p><strong>Film:</strong> <em>Den lille julemand</em> (2014)</p>
-      <p>Julemanden skal finde sin afløser efter de vedtagne tre regler:  
-      Afløseren skal hedde Nicholas, være forældreløs og have et rent hjerte!  
-      Og julemanden finder på et børnehjem den sande afløser.  
-      Men denne får sit hyr med jobbet — blandt andet fordi han lider af højdeskræk!</p>
-      <p>Se filmen på <a href="https://fjernleje.filmstriben.dk/film/9000002753/den-lille-julemand" target="_blank">Filmstriben.dk</a></p>
-    <strong>Hvorfor anbefaler jeg denne?:</strong> Som skrevet lidt tidligere er jeg blevet opereret en del, og har skulle være en del hjemme i forbindelse med det. Så til en af mine indlæggelser i december måned kørte der tilfældigvis en julefilm på TV'et den hed "Den lille julemand". Så jeg kan ikke sige om det er filmens handling der overvandt mig, eller om det var fordi jeg kan huske den spredte julestemning i hospitalssengen. Det er i og for sig også ligegyldigt, for det er en film jeg faktisk har genset mange gange, og det er en af de julefilm der også i dag der gør mig glad. Så overvej om du vil se den.</p>
-    </div>
+      <h2>Find juleblokken frem igen</h2>
+      <p>Velkommen tilbage til skriveværkstedet. Tiden går, og i dag er der kun 1 dag til juleaften, dog er det også samtidig en dag, hvor du har oplevet over 95% af julen 2025, og samtidig har i åbnet en tom kasse. Men hvorfor skriver jeg dog det? Men det er ikke så mærkeligt igen, fordi i dag vil jeg gerne have dig til at overveje og skrive lidt ned omkring hvordan din jul i 2025 har været indtil nu </p>
+
+      <p>I dag tænker jeg, du skal skrive så mange ting ned, som for dig bare er lig med julen 2025. Det kan være en hyggelig juletur, en hyggelig eftermiddag med din familie eller måske en ting du har set, det skal bare være vigtigt for dig. Jeg kunne godt tænke mig at i for en gangs skyld ikke kun skrev i blokken, for i må gerne skrive på stykker af papir som i kan putte i den lille kasse i har fået..</p>
+
+      <p><strong>Formålet i dag:</strong> <em>Vi tæller ned til den store dag d. 24 december, men glemmer vi måske nogle gange at reflekterer over hvordan resten af julen egentlig er gået?.</em></p>
+
+      <h5><strong>Hvad ville jeg selv skrive?</strong></h5>
+      <ol>
+        <li><strong>Det ved jeg ikke endnu:</strong> desværre kan jeg ikke skrive så meget, for lige nu, i mens jeg skriver denne låge er det d. 1 november 2025, og der er ikke meget jul endnu. Men det har nu været meget hyggeligt at bruge de sidste par måneder på at få lavet denne julekalender. Jeg kan fortælle, at det faktisk ikke var i den her retning jeg startede. Stille og roligt kom ideen dog frem, og flere og flere hyggelige jule idéer er dukket op i de sidste mange måneder. </li>
+      </ol>
+
+      <p><em>Lige i dag må i selv finde inspiration til hvad i kan skrive men sådan må det jo være – men hvad tænker du mon på at lægge ned i kassen?</em></p>
+     
+#<div class="images">
+ # <img src="../billeder/rigtig_jul.jpg" alt="Rigtig jul" class="small-image">
+ # <img src="../billeder/jule_gade.jpg" alt="Julegade" class="small-image">
+</div>
+
 
     <p style="text-align:center;">
       <a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a>
@@ -121,3 +139,8 @@
   </div>
 </body>
 </html>
+
+
+
+
+
