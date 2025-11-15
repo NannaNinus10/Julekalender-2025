@@ -47,9 +47,18 @@ h1 {
   transition: background 0.3s, transform 0.2s;
   width: 100%;
 }
-.options button.correct { background: #4c7a58; }
-.options button.wrong { background: #993b3b; }
-.options button:disabled { opacity: 0.8; cursor: not-allowed; }
+.options button.correct { 
+  background: #4c7a58; 
+  color: white;   /* Tydelig tekst på mørk grøn baggrund */
+}
+.options button.wrong { 
+  background: #993b3b; 
+  color: white;   /* Tydelig tekst på mørk rød baggrund */
+}
+.options button:disabled { 
+  opacity: 0.8; 
+  cursor: not-allowed; 
+}
 .explanation {
   display: none;
   background: #e8f5e9;
@@ -59,6 +68,8 @@ h1 {
   text-align: left;
   border-radius: 8px;
   color: #204226; /* Mørk grøn tekst, som matcher temaet */
+}
+
 }
 .next-btn {
   display: none;
@@ -215,4 +226,5 @@ showQuestion(currentQuestion);
 
 </body>
 </html>
+
 
