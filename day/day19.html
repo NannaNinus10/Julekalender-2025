@@ -1,177 +1,180 @@
 <!DOCTYPE html>
 <html lang="da">
 <head>
-  <meta charset="UTF-8">
-  <title>Låge 19 – Julequiz</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <style>
-    :root{
-      --green: #204226;
-      --white: #ffffff;
-      --box-radius: 12px;
-      --shadow: 0 6px 18px rgba(0,0,0,0.2);
-      --btn-blue: #1976d2;
-    }
-    html,body{ height:100%; margin:0; font-family:system-ui,Segoe UI,Roboto,Arial; background:var(--green); color:var(--white); }
-    .wrap{ min-height:100%; display:flex; align-items:center; justify-content:center; padding:20px; box-sizing:border-box; }
-    .box{
-      width:100%; max-width:820px; background:var(--white); color:#111; border-radius:var(--box-radius); padding:22px; box-shadow:var(--shadow);
-    }
-    h1{ margin:0 0 8px 0; color:var(--green); font-size:22px; }
-    .intro{ background:#e8f5e9; color:#184d28; padding:10px 14px; border-radius:8px; margin-bottom:14px; font-weight:600; }
-    .game-area{ display:block; }
-    .quiz-card{ background:#fafafa; border-radius:10px; padding:16px; box-shadow:0 2px 6px rgba(0,0,0,0.06); margin-bottom:12px; }
-    .question{ font-size:18px; font-weight:700; margin-bottom:10px; color:#204226; }
-    .options{ display:flex; flex-direction:column; gap:10px; }
-    .options button{
-      padding:12px 14px; font-size:16px; border: none; border-radius:8px; text-align:left; cursor:pointer;
-      background:#f0ece1; color:#111; transition: transform .06s, background .12s;
-    }
-    .options button:hover:not(:disabled){ transform:translateY(-2px); background:#e3dcbc; }
-    .options button.correct{ background: #2e7d32; color:white; border:2px solid #1f5e23; }
-    .options button.wrong{ background: #c62828; color:white; border:2px solid #8b1f1f; }
-    .options button.selected{ box-shadow: 0 0 0 3px rgba(163,147,109,0.12); }
-    .options button:disabled{ opacity:0.85; cursor:not-allowed; }
-    .explanation{ display:none; background:#fff8e1; border-left:5px solid #f9a825; padding:12px; margin-top:10px; border-radius:6px; color:#5a3f00; }
-    .next-btn{
-      display:none; margin-top:14px; padding:10px 16px; border:none; border-radius:8px; background:var(--btn-blue); color:white; cursor:pointer;
-    }
-    .progress{ font-weight:700; color:#2e7d32; margin-bottom:8px; }
-    #result{ display:none; font-size:20px; font-weight:800; color:#2e7d32; margin-top:12px; }
-    .back-button{ display:inline-block; margin-top:14px; padding:10px 16px; background:var(--green); color:white; text-decoration:none; border-radius:8px; font-weight:700; }
-    .back-button:hover{ background:#35663c; }
-    @media (max-width:540px){
-      .box{ padding:14px; }
-      .question{ font-size:16px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Låge 19 – Julequiz</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #204226;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  color: white;
+}
+h1 {
+  font-size: 24px;
+  margin-top: 20px;
+}
+.content-box {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 800px;
+  width: 90%;
+  margin: 20px auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  text-align: center;
+}
+.quiz-intro { display:none; } /* ikke brugt */
+.quiz-question { font-size: 18px; font-weight: bold; margin-bottom: 15px; color:#204226; }
+.options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.options button {
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: #f0ece1;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  width: 100%;
+  text-align: left;
+}
+.options button.correct { background: #4c7a58; color: white; }
+.options button.wrong { background: #993b3b; color: white; }
+.options button:disabled { opacity: 0.8; cursor: not-allowed; }
+.explanation {
+  display: none;
+  background: #e8f5e9;
+  border-left: 5px solid #2e7d32;
+  padding: 15px;
+  margin-top: 10px;
+  text-align: left;
+  border-radius: 8px;
+  color:#184d28;
+}
+.next-btn {
+  display: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: #993b3b;
+  color: white;
+  cursor: pointer;
+  margin-top: 20px;
+}
+.result { font-size: 20px; font-weight: bold; margin-top: 20px; color: #2e7d32; }
+.back-button {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 16px;
+  background-color: #204226;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+}
+.back-button:hover { background-color: #35663c; }
+@media (max-width: 600px) {
+  h1 { font-size: 20px; }
+  .content-box { padding: 15px; }
+  .quiz-question { font-size: 16px; }
+  .options button { font-size: 14px; padding: 10px; }
+  .next-btn { font-size: 14px; padding: 10px; }
+}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <main class="box" role="main" aria-labelledby="title">
-      <h1 id="title">Glædelig 19. december – Julequiz</h1>
 
-      <div class="intro">
-        5 spørgsmål om julen — vælg det rigtige svar (A–D). Du får øjeblikkelig feedback, og en kort forklaring.
-      </div>
+<h1>Glædelig 19. december – Julequiz</h1>
 
-      <div class="progress" id="progress">Spørgsmål 1 / 5</div>
+<div class="content-box">
+  <div id="quiz-container"></div>
+  <button class="next-btn" id="nextBtn">Næste spørgsmål</button>
+  <p><a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a></p>
+</div>
 
-      <section class="game-area" id="quizContainer" aria-live="polite"></section>
+<script>
+const quizData = [
+  {
+    question: "Tilbage i 1920'erne var gadeudsmykningen i Århus ikke helt så tiltrækkende som en anden bys. Hvilken by havde dengang den flotte juleudsmykning?",
+    options: ["A) Horsens","B) Randers","C) Herning","D) Silkeborg"],
+    answer: "B) Randers",
+    explanation: "Randers var berømt for sin fine gadeudsmykning i julen med lysende granguirlander i de snævre gader."
+  },
+  {
+    question: "Hvor mange ønsker blev der lavet på Ønskeskyen i 2024 (indtil 18. december)?",
+    options: ["A) Omkring 32 mio. ønsker","B) Omkring 52 mio. ønsker","C) Omkring 72 mio. ønsker","D) Omkring 92 mio. ønsker"],
+    answer: "D) Omkring 92 mio. ønsker",
+    explanation: "Helt præcist blev der slået 92.431.445 ønsker op. AirPods Pro var det mest populære ønske blandt danskerne det år."
+  },
+  {
+    question: "Hvilken type gaver var typisk i Aarhus i slutningen af 1800-tallet?",
+    options: ["A) Små skriftstykker eller breve til børnene","B) Små hjemmelavede eller symbolske gaver til børn","C) Små pynteting til hjemmet som julepynt","D) Små håndlavede hobbyartikler til voksne"],
+    answer: "B) Små hjemmelavede eller symbolske gaver til børn",
+    explanation: "I slutningen af 1800-tallet var julegaver i Aarhus typisk små og hjemmelavede, som bolsjer, småkager eller legetøj lavet i træ."
+  },
+  {
+    question: "Hvem tilhører det ældste danske daterbare flettede julehjerte?",
+    options: ["A) P.S. Krøyer","B) Anna Ancher","C) Holger Drachmann","D) H.C. Andersen"],
+    answer: "D) H.C. Andersen",
+    explanation: "Det ældste danske daterbare flettede julehjerte blev lavet af H.C. Andersen i 1861 til H.C. Ørsteds datter Mathilde."
+  },
+  {
+    question: "Hvor mange af de danske husstande forventer, at juletræet bliver kunstigt i 2024?",
+    options: ["A) 21%","B) 41%","C) 61%","D) 81%"],
+    answer: "A) 21%",
+    explanation: "21% af danskerne forventer, at der skal være et kunstigt juletræ i deres husstand i 2024."
+  }
+];
 
-      <div id="result" role="status" aria-live="assertive"></div>
+let currentQuestion = 0;
+let score = 0;
 
-      <p style="text-align:center;">
-        <a class="back-button" href="../index.html">⬅ Tilbage til kalenderen</a>
-      </p>
-    </main>
-  </div>
+const quizContainer = document.getElementById("quiz-container");
+const nextBtn = document.getElementById("nextBtn");
 
-  <script>
-    const quizData = [
-      {
-        intro: "Århus er Danmarks 2. største by og har længe været en vigtig handelsby i Jylland, også i juletiden. I dag er byen pyntet flot med lys over Strøget, men tilbage i 1920'erne var situationen en anden.",
-        question: "Tilbage i 1920'erne var gadeudsmykningen i Århus ikke helt så tiltrækkende som en anden bys. Hvilken by havde dengang den flotte juleudsmykning?",
-        options: ["A) Horsens","B) Randers","C) Herning","D) Silkeborg"],
-        answer: "B) Randers",
-        explanation: "Randers var berømt for sin fine gadeudsmykning i julen med lysende granguirlander i de snævre gader, mens Århus havde problemer med sporvejsnettet. Fra 1931 begyndte aarhusianske købmænd at hænge granguirlander op langs husene, og i slutningen af 1930'erne var Århus endelig pyntet ligeså flot som Randers."
-      },
-      {
-        intro: "Den populære ønske-app Ønskeskyen havde i sidste december omkring 3,2 millioner danske profiler. Appen hjælper med at holde styr på og dele juleønsker.",
-        question: "Hvor mange ønsker blev der lavet på Ønskeskyen i 2024 (indtil 18. december)?",
-        options: ["A) Omkring 32 mio. ønsker","B) Omkring 52 mio. ønsker","C) Omkring 72 mio. ønsker","D) Omkring 92 mio. ønsker"],
-        answer: "D) Omkring 92 mio. ønsker",
-        explanation: "Helt præcist blev der slået 92.431.445 ønsker op. AirPods Pro var det mest populære ønske blandt danskerne det år."
-      },
-      {
-        intro: "I Aarhus begyndte man i slutningen af 1800-tallet at købe og udveksle gaver til jul. Tidligere var julegaver ofte små, hjemmelavede ting eller symbolske gaver til børn.",
-        question: "Hvilken type gaver var typisk i Aarhus i slutningen af 1800-tallet?",
-        options: ["A) Små skriftstykker eller breve til børnene","B) Små hjemmelavede eller symbolske gaver til børn","C) Små pynteting til hjemmet som julepynt","D) Små håndlavede hobbyartikler til voksne"],
-        answer: "B) Små hjemmelavede eller symbolske gaver til børn",
-        explanation: "I slutningen af 1800-tallet var julegaver i Aarhus typisk små og hjemmelavede, som bolsjer, småkager eller legetøj lavet i træ. Gaverne var primært rettet mod børn og havde mere symbolsk betydning end praktisk værdi."
-      },
-      {
-        intro: "Julepynt, juletræer og klippe-klistre-dage er noget, de fleste forbinder med december. Det mest populære stykke julepynt i Danmark er det flettede rød-hvide julehjerte.",
-        question: "Hvem tilhører det ældste danske daterbare flettede julehjerte?",
-        options: ["A) Kunstneren P.S. Krøyer (★1851-✝1909)","B) Skagensmaler Anna Ancher (★1859-✝1935)","C) Forfatter og maler Holger Drachmann (★1846-✝1908)","D) Forfatter H.C. Andersen (★1805-✝1870)"],
-        answer: "D) Forfatter H.C. Andersen (★1805-✝1870)",
-        explanation: "Det ældste danske daterbare flettede julehjerte blev lavet af H.C. Andersen i 1861, i gult og grønt papir, til H.C. Ørsteds datter Mathilde. Hjertet var oprindeligt mere en gave end pynt, og det var først i 1870'erne, man begyndte at se flettede hjerter som juletræspynt."
-      },
-      {
-        intro: "I november 2024 skulle der angiveligt stå et juletræ i 70% af de danske husstande.",
-        question: "Hvor mange af disse husstande forventer, at træet bliver kunstigt?",
-        options: ["A) 21%","B) 41%","C) 61%","D) 81%"],
-        answer: "A) 21%",
-        explanation: "21% af danskerne forventer, at der skal være et kunstigt juletræ i deres husstand i 2024, mens 44% forventer at have et naturligt juletræ."
-      }
-    ];
+function showQuestion(index) {
+  const q = quizData[index];
+  quizContainer.innerHTML = `
+    <div class="quiz-question">${q.question}</div>
+    <div class="options">
+      ${q.options.map(opt => `<button>${opt}</button>`).join("")}
+    </div>
+    <div class="explanation">${q.explanation}</div>
+  `;
 
-    let current = 0;
-    let score = 0;
+  const optionButtons = quizContainer.querySelectorAll(".options button");
+  const explanation = quizContainer.querySelector(".explanation");
 
-    const quizContainer = document.getElementById('quizContainer');
-    const progressEl = document.getElementById('progress');
-    const resultEl = document.getElementById('result');
-
-    function renderQuestion(i){
-      const q = quizData[i];
-      quizContainer.innerHTML = `
-        <div class="quiz-card" role="group" aria-labelledby="q${i}">
-          <div id="q${i}" class="question">${q.question}</div>
-          <div class="options" role="list">
-            ${q.options.map(opt => `<button role="listitem" class="opt-btn" type="button">${opt}</button>`).join('')}
-          </div>
-          <div class="explanation" aria-hidden="true"></div>
-          <button class="next-btn">Næste spørgsmål</button>
-        </div>
-      `;
-
-      progressEl.textContent = `Spørgsmål ${i+1} / ${quizData.length}`;
-      const optionButtons = quizContainer.querySelectorAll('.opt-btn');
-      const explanationEl = quizContainer.querySelector('.explanation');
-      const nextBtn = quizContainer.querySelector('.next-btn');
-
-      optionButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          optionButtons.forEach(b => b.classList.remove('selected'));
-          btn.classList.add('selected');
-          optionButtons.forEach(b => b.disabled = true);
-
-          const text = btn.textContent.trim();
-          if(text === q.answer){
-            btn.classList.add('correct');
-            score++;
-          } else {
-            btn.classList.add('wrong');
-            optionButtons.forEach(b => { if(b.textContent.trim() === q.answer) b.classList.add('correct'); });
-          }
-
-          explanationEl.textContent = q.explanation;
-          explanationEl.style.display = 'block';
-          explanationEl.setAttribute('aria-hidden','false');
-
-          nextBtn.style.display = 'inline-block';
-        });
+  optionButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      optionButtons.forEach(b => b.disabled = true);
+      optionButtons.forEach(b => {
+        if (b.textContent === q.answer) b.classList.add("correct");
+        else b.classList.add("wrong");
       });
+      if (btn.textContent === q.answer) score++;
+      explanation.style.display = "block";
+      nextBtn.style.display = "inline-block";
+    });
+  });
+}
 
-      nextBtn.addEventListener('click', () => {
-        if(current < quizData.length - 1){
-          current++;
-          renderQuestion(current);
-        } else {
-          showResult();
-        }
-      });
-    }
+nextBtn.addEventListener("click", () => {
+  currentQuestion++;
+  if (currentQuestion < quizData.length) {
+    showQuestion(currentQuestion);
+    nextBtn.style.display = "none";
+  } else {
+    quizContainer.innerHTML = `<div class="result">Godt klaret! Du fik ${score} ud af ${quizData.length} rigtige 🎉</div>`;
+    nextBtn.style.display = "none";
+  }
+});
 
-    function showResult(){
-      quizContainer.innerHTML = '';
-      progressEl.textContent = '';
-      resultEl.style.display = 'block';
-      resultEl.textContent = `🎄 Tillykke! Du fik ${score} ud af ${quizData.length} rigtige.`;
-    }
+showQuestion(currentQuestion);
+</script>
 
-    renderQuestion(current);
-  </script>
 </body>
 </html>
