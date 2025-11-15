@@ -213,7 +213,7 @@ function showQuestion(index){
     if(currentQuestion < quizData.length){
       showQuestion(currentQuestion);
     } else {
-      quizContainer.innerHTML = `<div class="result">🎄 Godt klaret! Du fik ${score} ud af ${quizData.length} rigtige.</div>`;
+      quizContainer.innerHTML = `<div class="result">Godt klaret! Du fik ${score} ud af ${quizData.length} rigtige.</div>`;
     }
   });
 }
@@ -223,3 +223,4 @@ showQuestion(currentQuestion);
 
 </body>
 </html>
+
