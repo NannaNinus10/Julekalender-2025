@@ -49,11 +49,11 @@ h1 {
 }
 .options button.correct { 
   background: #4c7a58; 
-  color: white;   /* Tydelig tekst på mørk grøn baggrund */
+  color: white;
 }
 .options button.wrong { 
   background: #993b3b; 
-  color: white;   /* Tydelig tekst på mørk rød baggrund */
+  color: white;
 }
 .options button:disabled { 
   opacity: 0.8; 
@@ -67,20 +67,17 @@ h1 {
   margin-top: 10px;
   text-align: left;
   border-radius: 8px;
-  color: #204226; /* Mørk grøn tekst, som matcher temaet */
+  color: #204226;
 }
-
-}
-.next-btn {
-  display: none;
-  padding: 12px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 8px;
-  background: #993b3b;
-  color: white;
-  cursor: pointer;
-  margin-top: 20px;
+.next-btn{
+  display:none;
+  margin-top:14px;
+  padding:10px 16px;
+  border:none;
+  border-radius:8px;
+  background:#993b3b;
+  color:white;
+  cursor:pointer;
 }
 .result {
   font-size: 20px;
@@ -116,7 +113,6 @@ h1 {
 
 <div class="content-box">
   <div id="quiz-container"></div>
-  <button class="next-btn" id="nextBtn">Næste spørgsmål</button>
   <p><a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a></p>
 </div>
 
@@ -174,58 +170,56 @@ const quizData = [
 ];
 
 const quizContainer = document.getElementById("quiz-container");
-const nextBtn = document.getElementById("nextBtn");
 let currentQuestion = 0;
 let score = 0;
 
-function showQuestion(index) {
+function showQuestion(index){
   const q = quizData[index];
   quizContainer.innerHTML = `
     <div class="quiz-intro">${q.intro}</div>
     <div class="quiz-question">${q.question}</div>
     <div class="options">
-      ${q.options.map(opt => `<button>${opt}</button>`).join("")}
+      ${q.options.map(opt=>`<button>${opt}</button>`).join("")}
     </div>
     <div class="explanation">${q.explanation}</div>
+    <button class="next-btn">Næste spørgsmål</button>
   `;
 
   const optionButtons = quizContainer.querySelectorAll(".options button");
   const explanation = quizContainer.querySelector(".explanation");
+  const nextBtn = quizContainer.querySelector(".next-btn");
 
-  optionButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-      optionButtons.forEach(b => b.classList.remove("selected"));
+  optionButtons.forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      optionButtons.forEach(b=>b.classList.remove("selected"));
       btn.classList.add("selected");
+      optionButtons.forEach(b=>b.disabled=true);
 
-      optionButtons.forEach(b => b.disabled = true);
-      optionButtons.forEach(b => {
-        if (b.textContent === q.answer) b.classList.add("correct");
-        else b.classList.add("wrong");
-      });
+      if(btn.textContent === q.answer){
+        btn.classList.add("correct");
+        score++;
+      } else {
+        btn.classList.add("wrong");
+        optionButtons.forEach(b=>{ if(b.textContent===q.answer) b.classList.add("correct"); });
+      }
 
-      if (btn.textContent === q.answer) score++;
-      explanation.style.display = "block";
-      nextBtn.style.display = "inline-block";
+      explanation.style.display="block";
+      nextBtn.style.display="inline-block";
     });
   });
-}
 
-nextBtn.addEventListener("click", () => {
-  currentQuestion++;
-  if (currentQuestion < quizData.length) {
-    showQuestion(currentQuestion);
-    nextBtn.style.display = "none";
-  } else {
-    quizContainer.innerHTML = `<div class="result">Godt klaret! Du fik ${score} ud af ${quizData.length} rigtige 🎉</div>`;
-    nextBtn.style.display = "none";
-  }
-});
+  nextBtn.addEventListener("click", ()=>{
+    currentQuestion++;
+    if(currentQuestion < quizData.length){
+      showQuestion(currentQuestion);
+    } else {
+      quizContainer.innerHTML = `<div class="result">🎄 Godt klaret! Du fik ${score} ud af ${quizData.length} rigtige.</div>`;
+    }
+  });
+}
 
 showQuestion(currentQuestion);
 </script>
 
 </body>
 </html>
-
-
-
