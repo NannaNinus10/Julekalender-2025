@@ -3,7 +3,7 @@
 <html lang="da">
 <head>
 <meta charset="UTF-8">
-<title>Låge 8 – Julequiz</title>
+<title>Låge 16 – Julequiz</title>
 <style>
 body {
   font-family: Arial, sans-serif;
@@ -110,7 +110,7 @@ h1 {
 </head>
 <body>
 
-<h1>Glædelig 8. december – Julequiz</h1>
+<h1>Glædelig 16. december – Julequiz</h1>
 
 <div class="content-box">
   <div id="quiz-container"></div>
@@ -120,7 +120,7 @@ h1 {
   <script>
     const quizData = [
       {
-    intro: "I Danmark oplever vi tit sne i december måned. For at man officielt kan kalde det en hvid jul, skal 90% af Danmark være dækket af mindst 0,5 cm sne juleaftensdag.",
+    intro: "I Danmark oplever vi tit sne i december måned. For at man officielt kan kalde det en hvid jul, skal 90% af Danmark være dækket af mindst 0,5 cm sne juleaftensdag."",
     question: "Hvor mange gange har vi officielt haft hvid jul siden år 1900?",
     options: ["9", "25", "47", "72"],
     answer: "9",
@@ -133,8 +133,9 @@ h1 {
     answer: "1930'erne",
     explanation: "I 1931 blev julemanden brugt i en Coca-Cola reklame, og siden da har vi haft den runde, glade mand i rødt og hvidt. Tidligere afbildninger var mere bispeagtige."  },
   {
+    
       intro: "Der bliver pyntet mange juleborde, og der bliver kørt en masse mad rundt når man spiser julemiddag",
-    question: "Men hvilket kød er oftest på julebordet?",
+    question:" Men hvilket kød er oftest på julebordet?",
     options: ["And", "Flæskesteg", "Kalkun", "Gås"],
     answer: "And",
     explanation: "77% af danskerne spiser and juleaften, 64% flæskesteg, 9% kalkun og 5% gås."
@@ -143,20 +144,18 @@ h1 {
     intro: "Julemandens rensdyr trækker hans kane gennem natten.",
     question: "Hvor mange rensdyr trækker julemandens kane(i den moderne tid)?",
     options: ["7", "8", "9", "10"],
-    answer: "9"
-    explanation: "Oprindeligt var der 8 rensdyr i digtet 'A Visit from St. Nicholas'. Rudolf blev tilføjet i 1939, så i dag tæller vi 9."  },
+    answer: "9",
+    explanation: "Oprindeligt var der 8 rensdyr i digtet 'A Visit from St. Nicholas'. Rudolf blev tilføjet i 1939, så i dag tæller vi 9.
+"},
   {
-    intro: "Vi synger ofte omkring juletræet. En klassiker er 'Dejlig er den himmelblå'.",
+    intro: "Vi synger ofte omkring juletræet. En klassiker er Dejlig er den himmelblå",
     question: "Hvordan lyder omkvædet i første vers?",
-    options: [          "//: os fra jorden op til sig. ://",
-          "//: som en lille stjernesol. ://",
-          "//: skulle fødes på vor jord. ://",
-          "//: til at lyse for vor fod. ://"],
+    options: ["//: os fra jorden op til sig. ://","//: som en lille stjernesol. ://","//: skulle fødes på vor jord. ://","//: til at lyse for vor fod. ://"],
     answer: "//: os fra jorden op til sig. ://",
-    explanation: "Oprindeligt havde salmen 19 vers, men i dag synger vi 7. Første vers slutter med //: os fra jorden op til sig. ://."  },
+    explanation: "Oprindeligt havde salmen 19 vers, men i dag synger vi kun 7 af dem"  },
 ];
 
- const quizContainer = document.getElementById("quiz-container");
+    const quizContainer = document.getElementById("quiz-container");
 let currentQuestion = 0;
 let score = 0;
 
@@ -208,5 +207,9 @@ function showQuestion(index){
 showQuestion(currentQuestion);
 </script>
 
+</body>
+</html>
+
+  </script>
 </body>
 </html>
