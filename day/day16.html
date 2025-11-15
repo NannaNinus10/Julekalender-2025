@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="da">
 <head>
@@ -116,46 +117,43 @@ h1 {
   <p><a href="../index.html" class="back-button">⬅ Tilbage til kalenderen</a></p>
 </div>
 
-<script>
-const quizData = [
-  {
-    intro: "I Danmark oplever vi tit sne i december måned. For at man officielt kan kalde det en hvid jul, skal 90% af Danmark være dækket af mindst 0,5 cm sne juleaftensdag.",
-    question: "Hvor mange gange har vi officielt haft hvid jul siden år 1900?",
-    options: ["9", "25", "47", "72"],
-    answer: "9",
-    explanation: "Siden 1900 har vi kun haft hvid jul 9 gange: 1915, 1923, 1938, 1969, 1981, 1995, 2009 og 2010."
+  <script>
+    const quizData = [
+      {
+    intro: "Hvilken dag i december fejrer vi Luciadag i Danmark?",
+    question: "Luciadag falder på…?",
+    options: ["6. december", "13. december", "21. december", "24. december"],
+    answer: "13. december",
+    explanation: "Luciadag falder den 13. december og er en skandinavisk tradition med lysoptog og lussekatter."
   },
   {
-    intro: "Julemanden er en ikonisk figur i julen, og hans udseende har udviklet sig over tid.",
-    question: "Hvornår fik julemanden det udseende vi kender i dag (rød dragt, hvidt skæg, ho-ho-ho)?",
-    options: ["1870'erne", "Start 1900-tallet", "1930'erne", "1950'erne"],
-    answer: "1930'erne",
-    explanation: "I 1931 blev julemanden brugt i en Coca-Cola reklame, og siden da har vi haft den runde, glade mand i rødt og hvidt. Tidligere afbildninger var mere bispeagtige."  },
+    intro: "Julesmåkager har mange varianter. Men hvilken er den ældste i Danmark?",
+    question: "Hvilken julesmåkage er den ældste?",
+    options: ["Brunkagen", "Klejnen", "Jødekagen", "Pebernødden"],
+    answer: "Klejnen",
+    explanation: "Klejnen kendes i Danmark fra 1600-tallet som 'hareøre'. Den ældste bevarede opskrift er fra 1766."  },
   {
-      intro: "Der bliver pyntet mange juleborde, og der bliver kørt en masse mad rundt når man spiser julemiddag",
-    question: "Men hvilket kød er oftest på julebordet?",
-    options: ["And", "Flæskesteg", "Kalkun", "Gås"],
-    answer: "And",
-    explanation: "77% af danskerne spiser and juleaften, 64% flæskesteg, 9% kalkun og 5% gås."
+      intro: "Julegodter og desserter hører til på julebordet. Risalamande er en klassiker.",
+    question: "Hvor stammer risalamande fra?",
+    options: ["Frankrig", "Tyskland", "Danmark", "USA"],
+    answer: "Danmark",
+    explanation: "Risalamande, som vi kender den, stammer fra slutningen af 1800-tallet i Danmark. Traditionen med at gemme en mandel stammer dog fra Frankrig."
   },
   {
-    intro: "Julemandens rensdyr trækker hans kane gennem natten.",
-    question: "Hvor mange rensdyr trækker julemandens kane?",
-    options: ["7", "8", "9", "10"],
-    answer: "9","8",
-    explanation: "Oprindeligt var der 8 rensdyr i digtet 'A Visit from St. Nicholas'. Rudolf blev tilføjet i 1939, så i dag tæller vi 9."  },
+    intro: "Juleevangeliet læses i kirken juleaftensdag.",
+    question: "Hvilken evangelist har skrevet juleevangeliet med sætningen Og det skete i de dage?",
+    options: ["Markus", "Matthæus", "Lukas", "Johannes"],
+    answer: "Lukas",
+    explanation: "Lukasevangeliet indeholder den detaljerede beretning om Jesu fødsel, herunder folketællingen der fik Maria og Josef til at rejse til Bethlehem."  },
   {
-    intro: "Vi synger ofte omkring juletræet. En klassiker er 'Dejlig er den himmelblå'.",
-    question: "Hvordan lyder omkvædet i første vers?",
-    options: [          "//: os fra jorden op til sig. ://",
-          "//: som en lille stjernesol. ://",
-          "//: skulle fødes på vor jord. ://",
-          "//: til at lyse for vor fod. ://"],
-    answer: "//: os fra jorden op til sig. ://",
-    explanation: "Oprindeligt havde salmen 19 vers, men i dag synger vi 7. Første vers slutter med //: os fra jorden op til sig. ://."  },
+    intro: "Brunede kartofler på julebordet var ikke altid standard.",
+    question: "Hvad erstattede de oprindeligt?",
+    options: ["Glasserede kastanjer", "Glasserede pastinak", "Glasserede kålroer", "Glasserede kål"],
+    answer: "Glasserede kastanjer",
+    explanation: "I 1800-tallet hos de højere borgere var brunede kastanjer almindeligt. Fattige erstattede de dyre kastanjer med kartofler, som blev billigere og mere tilgængelige."  },
 ];
 
-const quizContainer = document.getElementById("quiz-container");
+    const quizContainer = document.getElementById("quiz-container");
 let currentQuestion = 0;
 let score = 0;
 
@@ -209,3 +207,8 @@ showQuestion(currentQuestion);
 
 </body>
 </html>
+
+  </script>
+</body>
+</html>
+
